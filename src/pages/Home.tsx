@@ -12,7 +12,7 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <Navbar />
+    
       <Hero />
       <Categories />
       <BestSeller />
@@ -20,7 +20,6 @@ const Home = () => {
       <Testimonials />
       <InstaStoreis />
       <StoreFeatures />
-      <Footer />
     </div>
   );
 };
