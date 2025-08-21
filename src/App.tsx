@@ -6,6 +6,7 @@ import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Orders from "./pages/Dashboard/Orders";
+import Products from "./pages/Products";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path="products"  element={<Products  />}   />
       </Route>
 
       <Route path="/dashboard" element={<DashboardLayout  />} >

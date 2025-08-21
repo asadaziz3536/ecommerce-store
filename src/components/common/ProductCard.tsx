@@ -17,19 +17,19 @@ const ProductCard = () => {
         />
         <div className="action-btns absolute top-6 right-6">
           <ul className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 translate-y-3.5 group-hover:translate-y-0 transition-all ease-in-out duration-300">
-            <li className="bg-white p-3 rounded-full">
+            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
               <TiStarOutline />
             </li>
-            <li className="bg-white p-3 rounded-full">
+            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
               <TbArrowsLeftRight />
             </li>
-            <li className="bg-white p-3 rounded-full">
+            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
               <FiEye />
             </li>
           </ul>
         </div>
 
-        <Button className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out">
+        <Button className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white">
           Add to Cart
         </Button>
       </div>
