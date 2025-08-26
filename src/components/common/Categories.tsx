@@ -5,10 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../ui/button";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
-// Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+
 
 const Categories = () => {
   const swiperRef = useRef(null);

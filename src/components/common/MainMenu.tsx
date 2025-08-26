@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { cn } from "@/lib/utils"; // optional: for custom className merging
-import { Link } from "react-router-dom"; // or "next/link" if using Next.js
+import { Link, useNavigate } from "react-router-dom"; // or "next/link" if using Next.js
 import { IoCloseSharp } from "react-icons/io5";
 import { Button } from "../ui/button";
 
@@ -17,6 +17,8 @@ interface Props {
 }
 
 export const MainMenu = ({ onClose }: Props) => {
+
+ const navigate= useNavigate();
   return (
     <nav
       className="px-4 py-2 fixed  left-0 top-0 bg-white w-[300px] h-[100%] md:bg-transparent md:w-[auto] md:h-[auto]
@@ -35,7 +37,7 @@ export const MainMenu = ({ onClose }: Props) => {
 
       <NavigationMenu>
         <NavigationMenuList className="flex flex-col md:flex-row  gap-4 pt-8 md:pt-0 md:pt-auto md:gap-8   h-[100%] bg-white">
-          <NavigationMenuItem className="cursor-pointer">
+          <NavigationMenuItem className="cursor-pointer" onClick={()=>navigate("/")}>
             Home
           </NavigationMenuItem>
           <NavigationMenuItem>

@@ -8,14 +8,22 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaRegHeart, FaStar } from "react-icons/fa6";
+import { FaRegHeart, FaRegStar, FaStar } from "react-icons/fa6";
 import StoreFeatures from "@/components/common/StoreFeatures";
 import RelatedProducts from "@/components/common/RelatedProducts";
 
+import ReviewerImage from "@/assets/images/hero.jpg";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
 const ProductDetail = () => {
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
   const navigate = useNavigate();
 
   const handleNavigation = (nav: any) => {
@@ -57,7 +65,92 @@ const ProductDetail = () => {
         </Breadcrumb>
       </div>
       <div className="grid md:grid-cols-2 gap-4 pt-10">
-        <div></div>
+        <div>
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#fff",
+              "--swiper-pagination-color": "#fff",
+            }}
+            loop={true}
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper2"
+          >
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+            </SwiperSlide>
+          </Swiper>
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            loop={true}
+            spaceBetween={18}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper mt-4"
+          >
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
         <div>
           <h2 className="font-bold text-2xl">Yk Disney</h2>
           <p>Girls Pink Moana Printed Dress</p>
@@ -151,13 +244,128 @@ const ProductDetail = () => {
           <TabsContent value="Information">
             Change your password here.
           </TabsContent>
-          <TabsContent value="Reviews">Change your password here.</TabsContent>
+          <TabsContent value="Reviews" className="pt-3">
+            <h3 className="text-xl font-bold">Customer Reviews</h3>
+            <div className="py-6 flex flex-col gap-3">
+              <div className="flex gap-2">
+                <img
+                  className="w-15 h-15 rounded-full object-cover"
+                  src={ReviewerImage}
+                  alt=""
+                />
+                <div>
+                  <h6 className="font-medium text-xl">Mark Williams</h6>
+
+                  <div className="flex items-center gap-1">
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                  </div>
+                </div>
+              </div>
+              <p className="font-bold text-lg">Excellent Product, I love it</p>
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla
+                totam qui repudiandae repellat quaerat. Odit aperiam ipsam
+                nostrum aspernatur deserunt commodi repellendus numquam dolore
+                nisi maxime quaerat sit, nulla unde!
+              </p>
+              <p className="text-gray-400">
+                Review by <span className="font-medium text-black">Krist</span>{" "}
+                Posted on{" "}
+                <span className="font-medium text-black">June 05,2025</span>
+              </p>
+            </div>
+            <hr />
+            <div className="py-6 flex flex-col gap-3">
+              <div className="flex gap-2">
+                <img
+                  className="w-15 h-15 rounded-full object-cover"
+                  src={ReviewerImage}
+                  alt=""
+                />
+                <div>
+                  <h6 className="font-medium text-xl">Mark Williams</h6>
+
+                  <div className="flex items-center gap-1">
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                    <FaStar size={20} color="orange" />
+                  </div>
+                </div>
+              </div>
+              <p className="font-bold text-lg">Excellent Product, I love it</p>
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla
+                totam qui repudiandae repellat quaerat. Odit aperiam ipsam
+                nostrum aspernatur deserunt commodi repellendus numquam dolore
+                nisi maxime quaerat sit, nulla unde!
+              </p>
+              <p className="text-gray-400">
+                Review by <span className="font-medium text-black">Krist</span>{" "}
+                Posted on{" "}
+                <span className="font-medium text-black">June 05,2025</span>
+              </p>
+            </div>
+            <hr />
+            <h3 className="text-xl font-bold py-6">Add your Review</h3>
+            <span className="pb-3 block font-medium">Your Rating</span>
+
+            <div className="flex">
+              <Button className="border-r p-2 bg-transparent rounded-none text-black shadow-none cursor-pointer hover:bg-transparent">
+                <FaRegStar />
+              </Button>
+              <Button className="flex border-r p-2 bg-transparent rounded-none text-black shadow-none cursor-pointer hover:bg-transparent">
+                <FaRegStar />
+                <FaRegStar />
+              </Button>
+              <Button className="flex border-r p-2 bg-transparent rounded-none text-black shadow-none cursor-pointer hover:bg-transparent">
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+              </Button>
+
+              <Button className="flex border-r p-2 bg-transparent rounded-none text-black shadow-none cursor-pointer hover:bg-transparent">
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+              </Button>
+
+              <Button className="flex border-r p-2 bg-transparent rounded-none text-black shadow-none cursor-pointer hover:bg-transparent">
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+                <FaRegStar />
+              </Button>
+            </div>
+
+            <form action="" className="flex flex-col gap-5 pt-6">
+              <div>
+                <label htmlFor="" className="block font-medium pb-1">Name</label>
+               <Input className="py-6 border-black"  placeholder="Enter Your Name" />
+              </div>
+               <div>
+                <label htmlFor="" className="block font-medium pb-1">Email  Address</label>
+               <Input className="py-6 border-black"  placeholder="Enter Your Email" />
+              </div>
+             <div>
+                <label htmlFor="" className="block font-medium pb-1">Your Review</label>
+             <Textarea className="py-4 border-black" placeholder="Enter Your Review" />
+              </div>
+            </form>
+          </TabsContent>
         </Tabs>
       </div>
 
-    <RelatedProducts />
+      <RelatedProducts />
 
-      <StoreFeatures   />
+      <StoreFeatures />
     </div>
   );
 };
