@@ -358,6 +358,8 @@ const ProductDetail = () => {
                 <label htmlFor="" className="block font-medium pb-1">Your Review</label>
              <Textarea className="py-4 border-black" placeholder="Enter Your Review" />
               </div>
+
+              <Button className="max-w-max px-10 py-7">Submit</Button>
             </form>
           </TabsContent>
         </Tabs>

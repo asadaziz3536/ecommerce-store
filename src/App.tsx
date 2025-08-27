@@ -8,6 +8,10 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Orders from "./pages/Dashboard/Orders";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import EnterOtp from "./pages/Auth/EnterOtp";
 
 const App = () => {
   return (
@@ -15,13 +19,16 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
-        <Route path="products"  element={<Products  />}   />
-        <Route path="ProductDetail"  element={<ProductDetail />} />
+        <Route path="products" element={<Products />} />
+        <Route path="ProductDetail" element={<ProductDetail />} />
       </Route>
-
-      <Route path="/dashboard" element={<DashboardLayout  />} >
-         <Route path="orders" element={<Orders />} />
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route path="orders" element={<Orders />} />
       </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/enter-otp" element={<EnterOtp />} />
     </Routes>
   );
 };
