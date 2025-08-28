@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="grid grid-cols-12 h-screen ">
+    <div className="grid md:grid-cols-12 h-screen ">
       <div
-        className="bg-cover bg-center col-span-7"
+        className="bg-cover bg-center col-span-12 md:col-span-7"
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
-      <div className="p-20 flex flex-col justify-center col-span-5">
+      <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
         <Form title="Welcome 👋 " description="Please login here" btnText="Login">
           <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">

@@ -29,7 +29,7 @@ const ProductCard = () => {
           </ul>
         </div>
 
-        <Button className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white">
+        <Button className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
           Add to Cart
         </Button>
       </div>

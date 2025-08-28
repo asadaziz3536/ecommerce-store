@@ -206,11 +206,11 @@ const ProductDetail = () => {
 
           <div className="flex gap-3 pt-9">
             <div className="flex border-1 border-gray-400 rounded-sm">
-              <Button className="bg-transparent border-1 rounded-sm cursor-pointer border-0 text-black hover:bg-transparent">
+              <Button className="bg-transparent  rounded-sm cursor-pointer border-r text-black hover:bg-transparent">
                 -
               </Button>
               <input type="text" name="" id="" className="w-10" />
-              <Button className="bg-transparent border-1 rounded-sm cursor-pointer border-0 text-black hover:bg-transparent">
+              <Button className="bg-transparent  rounded-sm cursor-pointer border-l text-black hover:bg-transparent">
                 +
               </Button>
             </div>
@@ -239,10 +239,19 @@ const ProductDetail = () => {
             <TabsTrigger value="Reviews">Reviews</TabsTrigger>
           </TabsList>
           <TabsContent value="Description">
-            Make changes to your account here.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae expedita libero suscipit blanditiis quod quibusdam sunt, accusamus voluptates saepe iusto quasi harum aliquid ratione perferendis dolores quas aperiam tempore sit.
           </TabsContent>
           <TabsContent value="Information">
-            Change your password here.
+
+            <ul>
+              <li className="flex gap-4">
+                <p className="font-bold">Color</p><span>Red, Blue, Orange, Black, Green, Yellow</span>
+              </li>
+                <li className="flex gap-4">
+                <p className="font-bold">Size</p><span>S, M, L, XL, XXL</span>
+              </li>
+            </ul>
+           
           </TabsContent>
           <TabsContent value="Reviews" className="pt-3">
             <h3 className="text-xl font-bold">Customer Reviews</h3>

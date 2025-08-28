@@ -62,7 +62,7 @@ const Navbar = () => {
         <IoSearch className="cursor-pointer" />
         <FaRegHeart className="cursor-pointer" />
         <FiShoppingCart className="cursor-pointer" />
-        <Button className="bg-black text-white cursor-pointer">Login </Button>
+        <Button className="bg-black text-white cursor-pointer px-7">Login </Button>
       </div>
     </div>
   );

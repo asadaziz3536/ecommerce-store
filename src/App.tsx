@@ -12,6 +12,7 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EnterOtp from "./pages/Auth/EnterOtp";
+import CheckOut from "./pages/CheckOut";
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
         <Route path="about" element={<About />} />
         <Route path="products" element={<Products />} />
         <Route path="ProductDetail" element={<ProductDetail />} />
+
+      <Route path="checkout" element={<CheckOut />}   />
       </Route>
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route path="orders" element={<Orders />} />

@@ -33,7 +33,7 @@ const Hero = () => {
                 <h1 className="font-bold text-6xl">Women's Collection</h1>
                 <p className="text-3xl pt-3">UPTO 40% OFF</p>
               </div>
-              <Button className="flex self-start w-auto items-center bg-black text-white px-10 py-5 gap-2">
+              <Button className="flex self-start items-center bg-black text-white   gap-2">
                 Shop Now <GoArrowRight color="white" />
               </Button>
             </div>

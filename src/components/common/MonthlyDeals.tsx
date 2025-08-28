@@ -35,7 +35,7 @@ const MonthlyDeals = () => {
                 <span>Secs</span>
               </div>
             </div>
-            <Button className="flex self-start w-auto px-5 py-4 h-auto">View all Products <GoArrowRight color="white" /></Button>
+            <Button className="flex self-start w-auto" size={"lg"}>View all Products <GoArrowRight color="white" /></Button>
           </div>
 
 
