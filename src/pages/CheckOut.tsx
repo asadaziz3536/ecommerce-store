@@ -14,9 +14,9 @@ const CheckOut = () => {
   <div className="flex flex-row md:grid md:grid-cols-12 gap-5 pb-4">
     <div className="font-semibold md:col-span-4 flex-[0_0_200px]  md:w-auto md:basis-auto">Products</div>
     <div className="font-semibold md:col-span-2">Prices</div>
-    <div className="font-semibold md:col-span-2">Quantity</div>
-    <div className="font-semibold md:col-span-2">Subtotal</div>
-    <div className="font-semibold md:col-span-2 ">Action</div>
+    <div className="font-semibold md:col-span-2 flex-[0_0_135px]">Quantity</div>
+    <div className="font-semibold md:col-span-2 flex-[0_0_100px]">Subtotal</div>
+    <div className="font-semibold md:col-span-2 flex-[0_0_100px]">Action</div>
   </div>
 
   {/* Row 2: Product Items */}
@@ -40,17 +40,17 @@ const CheckOut = () => {
   <div className="col-span-6 md:col-span-2">$80.00</div>
 
   {/* Quantity */}
-  <div className="flex border border-gray-400 rounded-sm col-span-6 md:col-span-2 mt-2 md:mt-0">
-    <Button className="bg-transparent border-r text-black hover:bg-transparent">-</Button>
+  <div className="flex border border-gray-400 rounded-sm col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_135px]">
+    <Button className="bg-transparent border-r text-black hover:bg-transparent rounded-tr-[0px] rounded-br-[0px]">-</Button>
     <input type="number" min="1" className="w-12 text-center border-x px-2" />
-    <Button className="bg-transparent border-l text-black hover:bg-transparent">+</Button>
+    <Button className="bg-transparent border-l text-black hover:bg-transparent rounded-tl-[0px] rounded-bl-[0px]">+</Button>
   </div>
 
   {/* Subtotal */}
-  <div className="col-span-6 md:col-span-2 mt-2 md:mt-0">$80.00</div>
+  <div className="col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px]">$80.00</div>
 
   {/* Action */}
-  <div className="col-span-6 md:col-span-2 mt-2 md:mt-0">
+  <div className="col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px]">
     <MdDelete size={30} />
   </div>
 </div>

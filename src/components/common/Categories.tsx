@@ -7,8 +7,27 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 
 
-const Categories = () => {
+
+interface Category{
+  
+creationAt: string
+id: number
+image: string
+name: string
+slug: string
+updatedAt: string 
+}
+interface Props{
+
+  categories:Category[]
+}
+
+const Categories = ({categories}:Props) => {
+
+
   const swiperRef = useRef(null);
+
+
   return (
     <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px] px-[15px]">
       <div className="flex justify-between items-center py-8">
@@ -51,42 +70,15 @@ const Categories = () => {
         }}
         onSlideChange={() => console.log("slide change")}
       >
+
+        
+         {categories.map((category, index)=>(
         <SwiperSlide>
-          {" "}
-          <CategoryCard />
+           <CategoryCard category={category} />
+          
         </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          {" "}
-          <CategoryCard />
-        </SwiperSlide>
+        ))}
+    
       </Swiper>
     </div>
   );

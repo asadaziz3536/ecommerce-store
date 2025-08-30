@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { GoPlus } from "react-icons/go";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IoGridOutline } from "react-icons/io5";
 import { FaListUl } from "react-icons/fa";
@@ -37,16 +37,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { Slider } from "@/components/ui/slider";
 
 import ProductCard from "@/components/common/ProductCard";
 
+import axios from "axios";
+
 const Products = () => {
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   const handleNavigation = (nav: any) => {
@@ -64,6 +62,17 @@ const Products = () => {
   const handlePrice = (value: number[]) => {
     setPrice(value[0]);
   };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      axios.get("https://api.escuelajs.co/api/v1/products").then((response) => {
+        const data = response.data;
+
+        setProducts(data);
+      });
+    };
+    getProducts();
+  }, []);
 
   return (
     <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
@@ -304,12 +313,18 @@ const Products = () => {
         <div className="col-span-9">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-
-                
-              <Button variant={"outline"} className="p-0 cursor-pointer" onClick={()=>setDisplay("grid")}>
+              <Button
+                variant={"outline"}
+                className="p-0 cursor-pointer"
+                onClick={() => setDisplay("grid")}
+              >
                 <IoGridOutline />
               </Button>
-              <Button variant={"outline"} className="p-0 cursor-pointer" onClick={()=>setDisplay("list")}>
+              <Button
+                variant={"outline"}
+                className="p-0 cursor-pointer"
+                onClick={() => setDisplay("list")}
+              >
                 <FaListUl />
               </Button>
               <span className="font-medium">Showing 1-16 of 72 results </span>
@@ -326,69 +341,25 @@ const Products = () => {
             </Select>
           </div>
 
-          {display==='grid' && (
+          {display === "grid" && (
             <div className="grid md:grid-cols-12 gap-8 pt-12">
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
-              <div className="col-span-4">
-                <ProductCard />
-              </div>
+              {products.map((product, index) => (
+                <div className="col-span-4">
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
           )}
 
-         {display==='list' && 
-         
-          <div className="grid md:grid-cols-1 gap-8 pt-12">
-            <div className="col-span-4">
-              <ProductCard />
+          {display === "list" && (
+            <div className="grid md:grid-cols-1 gap-8 pt-12">
+              {products.map((product, index) => (
+                <div className="col-span-4">
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-            <div className="col-span-4">
-              <ProductCard />
-            </div>
-          </div>}
+          )}
 
           <Pagination className="justify-end pt-10">
             <PaginationContent>

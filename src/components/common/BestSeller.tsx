@@ -1,20 +1,37 @@
 import ProductCard from "./ProductCard";
 
-const BestSeller = () => {
+
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  images: string[]; // array of strings
+  category: {
+    id: number;
+    name: string;
+    image: string;
+  };
+}
+
+interface Props{
+products:Product[]
+}
+
+const BestSeller = ({products}:Props) => {
   return (
     <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px] px-[15px] px-auto">
       <h2 className="font-semibold text-3xl pb-10 md:pb-20 text-center">
-        Our Bestseller
+        Recent Products
       </h2>
       <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+
+        {products.slice(0, 8).map((product,index)=>(
+          <ProductCard key={product.id} product={product}  />
+
+        ))}
+        
       </div>
     </div>
   );

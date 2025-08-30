@@ -6,13 +6,19 @@ import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 
-const ProductCard = () => {
+
+
+interface Props{
+  product:object
+}
+
+const ProductCard = ({product}:Props) => {
   return (
     <div className="flex flex-col group cursor-pointer border-1 rounded-xl">
       <div className="relative">
         <img
           className="w-full h-[360px] object-cover rounded-tr-md rounded-tl-md rounded-br-0 rounded-bl-0"
-          src={CardImage}
+          src={product?.images[0]}
           alt=""
         />
         <div className="action-btns absolute top-6 right-6">
@@ -34,9 +40,9 @@ const ProductCard = () => {
         </Button>
       </div>
       <div className="p-4">
-        <h3 className="font-medium">Roader</h3>
-        <p>Printed Cotton t-shirt</p>
-        <span className="mr-2">$38.00</span>
+        <h3 className="font-medium">{product?.title}</h3>
+        <p>{product?.category.name}</p>
+        <span className="mr-2">{product?.price}</span>
         <span className="line-through text-gray-400">$40.00</span>
       </div>
     </div>
