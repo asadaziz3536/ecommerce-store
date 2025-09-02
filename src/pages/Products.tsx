@@ -344,8 +344,10 @@ const Products = () => {
           {display === "grid" && (
             <div className="grid md:grid-cols-12 gap-8 pt-12">
               {products.map((product, index) => (
+                
                 <div className="col-span-4">
-                  <ProductCard product={product} />
+                  
+                  <ProductCard key={product.id} product={product} productId={product.id} />
                 </div>
               ))}
             </div>
@@ -355,7 +357,7 @@ const Products = () => {
             <div className="grid md:grid-cols-1 gap-8 pt-12">
               {products.map((product, index) => (
                 <div className="col-span-4">
-                  <ProductCard product={product} />
+                  <ProductCard key={product.id} product={product} />
                 </div>
               ))}
             </div>

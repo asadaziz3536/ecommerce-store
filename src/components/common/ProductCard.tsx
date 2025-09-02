@@ -5,15 +5,24 @@ import { Button } from "../ui/button";
 import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 
 
 interface Props{
-  product:object
+  product:object,
 }
 
 const ProductCard = ({product}:Props) => {
+
+  const navigate=useNavigate()
+
+  const handleClick=(id)=>{
+   navigate(`/ProductDetail/${id}`)
+  }
   return (
+
+    
     <div className="flex flex-col group cursor-pointer border-1 rounded-xl">
       <div className="relative">
         <img
@@ -29,7 +38,7 @@ const ProductCard = ({product}:Props) => {
             <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
               <TbArrowsLeftRight />
             </li>
-            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
+            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white" onClick={()=>handleClick(product.id)}>
               <FiEye />
             </li>
           </ul>

@@ -10,25 +10,47 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaRegHeart, FaRegStar, FaStar } from "react-icons/fa6";
 import StoreFeatures from "@/components/common/StoreFeatures";
 import RelatedProducts from "@/components/common/RelatedProducts";
 
 import ReviewerImage from "@/assets/images/hero.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 
 const ProductDetail = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  console.log("id of the product is", id)
 
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      axios
+        .get("https://api.escuelajs.co/api/v1/products")
+        .then((response) => {
+          const data = response.data;
+          console.log(data);
+          setProducts(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
@@ -64,8 +86,8 @@ const ProductDetail = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="grid md:grid-cols-2 gap-4 pt-10">
-        <div>
+      <div className="grid grid-cols-12 md:grid-cols-2 gap-4 pt-10">
+        <div className="col-span-12 md:col-span-1">
           <Swiper
             style={{
               "--swiper-navigation-color": "#fff",
@@ -76,7 +98,8 @@ const ProductDetail = () => {
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2"
+            className="mySwiper2  w-full"
+            slidesPerView={1}
           >
             <SwiperSlide>
               <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
@@ -151,7 +174,8 @@ const ProductDetail = () => {
             </SwiperSlide>
           </Swiper>
         </div>
-        <div>
+
+        <div className="col-span-12 md:col-span-1">
           <h2 className="font-bold text-2xl">Yk Disney</h2>
           <p>Girls Pink Moana Printed Dress</p>
           <div className="flex items-center gap-1">
@@ -239,19 +263,22 @@ const ProductDetail = () => {
             <TabsTrigger value="Reviews">Reviews</TabsTrigger>
           </TabsList>
           <TabsContent value="Description">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae expedita libero suscipit blanditiis quod quibusdam sunt, accusamus voluptates saepe iusto quasi harum aliquid ratione perferendis dolores quas aperiam tempore sit.
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae
+            expedita libero suscipit blanditiis quod quibusdam sunt, accusamus
+            voluptates saepe iusto quasi harum aliquid ratione perferendis
+            dolores quas aperiam tempore sit.
           </TabsContent>
           <TabsContent value="Information">
-
             <ul>
               <li className="flex gap-4">
-                <p className="font-bold">Color</p><span>Red, Blue, Orange, Black, Green, Yellow</span>
+                <p className="font-bold">Color</p>
+                <span>Red, Blue, Orange, Black, Green, Yellow</span>
               </li>
-                <li className="flex gap-4">
-                <p className="font-bold">Size</p><span>S, M, L, XL, XXL</span>
+              <li className="flex gap-4">
+                <p className="font-bold">Size</p>
+                <span>S, M, L, XL, XXL</span>
               </li>
             </ul>
-           
           </TabsContent>
           <TabsContent value="Reviews" className="pt-3">
             <h3 className="text-xl font-bold">Customer Reviews</h3>
@@ -356,16 +383,31 @@ const ProductDetail = () => {
 
             <form action="" className="flex flex-col gap-5 pt-6">
               <div>
-                <label htmlFor="" className="block font-medium pb-1">Name</label>
-               <Input className="py-6 border-black"  placeholder="Enter Your Name" />
+                <label htmlFor="" className="block font-medium pb-1">
+                  Name
+                </label>
+                <Input
+                  className="py-6 border-black"
+                  placeholder="Enter Your Name"
+                />
               </div>
-               <div>
-                <label htmlFor="" className="block font-medium pb-1">Email  Address</label>
-               <Input className="py-6 border-black"  placeholder="Enter Your Email" />
+              <div>
+                <label htmlFor="" className="block font-medium pb-1">
+                  Email Address
+                </label>
+                <Input
+                  className="py-6 border-black"
+                  placeholder="Enter Your Email"
+                />
               </div>
-             <div>
-                <label htmlFor="" className="block font-medium pb-1">Your Review</label>
-             <Textarea className="py-4 border-black" placeholder="Enter Your Review" />
+              <div>
+                <label htmlFor="" className="block font-medium pb-1">
+                  Your Review
+                </label>
+                <Textarea
+                  className="py-4 border-black"
+                  placeholder="Enter Your Review"
+                />
               </div>
 
               <Button className="max-w-max px-10 py-7">Submit</Button>
@@ -374,7 +416,7 @@ const ProductDetail = () => {
         </Tabs>
       </div>
 
-      <RelatedProducts />
+      <RelatedProducts products={products} />
 
       <StoreFeatures />
     </div>

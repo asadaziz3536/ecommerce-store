@@ -10,7 +10,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(true);
+  const [openNav, setOpenNav] = useState(false);
   const [isScrolled, setIsScrolled]= useState(false);
 
 
