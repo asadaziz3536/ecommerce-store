@@ -49,7 +49,7 @@ const ProductCard = ({product}:Props) => {
         </Button>
       </div>
       <div className="p-4">
-        <h3 className="font-medium">{product?.title}</h3>
+        <h3 className="font-medium overflow-ellipsis overflow-hidden">{product?.title}</h3>
         <p>{product?.category.name}</p>
         <span className="mr-2">{product?.price}</span>
         <span className="line-through text-gray-400">$40.00</span>

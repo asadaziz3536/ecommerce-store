@@ -75,7 +75,7 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
+    <div className="container max-w-screen-xl m-auto py-16 px-5 xl:px-0">
       <div>
         <Breadcrumb>
           <BreadcrumbList>
@@ -99,8 +99,8 @@ const Products = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="grid md:grid-cols-12 gap-4 pt-10">
-        <div className="col-span-3">
+      <div className="grid grid-cols-12 gap-4 pt-10">
+        <div className="col-span-12 md:col-span-3">
           <Collapsible open={open} onOpenChange={() => setOpen(!open)}>
             <CollapsibleTrigger className="font-bold text-lg">
               Product Categories
@@ -199,7 +199,7 @@ const Products = () => {
                 step={1}
                 value={[price]}
                 onValueChange={handlePrice}
-                className="pt-5"
+                className="pt-5 w-full"
               />
             </CollapsibleContent>
           </Collapsible>
@@ -310,8 +310,8 @@ const Products = () => {
             </CollapsibleContent>
           </Collapsible>
         </div>
-        <div className="col-span-9">
-          <div className="flex items-center justify-between">
+        <div className="col-span-12 md:col-span-9">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center justify-between">
             <div className="flex items-center gap-2.5">
               <Button
                 variant={"outline"}
@@ -342,10 +342,10 @@ const Products = () => {
           </div>
 
           {display === "grid" && (
-            <div className="grid md:grid-cols-12 gap-8 pt-12">
+            <div className="grid grid-cols-12 gap-8 pt-12">
               {products.map((product, index) => (
                 
-                <div className="col-span-4">
+                <div className="col-span-12 md:col-span-4">
                   
                   <ProductCard key={product.id} product={product} productId={product.id} />
                 </div>
