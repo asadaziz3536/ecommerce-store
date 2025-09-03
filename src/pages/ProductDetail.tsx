@@ -20,37 +20,44 @@ import ReviewerImage from "@/assets/images/hero.jpg";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 
 const ProductDetail = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log("id of the product is", id)
+  console.log("id of the product is", id);
 
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
 
   useEffect(() => {
-    const getProducts = async () => {
-      axios
-        .get("https://api.escuelajs.co/api/v1/products")
-        .then((response) => {
-          const data = response.data;
-          console.log(data);
-          setProducts(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+    axios
+      .get("https://api.escuelajs.co/api/v1/products")
+      .then((res) => {
+        setProducts(res.data); // for related products
 
-    getProducts();
-  }, []);
+        console.log(products);
+        const found = res.data.find((p) => p.id === Number(id)) || null;
+        setProduct(found); // main product
+      })
+      .catch((err) => {
+        console.error(err);
+        setProduct(null);
+      })
+      .finally(() => setLoading(false));
+  }, [products, id]);
+
+  // if(!product){
+  //   return <span>Product not found</span>
+  // }
 
   return (
     <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
@@ -98,39 +105,20 @@ const ProductDetail = () => {
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2  w-full"
+            className="mySwiper2  w-full md:h-[600px]"
             slidesPerView={1}
           >
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-            </SwiperSlide>
+            {loading ? (
+              <SwiperSlide>
+                <Skeleton className="w-full h-full" />
+              </SwiperSlide>
+            ) : (
+              product?.images.map((image) => (
+                <SwiperSlide>
+                  <img src={image} />
+                </SwiperSlide>
+              ))
+            )}
           </Swiper>
           <Swiper
             onSwiper={setThumbsSwiper}
@@ -142,42 +130,40 @@ const ProductDetail = () => {
             modules={[FreeMode, Navigation, Thumbs]}
             className="mySwiper mt-4"
           >
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-            </SwiperSlide>
+            {loading
+              ? [1, 2, 3, 4].map((i) => (
+                  <SwiperSlide key={i}>
+                    <div className="h-40 w-full">
+                      {" "}
+                      {/* fixed height for thumbnail */}
+                      <Skeleton className="h-full w-full" />
+                    </div>
+                  </SwiperSlide>
+                ))
+              : product?.images.map((image) => (
+                  <SwiperSlide>
+                    <img src={image} />
+                  </SwiperSlide>
+                ))}
           </Swiper>
         </div>
 
         <div className="col-span-12 md:col-span-1">
-          <h2 className="font-bold text-2xl">Yk Disney</h2>
-          <p>Girls Pink Moana Printed Dress</p>
+          {loading ? (
+            <Skeleton className="h-[40px] w-24 rounded-4xl mb-2" />
+          ) : (
+            <span className="border p-2 px-4 rounded-4xl text-sm block max-w-max mb-2 font-medium">
+              {product?.category.name}
+            </span>
+          )}
+          <h2 className="font-bold text-2xl">
+            {loading ? (
+              <Skeleton className="h-8" />
+            ) : (
+              product?.title || "Product Not Found"
+            )}
+          </h2>
+
           <div className="flex items-center gap-1">
             <FaStar color="orange" />
             <FaStar color="orange" />
@@ -187,13 +173,23 @@ const ProductDetail = () => {
             <span className="text-gray-400">5.0 (121 Reviews)</span>
           </div>
           <p>
-            $80 <span className="text-gray-400">$100</span>
+            {loading ? (
+              <Skeleton className="h-8 w-[50px]" />
+            ) : (
+              `$${product?.price}`
+            )}
           </p>
-          <p className="py-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
-            dignissimos delectus illum, facere recusandae consequuntur mollitia
-            ipsa vel sit culpa eos? Laudantium maiores commodi quia hic quisquam
-            rerum unde aliquid.
+          <p className="py-5 w-full">
+            {loading ? (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+              </>
+            ) : (
+              product?.description
+            )}
           </p>
 
           <h3 className="font-bold pb-3">Color</h3>

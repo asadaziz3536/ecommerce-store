@@ -30,7 +30,7 @@ const RelatedProducts = ({ products }: Props) => {
       <h2 className="font-semibold text-4xl pb-6">Related Products</h2>
       <div className="grid md:grid-cols-4 gap-8">
         {products.slice(0, 8).map((product, index) => (
-          <ProductCard product={product} />
+          <ProductCard product={product} key={product.id} />
         ))}
       </div>
     </div>
