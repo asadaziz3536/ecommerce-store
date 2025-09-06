@@ -32,8 +32,6 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log("id of the product is", id);
-
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
@@ -43,8 +41,6 @@ const ProductDetail = () => {
       .get("https://api.escuelajs.co/api/v1/products")
       .then((res) => {
         setProducts(res.data); // for related products
-
-        console.log(products);
         const found = res.data.find((p) => p.id === Number(id)) || null;
         setProduct(found); // main product
       })

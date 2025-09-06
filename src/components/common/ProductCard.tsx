@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import CardImage from "@/assets/images/hero.jpg";
 import { Button } from "../ui/button";
@@ -14,16 +14,33 @@ interface Props{
 }
 
 const ProductCard = ({product}:Props) => {
+  const [cart,setCart]=useState([])
 
   const navigate=useNavigate()
 
   const handleClick=(id)=>{
    navigate(`/ProductDetail/${id}`)
   }
+  const addToCart=(product:object)=>{
+
+
+ 
+    setCart([...cart, product])
+
+
+
+
+  }
+
+
+  useEffect(()=>{
+    console.log("cart:", cart )
+  },[cart])
   return (
 
     
     <div className="flex flex-col group cursor-pointer border-1 rounded-xl">
+     
       <div className="relative">
         <img
           className="w-full h-[360px] object-cover rounded-tr-md rounded-tl-md rounded-br-0 rounded-bl-0"
@@ -44,7 +61,7 @@ const ProductCard = ({product}:Props) => {
           </ul>
         </div>
 
-        <Button className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
+        <Button onClick={()=>addToCart(product)} className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
           Add to Cart
         </Button>
       </div>

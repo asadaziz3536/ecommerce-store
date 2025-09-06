@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import logo from "@/assets/images//logoipsum-389.svg"
 
 interface Props {
   onClose: () => void;
@@ -56,14 +57,16 @@ export const MainMenu = ({ onClose }: Props) => {
   return (
     <nav className="px-4 py-2 fixed left-0 top-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible">
       {/* Logo */}
-      <div className="logo md:hidden mb-4">
-        <img alt="Logo" src="data:image/svg+xml,%3csvg ...%3c/svg%3e" />
-      </div>
+      <div className="logo md:hidden py-2 flex items-center justify-between">
+        <img alt="Logo" src={logo} />
 
-      {/* Close button for mobile */}
-      <Button className="absolute md:hidden top-4 right-6" onClick={onClose}>
+          {/* Close button for mobile */}
+      <Button className="md:hidden top-4 right-6" onClick={onClose}>
         <IoCloseSharp />
       </Button>
+      </div>
+
+    
 
       {/* Desktop Menu */}
       <div className="hidden md:block">

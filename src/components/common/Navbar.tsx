@@ -10,7 +10,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState(()=>window.innerWidth>=768);
   const [isScrolled, setIsScrolled]= useState(false);
 
 
@@ -58,7 +58,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="menu">
-        {openNav && <MainMenu onClose={() => setOpenNav(!openNav)} />}
+        { openNav && <MainMenu onClose={() => setOpenNav(!openNav)} />}
       </div>
       <div className="action-btns flex gap-4 items-center">
         <RxHamburgerMenu className="visible md:hidden" onClick={handleClick} />
