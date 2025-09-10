@@ -9,11 +9,14 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
+import {useSelector,useDispatch} from "react-redux";
+import { RootState } from "@/store";
+
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(()=>window.innerWidth>=768);
   const [isScrolled, setIsScrolled]= useState(false);
 
-
+const cartItemCount =useSelector((state:RootState)=>state.cart.items.reduce((prev,curr)=>prev+ (curr.quantity||1),0))
  const headerRef= useRef(null);
 
   // handle Click
@@ -65,6 +68,7 @@ const Navbar = () => {
         <IoSearch className="cursor-pointer" />
         <FaRegHeart className="cursor-pointer" />
         <FiShoppingCart className="cursor-pointer" />
+        {cartItemCount}
         <Button className="bg-black text-white cursor-pointer px-7">Login </Button>
       </div>
     </div>

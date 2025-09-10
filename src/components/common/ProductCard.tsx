@@ -6,6 +6,8 @@ import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import {  useDispatch } from "react-redux"; 
+import { addToCart } from "@/store/cartSlice";
 
 
 
@@ -14,28 +16,22 @@ interface Props{
 }
 
 const ProductCard = ({product}:Props) => {
-  const [cart,setCart]=useState([])
 
-  const navigate=useNavigate()
+
+ const dispatch= useDispatch();
+  const navigate=useNavigate();
 
   const handleClick=(id)=>{
    navigate(`/ProductDetail/${id}`)
   }
-  const addToCart=(product:object)=>{
 
+  const handleAddToCart=()=>{
 
- 
-    setCart([...cart, product])
-
-
-
-
+    dispatch(addToCart(product))
   }
 
 
-  useEffect(()=>{
-    console.log("cart:", cart )
-  },[cart])
+  
   return (
 
     
@@ -61,7 +57,7 @@ const ProductCard = ({product}:Props) => {
           </ul>
         </div>
 
-        <Button onClick={()=>addToCart(product)} className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
+        <Button onClick={handleAddToCart} className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
           Add to Cart
         </Button>
       </div>

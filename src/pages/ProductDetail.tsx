@@ -40,6 +40,7 @@ const ProductDetail = () => {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
       .then((res) => {
+        console.log("products", res.data)
         setProducts(res.data); // for related products
         const found = res.data.find((p) => p.id === Number(id)) || null;
         setProduct(found); // main product
