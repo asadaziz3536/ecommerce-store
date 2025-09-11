@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo from "@/assets/images/logoipsum-389.svg";
 import { MainMenu } from "./MainMenu";
 import { Button } from "../ui/button";
@@ -8,16 +8,14 @@ import { FiShoppingCart } from "react-icons/fi";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
-
-import {useSelector,useDispatch} from "react-redux";
-import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@/store";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(()=>window.innerWidth>=768);
-  const [isScrolled, setIsScrolled]= useState(false);
+  const [openNav, setOpenNav] = useState(() => window.innerWidth >= 768);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-const cartItemCount =useSelector((state:RootState)=>state.cart.items.reduce((prev,curr)=>prev+ (curr.quantity||1),0))
- const headerRef= useRef(null);
+  const headerRef = useRef(null);
 
   // handle Click
   const handleClick = () => {
@@ -36,40 +34,63 @@ const cartItemCount =useSelector((state:RootState)=>state.cart.items.reduce((pre
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-  useEffect(()=>{
-    const handleScroll=()=>{
-      if(window.scrollY> 8){
-        setIsScrolled(true)
-
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 8) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
-      else{
-        setIsScrolled(false)
-      }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
 
-    return ()=> window.removeEventListener("scroll", handleScroll)
-  })
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
+
+
+  const totalCount = cart.reduce(
+    (prev, curr) => prev + (curr.quantity || 0),
+    0
+  );
+
+  useEffect(() => {
+    console.log("cart", cart);
+    localStorage.setItem("cart", JSON.stringify(cart))
+  }, [cart]);
   return (
-    <div ref={headerRef} className={`flex justify-between items-center p-4 md:px-10 ${isScrolled? 'md:py-2':'md:py-4'} sticky top-0 bg-white z-50 ${isScrolled ? 'shadow-md':''} transition-all ease-in-out duration-300`}>
+    <div
+      ref={headerRef}
+      className={`flex justify-between items-center p-4 md:px-10 ${
+        isScrolled ? "md:py-2" : "md:py-4"
+      } sticky top-0 bg-white z-50 ${
+        isScrolled ? "shadow-md" : ""
+      } transition-all ease-in-out duration-300`}
+    >
       <div className="logo">
         <Link to={"/"}>
-        <img src={logo} alt="" />
+          <img src={logo} alt="" />
         </Link>
       </div>
       <div className="menu">
-        { openNav && <MainMenu onClose={() => setOpenNav(!openNav)} />}
+        {openNav && <MainMenu onClose={() => setOpenNav(!openNav)} />}
       </div>
       <div className="action-btns flex gap-4 items-center">
         <RxHamburgerMenu className="visible md:hidden" onClick={handleClick} />
         <IoSearch className="cursor-pointer" />
         <FaRegHeart className="cursor-pointer" />
-        <FiShoppingCart className="cursor-pointer" />
-        {cartItemCount}
-        <Button className="bg-black text-white cursor-pointer px-7">Login </Button>
+        <div className="relative">
+          <span className="absolute right-[-12px] top-[-12px] text-white flex items-center justify-center text-xs bg-red-500 w-[20px] h-[20px] rounded-full">
+            {totalCount}
+          </span>
+          <FiShoppingCart className="cursor-pointer" />
+        </div>
+        <Button className="bg-black text-white cursor-pointer px-7">
+          Login{" "}
+        </Button>
       </div>
     </div>
   );

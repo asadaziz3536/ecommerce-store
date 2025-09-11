@@ -6,29 +6,59 @@ import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import {  useDispatch } from "react-redux"; 
-import { addToCart } from "@/store/cartSlice";
 
+import { addToCart } from "@/store/cart";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState,AppDispatch } from "@/store";
+
+
+
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+}
+
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  description: string;
+  category: Category;
+  images: string[];
+  creationAt: string;
+  updatedAt: string;
+  quantity?: number;
+}
 
 
 interface Props{
-  product:object,
+  product:Product,
 }
 
 const ProductCard = ({product}:Props) => {
 
 
- const dispatch= useDispatch();
+
   const navigate=useNavigate();
+ const dispatch= useDispatch()
 
   const handleClick=(id)=>{
    navigate(`/ProductDetail/${id}`)
   }
 
-  const handleAddToCart=()=>{
+const handleAddToCart=(product:Product)=>{
 
-    dispatch(addToCart(product))
-  }
+dispatch(addToCart(product))
+
+}
+
+
 
 
   
@@ -57,7 +87,7 @@ const ProductCard = ({product}:Props) => {
           </ul>
         </div>
 
-        <Button onClick={handleAddToCart} className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
+        <Button onClick={()=>handleAddToCart(product)}  className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
           Add to Cart
         </Button>
       </div>
