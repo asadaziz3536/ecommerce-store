@@ -7,7 +7,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
 
@@ -16,6 +16,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const headerRef = useRef(null);
+ const navigate= useNavigate();
 
   // handle Click
   const handleClick = () => {
@@ -49,18 +50,10 @@ const Navbar = () => {
   });
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-
-
-
   const totalCount = cart.reduce(
     (prev, curr) => prev + (curr.quantity || 0),
     0
   );
-
-  useEffect(() => {
-    console.log("cart", cart);
-    localStorage.setItem("cart", JSON.stringify(cart))
-  }, [cart]);
   return (
     <div
       ref={headerRef}
@@ -82,11 +75,11 @@ const Navbar = () => {
         <RxHamburgerMenu className="visible md:hidden" onClick={handleClick} />
         <IoSearch className="cursor-pointer" />
         <FaRegHeart className="cursor-pointer" />
-        <div className="relative">
+        <div className="relative cursor-pointer" onClick={()=>navigate('/cart')} title="cart">
           <span className="absolute right-[-12px] top-[-12px] text-white flex items-center justify-center text-xs bg-red-500 w-[20px] h-[20px] rounded-full">
             {totalCount}
           </span>
-          <FiShoppingCart className="cursor-pointer" />
+          <FiShoppingCart   />
         </div>
         <Button className="bg-black text-white cursor-pointer px-7">
           Login{" "}

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addToCart } from "@/store/cart";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState,AppDispatch } from "@/store";
+
 
 
 

@@ -12,7 +12,8 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EnterOtp from "./pages/Auth/EnterOtp";
-import CheckOut from "./pages/CheckOut";
+import CheckOut from "./pages/Cart";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
         <Route path="products" element={<Products />} />
         <Route path="ProductDetail/:id" element={<ProductDetail />} />
 
-      <Route path="checkout" element={<CheckOut />}   />
+      <Route path="cart" element={<Cart/>}   />
       </Route>
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route path="orders" element={<Orders />} />

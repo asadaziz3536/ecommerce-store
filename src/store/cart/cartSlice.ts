@@ -25,9 +25,9 @@ interface CartItem {
 interface CartState {
   cart: CartItem[];
 }
-const savedCart=localStorage.getItem("cart")
+
 const initialState: CartState = {
-  cart:savedCart? JSON.parse(savedCart): [],
+  cart:[],
 };
 
 const cartSlice = createSlice({
@@ -62,6 +62,13 @@ const cartSlice = createSlice({
         }
       }
     },
+    deleteFromCart:(state, action:PayloadAction<CartItem>)=>{
+
+      state.cart=state.cart.filter((CartItem,index)=>(
+        CartItem.id!==action.payload.id
+      ))
+
+    },
 
     clearCart: (state, action: PayloadAction<CartItem>) => {
       state.cart = [];
@@ -70,7 +77,7 @@ const cartSlice = createSlice({
 });
 
 
-export const {addToCart, removeFromCart, clearCart}=cartSlice.actions;
+export const {addToCart, removeFromCart, deleteFromCart, clearCart}=cartSlice.actions;
 
 
 export default cartSlice.reducer;

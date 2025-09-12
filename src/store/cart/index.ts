@@ -1,5 +1,5 @@
-import CartReducer, {addToCart,removeFromCart,clearCart} from "./cartSlice"
+import CartReducer, {addToCart,removeFromCart,deleteFromCart,clearCart} from "./cartSlice"
 
-export {addToCart, removeFromCart,clearCart}
+export {addToCart, removeFromCart,deleteFromCart,clearCart}
 
 export default CartReducer;
