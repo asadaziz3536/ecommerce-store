@@ -42,34 +42,52 @@ import { Slider } from "@/components/ui/slider";
 import ProductCard from "@/components/common/ProductCard";
 
 import axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Products = () => {
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const productCategories = ["Men", "Women"];
+  const [open, setOpen] = useState(true);
+  const [price, setPrice] = useState(300);
+  const [display, setDisplay] = useState("grid");
+  const [currentPage, setCurrentPage]=useState(1)
+  const itemsPerPage=9;
+
+  const indexOfLastProduct=currentPage*itemsPerPage;
+  const indexOfFirstProduct=indexOfLastProduct-itemsPerPage;
+  const currentProducts=products.slice(indexOfFirstProduct,indexOfLastProduct)
+  const totalPages=Math.ceil(products.length/itemsPerPage)
+
+
+
+
   const navigate = useNavigate();
 
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
 
-  const productCategories = ["Men", "Women"];
-
-  const [open, setOpen] = useState(true);
-
-  const [price, setPrice] = useState(300);
-
-  const [display, setDisplay] = useState("grid");
-
   const handlePrice = (value: number[]) => {
     setPrice(value[0]);
   };
 
   useEffect(() => {
+    setLoading(true);
     const getProducts = async () => {
-      axios.get("https://api.escuelajs.co/api/v1/products").then((response) => {
-        const data = response.data;
+      axios
+        .get("https://api.escuelajs.co/api/v1/products")
+        .then((response) => {
+          const data = response.data;
 
-        setProducts(data);
-      });
+          setProducts(data);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
     getProducts();
   }, []);
@@ -327,7 +345,7 @@ const Products = () => {
               >
                 <FaListUl />
               </Button>
-              <span className="font-medium">Showing 1-16 of 72 results </span>
+              <span className="font-medium">Showing {indexOfFirstProduct+1}-{Math.min(indexOfLastProduct,products.length)} of {products.length} results </span>
             </div>
             <Select>
               <SelectTrigger className="w-[180px]">
@@ -343,19 +361,27 @@ const Products = () => {
 
           {display === "grid" && (
             <div className="grid grid-cols-12 gap-8 pt-12">
-              {products.map((product, index) => (
-                
-                <div className="col-span-12 md:col-span-4">
-                  
-                  <ProductCard key={product.id} product={product} productId={product.id} />
-                </div>
-              ))}
+              {loading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                    <div className="col-span-12 md:col-span-4">
+                      <ProductCard loading={loading} />
+                    </div>
+                  ))
+                : currentProducts.map((product, index) => (
+                    <div className="col-span-12 md:col-span-4">
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        productId={product.id}
+                      />
+                    </div>
+                  ))}
             </div>
           )}
 
           {display === "list" && (
             <div className="grid md:grid-cols-1 gap-8 pt-12">
-              {products.map((product, index) => (
+              {currentProducts.map((product, index) => (
                 <div className="col-span-4">
                   <ProductCard key={product.id} product={product} />
                 </div>
@@ -366,16 +392,21 @@ const Products = () => {
           <Pagination className="justify-end pt-10">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious  onClick={()=>setCurrentPage((prev)=>Math.max(prev - 1 , 1))} />
               </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
+
+              {Array.from({length:totalPages}).map((_, i)=>(
+
+                 <PaginationItem key={i}>
+                <PaginationLink  onClick={()=>setCurrentPage(i+1)}  className={currentPage === i + 1 ? "bg-black text-white" : ""}>{i+1}</PaginationLink>
               </PaginationItem>
+              ) )}
+             
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext  onClick={()=>setCurrentPage((prev)=>Math.min(prev+1 , totalPages))} />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

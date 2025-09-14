@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading]=useState(true)
 
   useEffect(() => {
     const getProducts = () => {
@@ -20,8 +20,11 @@ const Home = () => {
         const data = response.data;
 
         setProducts(data);
-      });
-    };
+      
+      }).finally(()=>{
+        setLoading(false)
+      })
+    }
 
     getProducts();
   }, []);
@@ -45,7 +48,7 @@ const Home = () => {
     <div>
       <Hero />
       <Categories categories={categories} />
-      <BestSeller products={products} />
+      <BestSeller products={products} loading={loading}/>
       <MonthlyDeals />
       <Testimonials />
       <InstaStoreis />

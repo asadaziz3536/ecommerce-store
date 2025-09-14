@@ -23,13 +23,14 @@ interface Product {
 
 interface Props {
   products: Product[];
+  categoryName:string
 }
-const RelatedProducts = ({ products }: Props) => {
+const RelatedProducts = ({ products, categoryName }: Props) => {
   return (
     <div className="py-20">
       <h2 className="font-semibold text-4xl pb-6">Related Products</h2>
       <div className="grid md:grid-cols-4 gap-8">
-        {products.slice(0, 8).map((product, index) => (
+        {products.filter((Item,index)=> Item.category.name === categoryName).slice(0,8).map((product, index) => (
           <ProductCard product={product} key={product.id} />
         ))}
       </div>

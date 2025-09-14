@@ -9,10 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addToCart } from "@/store/cart";
 import { useDispatch, useSelector } from "react-redux";
-
-
-
-
+import { Skeleton } from "../ui/skeleton";
 
 interface Category {
   id: number;
@@ -36,43 +33,33 @@ interface Product {
   quantity?: number;
 }
 
-
-interface Props{
-  product:Product,
+interface Props {
+  product: Product;
+  loading?:boolean
 }
 
-const ProductCard = ({product}:Props) => {
+const ProductCard = ({ product,loading }: Props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const handleClick = (id) => {
+    navigate(`/ProductDetail/${id}`);
+  };
 
+  const handleAddToCart = (product: Product) => {
+    dispatch(addToCart(product));
+  };
 
-  const navigate=useNavigate();
- const dispatch= useDispatch()
-
-  const handleClick=(id)=>{
-   navigate(`/ProductDetail/${id}`)
-  }
-
-const handleAddToCart=(product:Product)=>{
-
-dispatch(addToCart(product))
-
-}
-
-
-
-
-  
   return (
-
-    
     <div className="flex flex-col group cursor-pointer border-1 rounded-xl">
-     
       <div className="relative">
-        <img
+
+        {loading? <Skeleton className="w-full h-[360px]" /> :<img
           className="w-full h-[360px] object-cover rounded-tr-md rounded-tl-md rounded-br-0 rounded-bl-0"
           src={product?.images[0]}
           alt=""
-        />
+        /> }
+        
         <div className="action-btns absolute top-6 right-6">
           <ul className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 translate-y-3.5 group-hover:translate-y-0 transition-all ease-in-out duration-300">
             <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
@@ -81,21 +68,30 @@ dispatch(addToCart(product))
             <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
               <TbArrowsLeftRight />
             </li>
-            <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white" onClick={()=>handleClick(product.id)}>
+            <li
+              className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white"
+              onClick={() => handleClick(product.id)}
+            >
               <FiEye />
             </li>
           </ul>
         </div>
 
-        <Button onClick={()=>handleAddToCart(product)}  className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white" size={"default"}>
+        <Button
+          onClick={() => handleAddToCart(product)}
+          className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white"
+          size={"default"}
+        >
           Add to Cart
         </Button>
       </div>
       <div className="p-4">
-        <h3 className="font-medium overflow-ellipsis overflow-hidden">{product?.title}</h3>
-        <p>{product?.category.name}</p>
-        <span className="mr-2">{product?.price}</span>
-        <span className="line-through text-gray-400">$40.00</span>
+        <h3 className="font-medium overflow-ellipsis overflow-hidden">
+          {loading? <Skeleton className="w-full h-[20px] mb-2"/> : product?.title}
+        </h3>
+        <p>{loading?<Skeleton className="w-full h-[20px] mb-2" /> : product?.category.name}</p>
+        <span className="mr-2">{loading?<Skeleton className="w-full h-[20px] mb-2" />:`$${product?.price}`}</span>
+       
       </div>
     </div>
   );

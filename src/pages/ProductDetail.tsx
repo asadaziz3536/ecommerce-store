@@ -27,6 +27,7 @@ const ProductDetail = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState(null);
+  const [category, setCategory]=useState("")
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -40,22 +41,28 @@ const ProductDetail = () => {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
       .then((res) => {
-        console.log("products", res.data)
+        console.log("products", res.data);
         setProducts(res.data); // for related products
         const found = res.data.find((p) => p.id === Number(id)) || null;
+
+        
         setProduct(found); // main product
+        setCategory(found.category.name)
       })
       .catch((err) => {
         console.error(err);
         setProduct(null);
       })
       .finally(() => setLoading(false));
-  }, [products, id]);
+  }, [id]);
 
-  // if(!product){
-  //   return <span>Product not found</span>
-  // }
-
+  if ((!loading && products.length === 0) || (!loading && product === null)) {
+    return (
+      <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
+        <h1 className="text-2xl">Oops No Product Found!</h1>
+      </div>
+    );
+  }
   return (
     <div className="container max-w-screen-xl m-auto py-16 px-5 md:px-0">
       <div>
@@ -245,7 +252,6 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-
       <div className="pt-30">
         <Tabs defaultValue="account" className="">
           <TabsList className="border-b">
@@ -408,9 +414,7 @@ const ProductDetail = () => {
           </TabsContent>
         </Tabs>
       </div>
-
-      <RelatedProducts products={products} />
-
+      <RelatedProducts products={products} categoryName={category}/>
       <StoreFeatures />
     </div>
   );
