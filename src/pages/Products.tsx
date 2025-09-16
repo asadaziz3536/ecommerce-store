@@ -47,20 +47,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const productCategories = ["Men", "Women"];
   const [open, setOpen] = useState(true);
   const [price, setPrice] = useState(300);
   const [display, setDisplay] = useState("grid");
-  const [currentPage, setCurrentPage]=useState(1)
-  const itemsPerPage=9;
 
-  const indexOfLastProduct=currentPage*itemsPerPage;
-  const indexOfFirstProduct=indexOfLastProduct-itemsPerPage;
-  const currentProducts=products.slice(indexOfFirstProduct,indexOfLastProduct)
-  const totalPages=Math.ceil(products.length/itemsPerPage)
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState<String[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
 
-
+  let filteredProducts = selectedCategories.length > 0
+    ? products.filter((product, index) => (
+       selectedCategories.includes(product.category.slug)
+    ))
+    : products;
+  let currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const navigate = useNavigate();
 
@@ -71,6 +76,21 @@ const Products = () => {
   const handlePrice = (value: number[]) => {
     setPrice(value[0]);
   };
+
+const filterByCategory = (categorySlug: string) => {
+  setCurrentPage(1); // reset pagination
+
+  setSelectedCategories(prev => {
+    if (prev.includes(categorySlug)) {
+      // If already selected, remove it
+      return prev.filter(cat => cat !== categorySlug);
+    } else {
+      // If not selected, add it
+      return [...prev, categorySlug];
+    }
+  });
+};
+
 
   useEffect(() => {
     setLoading(true);
@@ -90,6 +110,13 @@ const Products = () => {
         });
     };
     getProducts();
+  }, []);
+
+  useEffect(() => {
+    axios.get("https://api.escuelajs.co/api/v1/categories").then((res) => {
+      const data = res.data;
+      setCategories(data);
+    });
   }, []);
 
   return (
@@ -124,81 +151,17 @@ const Products = () => {
               Product Categories
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
-              <Collapsible>
+              {categories.map((category, index) => (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <Checkbox />
-                    <div className="ml-1"> Men</div>
+                    <Checkbox
+                    checked={selectedCategories.includes===category.slug}
+                      onClick={() => filterByCategory(category.slug)}
+                    />
+                    <div className="ml-1"> {category.name}</div>
                   </div>
-                  <CollapsibleTrigger>
-                    <GoPlus />
-                  </CollapsibleTrigger>
                 </div>
-                <CollapsibleContent>Content</CollapsibleContent>
-              </Collapsible>
-
-              <Collapsible>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Checkbox />
-                    <div className="ml-1"> Women</div>
-                  </div>
-                  <CollapsibleTrigger>
-                    <GoPlus />
-                  </CollapsibleTrigger>
-                </div>
-                <CollapsibleContent>Content</CollapsibleContent>
-              </Collapsible>
-
-              <Collapsible>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Checkbox />
-                    <div className="ml-1"> Kids</div>
-                  </div>
-                  <CollapsibleTrigger>
-                    <GoPlus />
-                  </CollapsibleTrigger>
-                </div>
-                <CollapsibleContent>Content</CollapsibleContent>
-              </Collapsible>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Bags</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Belts</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Wallets</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Watches</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Accessories</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1"> Winter Wear</div>
-                </div>
-              </div>
+              ))}
             </CollapsibleContent>
           </Collapsible>
 
@@ -345,7 +308,11 @@ const Products = () => {
               >
                 <FaListUl />
               </Button>
-              <span className="font-medium">Showing {indexOfFirstProduct+1}-{Math.min(indexOfLastProduct,products.length)} of {products.length} results </span>
+              <span className="font-medium">
+                Showing {indexOfFirstProduct + 1}-
+                {Math.min(indexOfLastProduct, products.length)} of{" "}
+                {products.length} results{" "}
+              </span>
             </div>
             <Select>
               <SelectTrigger className="w-[180px]">
@@ -381,32 +348,52 @@ const Products = () => {
 
           {display === "list" && (
             <div className="grid md:grid-cols-1 gap-8 pt-12">
-              {currentProducts.map((product, index) => (
-                <div className="col-span-4">
-                  <ProductCard key={product.id} product={product} />
-                </div>
-              ))}
+              {loading
+                ? Array.from({ length: 6 }).map((_, i) => (
+                    <div className="col-span-4">
+                      <ProductCard loading />
+                    </div>
+                  ))
+                : currentProducts.map((product, index) => (
+                    <div className="col-span-4">
+                      <ProductCard key={product.id} product={product} />
+                    </div>
+                  ))}
             </div>
           )}
 
           <Pagination className="justify-end pt-10">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious  onClick={()=>setCurrentPage((prev)=>Math.max(prev - 1 , 1))} />
+                <PaginationPrevious
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                />
               </PaginationItem>
 
-              {Array.from({length:totalPages}).map((_, i)=>(
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={
+                      currentPage === i + 1 ? "bg-black text-white" : ""
+                    }
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
 
-                 <PaginationItem key={i}>
-                <PaginationLink  onClick={()=>setCurrentPage(i+1)}  className={currentPage === i + 1 ? "bg-black text-white" : ""}>{i+1}</PaginationLink>
-              </PaginationItem>
-              ) )}
-             
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext  onClick={()=>setCurrentPage((prev)=>Math.min(prev+1 , totalPages))} />
+                <PaginationNext
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
