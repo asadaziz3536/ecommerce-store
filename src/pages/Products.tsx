@@ -155,7 +155,7 @@ const filterByCategory = (categorySlug: string) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <Checkbox
-                    checked={selectedCategories.includes===category.slug}
+                    checked={selectedCategories.includes(category.slug)}
                       onClick={() => filterByCategory(category.slug)}
                     />
                     <div className="ml-1"> {category.name}</div>
