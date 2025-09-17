@@ -38,87 +38,71 @@ import {
 } from "@/components/ui/pagination";
 
 import { Slider } from "@/components/ui/slider";
-
 import ProductCard from "@/components/common/ProductCard";
-
 import axios from "axios";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const Products = () => {
-  const [loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(true);
-  const [price, setPrice] = useState(300);
+  const [price, setPrice] = useState<[number, number]>([0, 2000]);
   const [display, setDisplay] = useState("grid");
-
   const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState<String[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
-
-  const indexOfLastProduct = currentPage * itemsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-
-  let filteredProducts = selectedCategories.length > 0
-    ? products.filter((product, index) => (
-       selectedCategories.includes(product.category.slug)
-    ))
-    : products;
-  let currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const navigate = useNavigate();
+  const handleNavigation = (nav: any) => navigate(nav);
+  const handlePrice = (value: number[]) => setPrice(value as [number, number]);
 
-  const handleNavigation = (nav: any) => {
-    navigate(nav);
-  };
-
-  const handlePrice = (value: number[]) => {
-    setPrice(value[0]);
-  };
-
-const filterByCategory = (categorySlug: string) => {
-  setCurrentPage(1); // reset pagination
-
-  setSelectedCategories(prev => {
-    if (prev.includes(categorySlug)) {
-      // If already selected, remove it
-      return prev.filter(cat => cat !== categorySlug);
-    } else {
-      // If not selected, add it
-      return [...prev, categorySlug];
-    }
-  });
-};
-
-
-  useEffect(() => {
-    setLoading(true);
-    const getProducts = async () => {
-      axios
-        .get("https://api.escuelajs.co/api/v1/products")
-        .then((response) => {
-          const data = response.data;
-
-          setProducts(data);
-        })
-        .catch((error) => {
-          console.log("error", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    };
-    getProducts();
-  }, []);
-
+  // Fetch all categories
   useEffect(() => {
     axios.get("https://api.escuelajs.co/api/v1/categories").then((res) => {
-      const data = res.data;
-      setCategories(data);
+      setCategories(res.data);
     });
   }, []);
 
+  // Fetch products and filter locally
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("https://api.escuelajs.co/api/v1/products/");
+        let allProducts = res.data;
+
+        // Filter by categories (OR logic)
+        if (selectedCategories.length > 0) {
+          allProducts = allProducts.filter(
+            (p) => p.category && selectedCategories.includes(p.category.slug)
+          );
+        }
+
+        // Filter by price
+        allProducts = allProducts.filter(
+          (p) => p.price >= price[0] && p.price <= price[1]
+        );
+
+        const totalCount = allProducts.length;
+
+        // Pagination
+        const start = (currentPage - 1) * itemsPerPage;
+        const paginated = allProducts.slice(start, start + itemsPerPage);
+
+        setProducts(paginated);
+        setTotalProducts(totalCount);
+        setTotalPages(Math.ceil(totalCount / itemsPerPage));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [selectedCategories, price, currentPage]);
   return (
     <div className="container max-w-screen-xl m-auto py-16 px-5 xl:px-0">
       <div>
@@ -155,8 +139,14 @@ const filterByCategory = (categorySlug: string) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <Checkbox
-                    checked={selectedCategories.includes(category.slug)}
-                      onClick={() => filterByCategory(category.slug)}
+                      checked={selectedCategories.includes(category.slug)}
+                      onClick={() =>
+                        setSelectedCategories((prev) =>
+                          prev.includes(category.slug)
+                            ? prev.filter((cat) => cat !== category.slug)
+                            : [...prev, category.slug]
+                        )
+                      }
                     />
                     <div className="ml-1"> {category.name}</div>
                   </div>
@@ -174,11 +164,13 @@ const filterByCategory = (categorySlug: string) => {
               Filter by Price
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
-              <span>Price: ${price} - $2000</span>
+              <span>
+                Price: ${price[0]} - ${price[1]}
+              </span>
               <Slider
                 max={2000}
                 step={1}
-                value={[price]}
+                value={price?? [0,0]}
                 onValueChange={handlePrice}
                 className="pt-5 w-full"
               />
@@ -296,23 +288,19 @@ const filterByCategory = (categorySlug: string) => {
             <div className="flex items-center gap-2.5">
               <Button
                 variant={"outline"}
-                className="p-0 cursor-pointer"
+                className="!px-6 cursor-pointer"
                 onClick={() => setDisplay("grid")}
               >
                 <IoGridOutline />
               </Button>
               <Button
                 variant={"outline"}
-                className="p-0 cursor-pointer"
+                className="!px-6 cursor-pointer"
                 onClick={() => setDisplay("list")}
               >
                 <FaListUl />
               </Button>
-              <span className="font-medium">
-                Showing {indexOfFirstProduct + 1}-
-                {Math.min(indexOfLastProduct, products.length)} of{" "}
-                {products.length} results{" "}
-              </span>
+              <span className="font-medium">Showing {itemsPerPage} of {totalProducts} results</span>
             </div>
             <Select>
               <SelectTrigger className="w-[180px]">
@@ -334,7 +322,7 @@ const filterByCategory = (categorySlug: string) => {
                       <ProductCard loading={loading} />
                     </div>
                   ))
-                : currentProducts.map((product, index) => (
+                : products.map((product, index) => (
                     <div className="col-span-12 md:col-span-4">
                       <ProductCard
                         key={product.id}
@@ -354,7 +342,7 @@ const filterByCategory = (categorySlug: string) => {
                       <ProductCard loading />
                     </div>
                   ))
-                : currentProducts.map((product, index) => (
+                : products.map((product, index) => (
                     <div className="col-span-4">
                       <ProductCard key={product.id} product={product} />
                     </div>

@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EnterOtp from "./pages/Auth/EnterOtp";
 import CheckOut from "./pages/Cart";
 import Cart from "./pages/Cart";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/enter-otp" element={<EnterOtp />} />
+
+      <Route path="*" element={<NotFound />}  />
     </Routes>
   );
 };
