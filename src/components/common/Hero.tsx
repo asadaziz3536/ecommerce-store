@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const Hero = () => {
   return (
@@ -34,7 +35,7 @@ const Hero = () => {
                 <p className="text-3xl pt-3">UPTO 40% OFF</p>
               </div>
               <Button className="flex self-start items-center bg-black text-white   gap-2">
-                Shop Now <GoArrowRight color="white" />
+                Shop Now <FaArrowRightLong color="white" />
               </Button>
             </div>
           </div>

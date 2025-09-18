@@ -5,28 +5,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../ui/button";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
-
-
-
-interface Category{
-  
-creationAt: string
-id: number
-image: string
-name: string
-slug: string
-updatedAt: string 
+interface Category {
+  creationAt: string;
+  id: number;
+  image: string;
+  name: string;
+  slug: string;
+  updatedAt: string;
 }
-interface Props{
-
-  categories:Category[]
+interface Props {
+  categories: Category[];
 }
 
-const Categories = ({categories}:Props) => {
-
-
+const Categories = ({ categories }: Props) => {
   const swiperRef = useRef(null);
-
 
   return (
     <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px] px-[15px]">
@@ -36,7 +28,10 @@ const Categories = ({categories}:Props) => {
           <Button className="cursor-pointer" variant={"secondary"}>
             <GoArrowLeft />{" "}
           </Button>
-          <Button className="cursor-pointer" onClick={() => swiperRef.current?.slideNext()}>
+          <Button
+            className="cursor-pointer"
+            onClick={() => swiperRef.current?.slideNext()}
+          >
             {" "}
             <GoArrowRight />
           </Button>
@@ -45,40 +40,35 @@ const Categories = ({categories}:Props) => {
       <Swiper
         // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y]}
-
-       breakpoints={{
-           320: {
-          slidesPerView: 1,
-          spaceBetween: 10,
-        },
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-       }}
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 40,
+          },
+        }}
         //   navigation
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
         onSlideChange={() => console.log("slide change")}
       >
-
-        
-         {categories.map((category, index)=>(
-        <SwiperSlide>
-           <CategoryCard category={category} />
-          
-        </SwiperSlide>
+        {categories.map((category, index) => (
+          <SwiperSlide>
+            <CategoryCard category={category} />
+          </SwiperSlide>
         ))}
-    
       </Swiper>
     </div>
   );

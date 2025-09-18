@@ -15,6 +15,7 @@ import EnterOtp from "./pages/Auth/EnterOtp";
 import CheckOut from "./pages/Cart";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
+import Categories from "./pages/Categories";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="about" element={<About />} />
         <Route path="products" element={<Products />} />
         <Route path="ProductDetail/:id" element={<ProductDetail />} />
+        <Route path="categories" element={<Categories />}  />
 
       <Route path="cart" element={<Cart/>}   />
       </Route>
