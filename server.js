@@ -5,7 +5,7 @@ import Stripe from "stripe";
 
 const app = express();
 
-// stripe secret key
+
 const stripe = Stripe(
   ""
 );
