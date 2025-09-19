@@ -1,6 +1,8 @@
 import ProductImg from "@/assets/images/hero.jpg";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store";
+import { loadStripe } from "@stripe/stripe-js";
+
 import {
   addToCart,
   clearCart,
@@ -13,11 +15,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import emptyboxUrl from "@/assets/icons/Empty-box.lottie?url";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
+import axios from "axios";
 
+const stripePromise= loadStripe("pk_test_51S8oxaLp5TRh9qVU9nRUHbkOI2CSuvNwDaWwK0ZtqlQS7SnxCc5QALTJxm8kRVTs2Pb42GJy6WGS7vDgugF0UHMk00BIT9kcB9")
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const cart = useSelector((state: RootState) => state.cart.cart);
   console.log(cart);
 
@@ -31,6 +36,31 @@ const Cart = () => {
         return cartItem.price * cartItem.quantity;
       })
       .reduce((prev, curr) => prev + curr, 0);
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+  
+
+   const response= await fetch("http://localhost:5000/create-checkout-session",{
+
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+     items: cart.map((item) => ({
+    title: item.title,
+    price: item.price,
+    quantity: item.quantity,
+  })),
+    })
+   })
+
+  const {id}= await response.json();
+  const stripe=await stripePromise;
+
+  await stripe?.redirectToCheckout({sessionId:id})
   };
 
   useEffect(() => {
@@ -159,7 +189,7 @@ const Cart = () => {
                   <li className="flex justify-between font-bold">
                     <p>Subtotal</p> <span>{`$${grandTotal()}`}</span>
                   </li>
-                  <li>
+                  {/* <li>
                     <span className="font-bold">Enter Copen Code</span>
                     <div className="flex items-center justify-between border  gap-3 rounded-md h-[60px] group focus-within:border-2 pl-4">
                       <input
@@ -171,7 +201,7 @@ const Cart = () => {
                       />
                       <Button className="h-[60px]">Apply Coupen</Button>
                     </div>
-                  </li>
+                  </li> */}
 
                   <li className="flex justify-between font-medium">
                     <p>Delivery Charges</p> <span>$5.00</span>
@@ -181,7 +211,9 @@ const Cart = () => {
                   </li>
                 </ul>
 
-                <Button className="w-full mt-8">Checkout</Button>
+                <form action="" onSubmit={() => handleSubmit(event)}>
+                  <Button className="w-full mt-8">Checkout</Button>
+                </form>
               </div>
             </div>
           </>
