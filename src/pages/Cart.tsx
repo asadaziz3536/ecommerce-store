@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent, useEffect } from "react";
 import axios from "axios";
 
-const stripePromise= loadStripe("pk_test_51S8oxaLp5TRh9qVU9nRUHbkOI2CSuvNwDaWwK0ZtqlQS7SnxCc5QALTJxm8kRVTs2Pb42GJy6WGS7vDgugF0UHMk00BIT9kcB9")
+const stripePromise= loadStripe("")
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
