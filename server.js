@@ -7,7 +7,7 @@ const app = express();
 
 // stripe secret key
 const stripe = Stripe(
-  "sk_test_51S8oxaLp5TRh9qVUaZh6cifq6J5vc8RWDIkf8TYcw6TgEQrjMs3ijewaMAWJeuge8g2mU82JolsD8wTXTOcCY8bx00g0Gf8F7V"
+  ""
 );
 
 app.use(cors());
