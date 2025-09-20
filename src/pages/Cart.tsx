@@ -16,9 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import emptyboxUrl from "@/assets/icons/Empty-box.lottie?url";
 import { useNavigate } from "react-router-dom";
 import { FormEvent, useEffect } from "react";
-import axios from "axios";
 
-const stripePromise= loadStripe("")
+
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,27 +41,28 @@ const Cart = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-  
 
-   const response= await fetch("http://localhost:5000/create-checkout-session",{
+    const response = await fetch(
+      "http://localhost:5000/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: cart.map((item) => ({
+            title: item.title,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+        }),
+      }
+    );
 
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-     items: cart.map((item) => ({
-    title: item.title,
-    price: item.price,
-    quantity: item.quantity,
-  })),
-    })
-   })
+    const { id } = await response.json();
+    const stripe = await stripePromise;
 
-  const {id}= await response.json();
-  const stripe=await stripePromise;
-
-  await stripe?.redirectToCheckout({sessionId:id})
+    await stripe?.redirectToCheckout({ sessionId: id });
   };
 
   useEffect(() => {
@@ -211,7 +213,7 @@ const Cart = () => {
                   </li>
                 </ul>
 
-                <form action="" onSubmit={() => handleSubmit(event)}>
+                <form  onSubmit={() => handleSubmit(event)}>
                   <Button className="w-full mt-8">Checkout</Button>
                 </form>
               </div>

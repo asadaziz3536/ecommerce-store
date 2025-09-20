@@ -1,21 +1,22 @@
 import express from "express";
 import cors from "cors";
 import Stripe from "stripe";
+import dotenv from "dotenv"
 
 
+
+dotenv.config();
 const app = express();
 
+const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-const stripe = Stripe(
-  ""
-);
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
-    console.log("Received items:", req.body.items);
+   
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

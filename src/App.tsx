@@ -16,6 +16,8 @@ import CheckOut from "./pages/Cart";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 import Categories from "./pages/Categories";
+import Success from "./pages/Success";
+import CancelOrder from "./pages/CancelOrder";
 
 const App = () => {
   return (
@@ -36,6 +38,8 @@ const App = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/enter-otp" element={<EnterOtp />} />
+       <Route path="/success" element={<Success />} />
+       <Route path="/cancel" element={<CancelOrder />} />
 
       <Route path="*" element={<NotFound />}  />
     </Routes>
