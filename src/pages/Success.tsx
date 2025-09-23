@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { ShoppingBag } from "lucide-react";
 import { useSelector } from "react-redux";
 import Confetti from "@/assets/icons/Confetti.lottie?url";
-import { useEffect, useRef } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaHome } from "react-icons/fa";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useNavigate } from "react-router-dom";
+import ProductImg from "@/assets/images/hero.jpg"
 
 const Success = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
-
+  const navigate= useNavigate();
   const grandTotal = () => {
     return cart
       .map((cartItem) => {
@@ -18,11 +18,17 @@ const Success = () => {
       .reduce((prev, curr) => prev + curr, 0);
   };
 
+
+  const handleClick=()=>{
+    navigate('/')
+  }
+
+
   return (
     <div className="container max-w-screen-xl m-auto relative">
       <div className="flex flex-col justify-center items-center h-screen gap-3 text-center max-w-screen-lg m-auto">
         <DotLottieReact
-          className="fixed w-full h-screen inset-0"
+          className="fixed w-full h-screen inset-0 pointer-events-none"
           src={Confetti}
           autoplay
         />
@@ -113,8 +119,8 @@ const Success = () => {
             <p>GrandTotal</p> <span>${grandTotal()}</span>
           </li>
         </ul>
-        <Button>
-          Continue Shopping <ShoppingBag />
+        <Button type="button" variant={"default"} onClick={handleClick}>
+          Back to home <FaHome />
         </Button>
       </div>
     </div>

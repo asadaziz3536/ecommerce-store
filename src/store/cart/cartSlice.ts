@@ -19,7 +19,7 @@ interface CartItem {
   images: string[];
   creationAt: string;
   updatedAt: string;
-  quantity?: number;
+  quantity: number;
 }
 
 interface CartState {

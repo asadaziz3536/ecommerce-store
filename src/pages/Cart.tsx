@@ -100,10 +100,10 @@ const Cart = () => {
                     <div className="font-semibold md:col-span-4 flex-[0_0_200px]  md:w-auto md:basis-auto">
                       Products
                     </div>
-                    <div className="font-semibold md:col-span-2 flex-[0_0_100px]">
+                    <div className="font-semibold md:col-span-1 flex-[0_0_100px]">
                       Prices
                     </div>
-                    <div className="font-semibold md:col-span-2 flex-[0_0_135px]">
+                    <div className="font-semibold md:col-span-3 flex-[0_0_135px]">
                       Quantity
                     </div>
                     <div className="font-semibold md:col-span-2 flex-[0_0_100px]">
@@ -118,10 +118,10 @@ const Cart = () => {
                   {cart.map((CartItem, index) => (
                     <div
                       key={CartItem.id || index}
-                      className="flex flex-row md:grid md:grid-cols-12 gap-5 items-center border-b py-3"
+                      className="flex flex-row md:grid md:grid-cols-12 gap-5 items-center md:border-b py-3"
                     >
                       {/* Product Info */}
-                      <div className="flex flex-col md:flex-row  gap-4 items-start sm:items-center col-span-12 md:col-span-4 flex-[0_0_200px]  md:w-auto md:basis-auto">
+                      <div className="w-full flex flex-col md:flex-row  gap-4 items-start sm:items-center col-span-12 md:col-span-4 flex-[0_0_200px]  md:w-auto md:basis-auto">
                         <img
                           src={
                             CartItem.images && CartItem.images.length > 0
@@ -133,19 +133,16 @@ const Cart = () => {
                         />
                         <div>
                           <h3 className="font-semibold">{CartItem.title}</h3>
-                          <p className="font-semibold">
-                            Size <span className="font-normal">S</span>
-                          </p>
                         </div>
                       </div>
 
                       {/* Price */}
-                      <div className="flex-[0_0_100px] md:col-span-2">
+                      <div className="w-full flex flex-[0_0_100px] md:col-span-1 break-all">
                         ${CartItem.price}
                       </div>
 
                       {/* Quantity */}
-                      <div className="flex border border-gray-400 rounded-sm col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_135px]">
+                      <div className="w-full flex border border-gray-400 rounded-sm col-span-6 md:col-span-3 mt-2 md:mt-0 flex-[0_0_135px] max-w-max">
                         <Button
                           onClick={() => dispatch(removeFromCart(CartItem))}
                           className="bg-transparent border-r text-black hover:bg-transparent rounded-tr-[0px] rounded-br-[0px]"
@@ -167,12 +164,12 @@ const Cart = () => {
                       </div>
 
                       {/* Subtotal */}
-                      <div className="col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px]">
+                      <div className="w-full col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px] break-all">
                         ${CartItem.price * CartItem.quantity}
                       </div>
 
                       {/* Action */}
-                      <div className="col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px]">
+                      <div className="w-full col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_100px] ">
                         <MdDelete
                           onClick={() => handleDelete(CartItem)}
                           className="text-red-400 cursor-pointer"
