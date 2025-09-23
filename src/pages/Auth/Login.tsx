@@ -3,7 +3,7 @@ import bgImage from "@/assets/images/hero.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
@@ -12,6 +12,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+
+
+  const navigate = useNavigate();
 
   const getEmail = (e) => {
     setFormData({ ...formData, email: e.target.value });
@@ -36,10 +40,14 @@ const Login = () => {
         }
       );
 
-      console.log("response", response);
-    } catch(err) {
-
-      console.log("error:", err)
+      const data = await response.data;
+      localStorage.setItem("token", JSON.stringify(data.access_token));
+      let token= localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log("error:", err);
     }
   };
   return (

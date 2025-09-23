@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import Categories from "./pages/Categories";
 import Success from "./pages/Success";
 import CancelOrder from "./pages/CancelOrder";
+import { PrivateRoutes } from "./components/common/PrivateRoutes";
 
 const App = () => {
   return (
@@ -31,8 +32,10 @@ const App = () => {
 
       <Route path="cart" element={<Cart/>}   />
       </Route>
+      <Route element={<PrivateRoutes />} >
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route path="orders" element={<Orders />} />
+      </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
