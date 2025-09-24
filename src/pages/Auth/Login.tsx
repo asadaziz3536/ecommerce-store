@@ -41,7 +41,7 @@ const Login = () => {
       );
 
       const data = await response.data;
-      localStorage.setItem("token", JSON.stringify(data.access_token));
+      localStorage.setItem("token", data.access_token);
       let token= localStorage.getItem("token");
       if (token) {
         navigate("/dashboard");

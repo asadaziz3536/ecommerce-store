@@ -18,7 +18,9 @@ import NotFound from "./pages/NotFound";
 import Categories from "./pages/Categories";
 import Success from "./pages/Success";
 import CancelOrder from "./pages/CancelOrder";
+import DashboardHome from "./pages/Dashboard/Home"
 import { PrivateRoutes } from "./components/common/PrivateRoutes";
+import Profile from "./pages/Dashboard/Profile";
 
 const App = () => {
   return (
@@ -34,6 +36,8 @@ const App = () => {
       </Route>
       <Route element={<PrivateRoutes />} >
       <Route path="/dashboard" element={<DashboardLayout />}>
+      <Route index element={<DashboardHome />}   />
+      <Route path="profile" element={<Profile />}  />
         <Route path="orders" element={<Orders />} />
       </Route>
       </Route>
