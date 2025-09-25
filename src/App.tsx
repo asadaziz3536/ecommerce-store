@@ -21,6 +21,7 @@ import CancelOrder from "./pages/CancelOrder";
 import DashboardHome from "./pages/Dashboard/Home"
 import { PrivateRoutes } from "./components/common/PrivateRoutes";
 import Profile from "./pages/Dashboard/Profile";
+import Users from "./pages/Dashboard/Users";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
       <Route index element={<DashboardHome />}   />
       <Route path="profile" element={<Profile />}  />
         <Route path="orders" element={<Orders />} />
+        <Route path="users" element={<Users />}  />
       </Route>
       </Route>
       <Route path="/login" element={<Login />} />

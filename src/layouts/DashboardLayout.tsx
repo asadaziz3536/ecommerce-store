@@ -7,7 +7,7 @@ const DashboardLayout = () => {
   return (
     <>
     <Header />
-    <SidebarProvider>
+    <SidebarProvider className="grid">
       <div className="flex gap-5">
         <div className="w-max-[256px]">
           <AppSidebar  />

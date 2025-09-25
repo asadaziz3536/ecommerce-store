@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -13,32 +13,33 @@ import {
 } from "../ui/sidebar";
 
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const AppSidebar = () => {
   const items = [
     {
       title: "Home",
-      url: "#",
+      url: "/dashboard",
       icon: Home,
     },
     {
-      title: "Inbox",
-      url: "#",
+      title: "Profile",
+      url: "/dashboard/Profile",
       icon: Inbox,
     },
     {
-      title: "Calendar",
-      url: "#",
+      title: "Users",
+      url: "/dashboard/users",
       icon: Calendar,
     },
     {
       title: "Search",
-      url: "#",
+      url: "/dashboard/search",
       icon: Search,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: Settings,
     },
   ];
@@ -51,14 +52,21 @@ export const AppSidebar = () => {
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  <NavLink to={item.url} end>
+                    {({ isActive }) => (
+                      <SidebarMenuButton
+                        className={cn(
+                          "flex items-center gap-2 rounded-md px-2 py-6 transition-colors",
+                          isActive ? "bg-black text-white" : "hover:bg-gray-200"
+                        )}
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    )}
+                  </NavLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
