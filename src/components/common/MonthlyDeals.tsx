@@ -1,9 +1,11 @@
 import React from "react";
 import { Button } from "../ui/button";
-import { GoArrowRight } from "react-icons/go";
 import MonthlyDealImg from "@/assets/images/raamin-ka-uR51HXLO7G0-unsplash.jpg"
+import { FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const MonthlyDeals = () => {
+ const navigate= useNavigate();
   return (
     <section>
       <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px]">
@@ -35,7 +37,7 @@ const MonthlyDeals = () => {
                 <span>Secs</span>
               </div>
             </div>
-            <Button className="flex self-start w-auto" size={"lg"}>View all Products <GoArrowRight color="white" /></Button>
+            <Button onClick={()=>navigate("/products")} className="flex self-start w-auto" size={"lg"}>View all Products <FaArrowRightLong color="white" /></Button>
           </div>
 
 

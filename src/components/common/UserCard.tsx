@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import cardImg from "@/assets/images/hero.jpg";
+import { Button } from "../ui/button";
 
 interface CardItem {
   id: number;
@@ -26,13 +27,18 @@ const UserCard = ({ card }: Props) => {
           alt=""
         />
       </div>
-      <div className="absolute inset-0  flex-col justify-end items-center bg-[#00000073] text-white p-4 rounded-md pb-5 opacity-0  group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-        <h3 className="transform font-medium text-xl translate-y-[70px] group-hover:translate-y-0 transition duration-300 ease-in-out">
-          {card.name}
-        </h3>
-        <p className="transform translate-y-[70px] group-hover:translate-y-0 transition duration-300 ease-in-out">
-          {card.email}
-        </p>
+      <div className="aboslute flex justify-between items-end opacity-0 group-hover:opacity-100 absolute text-white bg-[#0000006e] inset-0 rounded-md p-3 pb-9   transform transition-all ease-in-out duration-300">
+        <div>
+          <h3 className="font-medium text-xl  translate-y-[70px] group-hover:translate-y-0 transform ease-in-out duration-300">
+            {card.name}
+          </h3>
+          <p className="translate-y-[90px] group-hover:translate-y-0 transform ease-in-out duration-300">
+            {card.email}
+          </p>
+        </div>
+        <div className="transform translate-x-[-40px] group-hover:translate-x-0 opacity-0 group-hover:opacity-100 duration-300">
+          <Button>View</Button>
+        </div>
       </div>
     </div>
   );

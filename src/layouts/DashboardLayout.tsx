@@ -8,9 +8,9 @@ const DashboardLayout = () => {
     <>
     <Header />
     <SidebarProvider className="grid">
-      <div className="flex gap-5">
+      <div className="flex md:gap-5">
         <div className="w-max-[256px]">
-          <AppSidebar  />
+          <AppSidebar   />
         </div>
         <main className="flex-1 pt-[60px] px-4">
           <SidebarTrigger />

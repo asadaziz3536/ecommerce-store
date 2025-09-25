@@ -36,11 +36,13 @@ import { IoGridOutline } from "react-icons/io5";
 import { FaListUl } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ProductCard from "@/components/common/ProductCard";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { ChevronUp } from "lucide-react";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState(true);
+  const [openItems, setOpenItems] = useState({});
   const [price, setPrice] = useState<[number, number]>([0, 2000]);
   const [display, setDisplay] = useState("grid");
   const [categories, setCategories] = useState([]);
@@ -56,6 +58,10 @@ const Products = () => {
 
   const handleNavigation = (nav: any) => navigate(nav);
   const handlePrice = (value: number[]) => setPrice(value as [number, number]);
+
+  const toggle = (key) => {
+    setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   // Fetch categories
   useEffect(() => {
@@ -167,9 +173,13 @@ const Products = () => {
       <div className="grid grid-cols-12 gap-4 pt-10">
         {/* Sidebar Filters */}
         <div className="col-span-12 md:col-span-3">
-          <Collapsible open={open} onOpenChange={() => setOpen(!open)}>
-            <CollapsibleTrigger className="font-bold text-lg">
+          <Collapsible
+            open={!openItems["first"]}
+            onOpenChange={() => toggle("first")}
+          >
+            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Product Categories
+              {!openItems["first"] ? <FaChevronUp /> : <FaChevronDown />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               {loading
@@ -204,12 +214,14 @@ const Products = () => {
 
           {/* Price Filter */}
           <Collapsible
-            open={open}
-            onOpenChange={() => setOpen(!open)}
+            open={!openItems["second"]}
+            onOpenChange={() => toggle("second")}
             className="pt-8"
           >
-            <CollapsibleTrigger className="font-bold text-lg">
+            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Price
+
+             {!openItems["second"] ? <FaChevronUp/>:<ChevronUp/>}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               <span>
@@ -226,12 +238,14 @@ const Products = () => {
           </Collapsible>
 
           <Collapsible
-            open={open}
-            onOpenChange={() => setOpen(!open)}
+            open={!openItems["three"]}
+            onOpenChange={() => toggle("three")}
             className="pt-8"
+            
           >
-            <CollapsibleTrigger className="font-bold text-lg">
+            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Color
+              {!openItems["three"] ? <FaChevronUp/> :<FaChevronDown/>}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4 flex flex-col gap-3">
               <div className="flex items-center justify-between">
@@ -279,12 +293,13 @@ const Products = () => {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible
-            open={open}
-            onOpenChange={() => setOpen(!open)}
+            open={!openItems["four"]}
+            onOpenChange={() => toggle("four")}
             className="pt-8"
           >
-            <CollapsibleTrigger className="font-bold text-lg">
+            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Size
+             {!openItems["four"]?<FaChevronUp/>:<FaChevronDown />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               <div className="flex items-center justify-between">

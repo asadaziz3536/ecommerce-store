@@ -19,10 +19,10 @@ const Users = () => {
   }, [users]);
   return (
     <div>
-      <h1 className="font-bold text-3xl">Users</h1>
+      <h1 className="font-bold text-3xl pb-10">Users</h1>
       <div className="grid grid-cols-12 gap-5">
         {users.map((User, index) => (
-          <div className="col-span-3">
+          <div className="col-span-12 md:col-span-3">
             <UserCard card={User} />
           </div>
         ))}
