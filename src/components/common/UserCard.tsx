@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import cardImg from "@/assets/images/hero.jpg";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface CardItem {
   id: number;
@@ -18,6 +19,8 @@ interface Props {
   card: CardItem;
 }
 const UserCard = ({ card }: Props) => {
+
+  const navigate=useNavigate()
   return (
     <div className="rounded-md group relative">
       <div className="w-full h-100 relative">
@@ -37,7 +40,7 @@ const UserCard = ({ card }: Props) => {
           </p>
         </div>
         <div className="transform translate-x-[-40px] group-hover:translate-x-0 opacity-0 group-hover:opacity-100 duration-300">
-          <Button>View</Button>
+          <Button onClick={()=>navigate(`/dashboard/users/${card.id}`)}>View</Button>
         </div>
       </div>
     </div>
