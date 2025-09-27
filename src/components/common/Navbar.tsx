@@ -14,6 +14,7 @@ import { RootState, AppDispatch } from "@/store";
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(() => window.innerWidth >= 768);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isToken, setIsToken]=useState(localStorage.getItem("token"))
 
   const headerRef = useRef(null);
  const navigate= useNavigate();
@@ -81,8 +82,8 @@ const Navbar = () => {
           </span>
           <FiShoppingCart   />
         </div>
-        <Button className="bg-black text-white cursor-pointer px-7">
-          Login{" "}
+        <Button onClick={isToken?()=>navigate('/dashboard'):()=>navigate('/login')} className="bg-black text-white cursor-pointer px-7">
+          Login
         </Button>
       </div>
     </div>

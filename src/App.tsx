@@ -18,10 +18,11 @@ import NotFound from "./pages/NotFound";
 import Categories from "./pages/Categories";
 import Success from "./pages/Success";
 import CancelOrder from "./pages/CancelOrder";
-import DashboardHome from "./pages/Dashboard/Home"
+import DashboardHome from "./pages/Dashboard/Home";
 import { PrivateRoutes } from "./components/common/PrivateRoutes";
 import Profile from "./pages/Dashboard/Profile";
 import Users from "./pages/Dashboard/Users";
+import UserDetail from "./pages/Dashboard/UserDetail";
 
 const App = () => {
   return (
@@ -31,26 +32,25 @@ const App = () => {
         <Route path="about" element={<About />} />
         <Route path="products" element={<Products />} />
         <Route path="ProductDetail/:id" element={<ProductDetail />} />
-        <Route path="categories" element={<Categories />}  />
-
-      <Route path="cart" element={<Cart/>}   />
+        <Route path="categories" element={<Categories />} />
+        <Route path="cart" element={<Cart />} />
       </Route>
-      <Route element={<PrivateRoutes />} >
-      <Route path="/dashboard" element={<DashboardLayout />}>
-      <Route index element={<DashboardHome />}   />
-      <Route path="profile" element={<Profile />}  />
-        <Route path="orders" element={<Orders />} />
-        <Route path="users" element={<Users />}  />
-      </Route>
+      <Route element={<PrivateRoutes />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="users" element={<Users />} />
+          <Route path="users/:id" element={<UserDetail />} />
+        </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/enter-otp" element={<EnterOtp />} />
-       <Route path="/success" element={<Success />} />
-       <Route path="/cancel" element={<CancelOrder />} />
-
-      <Route path="*" element={<NotFound />}  />
+      <Route path="/success" element={<Success />} />
+      <Route path="/cancel" element={<CancelOrder />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

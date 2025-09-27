@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import ProfileDetail from "@/components/common/ProfileDetail";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
+  const [profile, setProfile] = useState({});
   const getProfile = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -25,7 +27,7 @@ const Profile = () => {
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
       const data = await response.json();
-      console.log("Profile:", data);
+      setProfile(data)
     } catch (err) {
       console.error(err.message);
     }
@@ -35,7 +37,8 @@ const Profile = () => {
   }, []);
   return (
     <div>
-      <h1 className="font-bold text-3xl">Profile</h1>
+      <h1 className="font-bold text-3xl py-3">Profile</h1>
+      <ProfileDetail profile={profile} />
     </div>
   );
 };
