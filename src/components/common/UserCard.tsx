@@ -32,10 +32,10 @@ const UserCard = ({ card }: Props) => {
       </div>
       <div className="aboslute flex justify-between items-end opacity-0 group-hover:opacity-100 absolute text-white bg-[#0000006e] inset-0 rounded-md p-3 pb-9   transform transition-all ease-in-out duration-300">
         <div>
-          <h3 className="font-medium text-xl  translate-y-[70px] group-hover:translate-y-0 transform ease-in-out duration-300">
+          <h3 className="font-medium text-xl  translate-y-[70px] group-hover:translate-y-0 transform ease-in-out duration-300 line-clamp-1 break-all">
             {card.name}
           </h3>
-          <p className="translate-y-[90px] group-hover:translate-y-0 transform ease-in-out duration-300">
+          <p className="translate-y-[90px] group-hover:translate-y-0 transform ease-in-out duration-300 line-clamp-1 break-all">
             {card.email}
           </p>
         </div>

@@ -14,7 +14,14 @@ import {
   SidebarMenuSubItem,
 } from "../ui/sidebar";
 
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  ChevronDown,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Collapsible,
@@ -68,60 +75,59 @@ export const AppSidebar = () => {
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-
-                item.subMenu?
-                <Collapsible defaultOpen className="group/collapsible">
-                  <SidebarMenuItem>
-                    
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton   className="flex items-center gap-2 rounded-md px-2 py-6 transition-colors hover:bg-gray-200">
-                       <item.icon/><span> {item.title}</span>
-                        </SidebarMenuButton>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <SidebarMenuSub>
-                        {item.subMenu.map((sub)=>(
-                          <SidebarMenuSubItem key={sub.title}>
- <NavLink to={sub.url} end>
-                            {({ isActive }) => (
-                              <SidebarMenuButton
-                                className={cn(
-                                  "flex items-center gap-2 rounded-md px-2 py-4 transition-colors",
-                                  isActive
-                                    ? "bg-black text-white"
-                                    : "hover:bg-gray-200"
-                                )}
-                              >
-                                <sub.icon />
-                                <span>{sub.title}</span>
-                              </SidebarMenuButton>
-                            )}
-                          </NavLink>
-                            </SidebarMenuSubItem>
-
+              {items.map((item) =>
+                item.subMenu ? (
+                  <Collapsible className="group/collapsible">
+                    <SidebarGroup>
+                      <SidebarGroupLabel asChild>
+                        <CollapsibleTrigger>
+                          Users
+                          <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                        </CollapsibleTrigger>
+                      </SidebarGroupLabel>
+                      <CollapsibleContent>
+                        {item.subMenu.map((Item) => (
+                          <SidebarMenuItem key={Item.title}>
+                            <NavLink to={Item.url} end>
+                              {({ isActive }) => (
+                                <SidebarMenuButton
+                                  className={cn(
+                                    "flex items-center gap-2 rounded-md px-2 py-3 transition-colors",
+                                    isActive
+                                      ? "bg-black text-white"
+                                      : "hover:bg-gray-200"
+                                  )}
+                                >
+                                  <item.icon />
+                                  <span>{Item.title}</span>
+                                </SidebarMenuButton>
+                              )}
+                            </NavLink>
+                          </SidebarMenuItem>
                         ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
+                      </CollapsibleContent>
+                    </SidebarGroup>
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem key={item.title}>
+                    <NavLink to={item.url} end>
+                      {({ isActive }) => (
+                        <SidebarMenuButton
+                          className={cn(
+                            "flex items-center gap-2 rounded-md px-2 py-6 transition-colors",
+                            isActive
+                              ? "bg-black text-white"
+                              : "hover:bg-gray-200"
+                          )}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </SidebarMenuButton>
+                      )}
+                    </NavLink>
                   </SidebarMenuItem>
-                </Collapsible>
-           :
-                <SidebarMenuItem key={item.title}>
-                  <NavLink to={item.url} end>
-                    {({ isActive }) => (
-                      <SidebarMenuButton
-                        className={cn(
-                          "flex items-center gap-2 rounded-md px-2 py-6 transition-colors",
-                          isActive ? "bg-black text-white" : "hover:bg-gray-200"
-                        )}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    )}
-                  </NavLink>
-                </SidebarMenuItem>
-              ))}
+                )
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
