@@ -10,16 +10,38 @@ const AddUser = () => {
     uploadFile: "",
   });
 
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log("target event", `${name}:`, value);
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      console.log("updated formData", updated);
+      return updated;
+    });
 
-    if (name === "uploadimage" && files) {
+    console.log(
+      `name:${formData.name}, email:${formData.email}, password:${formData.password}, uploadFile:${formData.uploadFile}`
+    );
+
+    console.log(files);
+
+    console.log(typeof files);
+
+    if (name === "uploadFile" && files.length) {
+      console.log("upload file button is clicked ");
+      console.log("files", files)
       const file = files[0];
+      console.log("file", file);
 
-      setFormData((prev) => ({ ...prev, uploadFile: file }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+
+  const imageUrl=URL.createObjectURL(file);
+
+
+  console.log("image url", imageUrl)
+
+
+   
+      
     }
   };
 
@@ -67,16 +89,6 @@ const AddUser = () => {
           </div>
 
           <div className="mb-4">
-            {formData.uploadFile && (
-              <img
-                src={URL.createObjectURL(formData.uploadFile)}
-                alt=""
-                className="w-40 h-40 object-cover"
-              />
-            )}
-            <img src="" alt="" />
-          </div>
-          <div className="mb-4">
             <span className="block font-medium pb-1 text-sm">Upload file</span>
             <label
               htmlFor=""
@@ -86,10 +98,9 @@ const AddUser = () => {
                 Choose a photo to upload
                 <input
                   type="file"
-                  name="uploadimage"
-                  id=""
                   className="opacity-0 absolute inset-0"
                   onChange={handleChange}
+                  name="uploadFile"
                 />
               </div>
             </label>
