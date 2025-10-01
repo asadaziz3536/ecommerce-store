@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    uploadFile: "",
+    avatar: "",
   });
-
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -19,29 +19,52 @@ const AddUser = () => {
       return updated;
     });
 
-    console.log(
-      `name:${formData.name}, email:${formData.email}, password:${formData.password}, uploadFile:${formData.uploadFile}`
-    );
+   
 
     console.log(files);
 
     console.log(typeof files);
 
-    if (name === "uploadFile" && files.length) {
+    if (name === "avatar" && files) {
       console.log("upload file button is clicked ");
-      console.log("files", files)
+      console.log("files", files);
       const file = files[0];
       console.log("file", file);
 
+      const imageUrl = URL.createObjectURL(file);
 
-  const imageUrl=URL.createObjectURL(file);
+      console.log("image url", imageUrl);
 
+      setFormData((prev) => {
+        const updated = { ...prev, [name]: imageUrl };
+        console.log("updated", updated);
+        return updated;
+      });
+    }
 
-  console.log("image url", imageUrl)
+    console.log("form Data", formData)
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-   
-      
+    try {
+      const response = await fetch("https://api.escuelajs.co/api/v1/users/", {
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+
+      if(!response.ok){
+       const errorText= await response.text();
+       throw new Error(`HTTP ${response.status}: ${errorText}`)
+      }
+      console.log(`response,${response}`);
+    } catch (error) {
+      console.log(`error: ${error}`);
+      toast.error(`failed to create user: ${error.message}`)
     }
   };
 
@@ -50,7 +73,7 @@ const AddUser = () => {
       <h1 className="font-bold text-3xl py-3">Add User</h1>
 
       <div className="grid grid-cols-[700px_1fr]">
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="" className="block font-medium pb-1 text-sm">
               Name
@@ -89,6 +112,13 @@ const AddUser = () => {
           </div>
 
           <div className="mb-4">
+            <div className="w-40 h-40">
+              <img
+                src={formData.avatar}
+                alt=""
+                className="w-full h-full aspect-square object-cover border rounded-md"
+              />
+            </div>
             <span className="block font-medium pb-1 text-sm">Upload file</span>
             <label
               htmlFor=""
@@ -100,7 +130,7 @@ const AddUser = () => {
                   type="file"
                   className="opacity-0 absolute inset-0"
                   onChange={handleChange}
-                  name="uploadFile"
+                  name="avatar"
                 />
               </div>
             </label>
@@ -109,6 +139,7 @@ const AddUser = () => {
           <Button>Submit</Button>
         </form>
       </div>
+        <ToastContainer />
     </>
   );
 };
