@@ -9,17 +9,19 @@ import {persistStore, persistReducer,
   PURGE,
   REGISTER,} from "redux-persist";
 import storage from "redux-persist/lib/storage"; 
+import AuthReducer from "@/features/auth/authSlice";
 
 
 
   const persistConfig={
     key:"root",
     storage,
-    whiteList:["cart"]
+    whitelist:["cart"]
   }
 
   const rootReducer=combineReducers({
-    cart:CartReducer
+    cart:CartReducer,
+    auth:AuthReducer
   })
 
   const persistedReducer=persistReducer(persistConfig,rootReducer)

@@ -4,8 +4,42 @@ import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser, loginUser, logoutUser } from "../../features/auth/authSlice";
+
+
+
 
 const SignUp = () => {
+  const [email,setEmail]=useState();
+  const [password,setPassword]=useState();
+const {user,loading,error}=useSelector((state)=>state.auth)
+ const dispatch= useDispatch();
+
+
+
+
+  const handleChange=(e)=>{
+e.preventDefault();
+
+const {name,value}=e.target;
+
+console.log(`name: ${name},  value:${value}`)
+  }
+
+  const handleSubmit=(e)=>{  
+    e.preventDefault();
+    const {name,value}=e.target;
+
+    console.log(`name: ${name},  value:${value}`)
+  
+  
+
+   
+    
+    
+    }
   return (
     <div className="grid md:grid-cols-12 h-screen ">
       <div
@@ -13,8 +47,8 @@ const SignUp = () => {
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-5">
-        <Form title="Create New Account" description="Please enter details" btnText="Signup" >
-          <div>
+        <Form title="Create New Account" description="Please enter details" btnText="Signup" onBtnClick={handleSubmit} >
+          {/* <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
              First Name
             </label>
@@ -33,15 +67,17 @@ const SignUp = () => {
               className="py-6 border-black"
                        placeholder="Enter Last Name"
             />
-          </div>
+          </div> */}
            <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
               Email
             </label>
             <Input
               type="email"
+              name="email"
               className="py-6 border-black"
                        placeholder="Enter Your Email"
+                       onChange={handleChange}
             />
           </div>
           <div>
@@ -50,7 +86,9 @@ const SignUp = () => {
             </label>
             <Input
               type="password"
+              name="password"
               className="py-6 border-black"
+              onChange={handleChange}
                        placeholder="Enter Your Password"
             />
           </div>
