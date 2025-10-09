@@ -3,43 +3,39 @@ import bgImage from "@/assets/images/hero.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signupUser, loginUser, logoutUser } from "../../features/auth/authSlice";
-
-
-
+import { auth } from "@/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
-  const [email,setEmail]=useState();
-  const [password,setPassword]=useState();
-const {user,loading,error}=useSelector((state)=>state.auth)
- const dispatch= useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-
-
-  const handleChange=(e)=>{
-e.preventDefault();
-
-const {name,value}=e.target;
-
-console.log(`name: ${name},  value:${value}`)
-  }
-
-  const handleSubmit=(e)=>{  
-    e.preventDefault();
-    const {name,value}=e.target;
-
-    console.log(`name: ${name},  value:${value}`)
-  
-  
-
-   
-    
-    
+    if (name === "email") {
+      setEmail(value);
     }
+    if (name === "password") {
+      setPassword(value);
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+          auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+    console.log("user created", user)
+    } catch (error) {
+      console.log(error.message)
+    }
+  };
   return (
     <div className="grid md:grid-cols-12 h-screen ">
       <div
@@ -47,28 +43,13 @@ console.log(`name: ${name},  value:${value}`)
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-5">
-        <Form title="Create New Account" description="Please enter details" btnText="Signup" onBtnClick={handleSubmit} >
-          {/* <div>
-            <label htmlFor="" className="block font-medium pb-1 text-sm">
-             First Name
-            </label>
-            <Input
-              type="text"
-              className="py-6 border-black"
-              placeholder="Enter First Name"
-            />
-          </div>
+        <Form
+          onBtnClick={handleSubmit}
+          title="Create New Account"
+          description="Please enter details"
+          btnText="Signup"
+        >
           <div>
-            <label htmlFor="" className="block font-medium pb-1 text-sm">
-              Last Name
-            </label>
-            <Input
-              type="text"
-              className="py-6 border-black"
-                       placeholder="Enter Last Name"
-            />
-          </div> */}
-           <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
               Email
             </label>
@@ -76,8 +57,8 @@ console.log(`name: ${name},  value:${value}`)
               type="email"
               name="email"
               className="py-6 border-black"
-                       placeholder="Enter Your Email"
-                       onChange={handleChange}
+              placeholder="Enter Your Email"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -88,18 +69,18 @@ console.log(`name: ${name},  value:${value}`)
               type="password"
               name="password"
               className="py-6 border-black"
+              placeholder="Enter Your Password"
               onChange={handleChange}
-                       placeholder="Enter Your Password"
             />
           </div>
-
 
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
               <Checkbox />
-              <label htmlFor="">I agree to the <b>Terms & conditions</b></label>
+              <label htmlFor="">
+                I agree to the <b>Terms & conditions</b>
+              </label>
             </div>
-            
           </div>
         </Form>
       </div>

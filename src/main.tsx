@@ -13,6 +13,7 @@ import "@/assets/styles/main.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import {AuthProvider} from "./context/AuthContext";
 
 
 createRoot(document.getElementById("root")!).render(
@@ -20,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <AuthProvider>
       <App />
+      </AuthProvider>
       </PersistGate>
       </Provider>
     </BrowserRouter>

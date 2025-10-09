@@ -14,14 +14,14 @@ interface Props {
 
 const Form = ({ children, title, description, btnText, onBtnClick }: Props) => {
   return (
-    <div>
+    <form>
       <h1 className="text-3xl pb-3">{title}</h1>
       <p className="text-gray-500">{description}</p>
       <form   className="flex flex-col gap-5 pt-6">
         {children}
         <Button className="px-10" onClick={onBtnClick}>{btnText}</Button>
       </form>
-    </div>
+    </form>
   );
 };
 

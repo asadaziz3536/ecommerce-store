@@ -11,7 +11,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const Hero = () => {
   return (
-    <section className="bg-[url('@/assets/images/hero.jpg')] bg-no-repeat bg-cover"> 
+    <section className="bg-[url('@/assets/images/hero.jpg')] bg-no-repeat bg-cover !py-0"> 
     <Swiper
       // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, A11y]}

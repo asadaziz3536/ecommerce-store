@@ -55,14 +55,14 @@ export const MainMenu = ({ onClose }: Props) => {
   ];
 
   return (
-    <nav className="px-4 py-2 fixed left-0 top-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible">
+    <nav className="px-4 py-2 fixed left-0 top-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100">
       {/* Logo */}
       <div className="logo md:hidden py-2 flex items-center justify-between">
         <img alt="Logo" src={logo} />
 
           {/* Close button for mobile */}
       <Button className="md:hidden top-4 right-6" onClick={onClose}>
-        <IoCloseSharp />
+        <IoCloseSharp className="z-[100]" />
       </Button>
       </div>
 

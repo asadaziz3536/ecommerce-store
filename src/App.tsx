@@ -24,22 +24,9 @@ import Profile from "./pages/Dashboard/Profile";
 import Users from "./pages/Dashboard/Users";
 import UserDetail from "./pages/Dashboard/UserDetail";
 import AddUser from "./components/common/AddUser";
-import { UseDispatch, useDispatch } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
-import { setUser } from "./features/auth/authSlice";
 
 const App = () => {
- const dispatch= useDispatch();
-
-
- useEffect(()=>{
-   const unsubscribe=onAuthStateChanged(auth,(user)=>{
-  dispatch(setUser(user || null))
-   })
-   return ()=>unsubscribe();
-
- },[dispatch])
+ 
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
