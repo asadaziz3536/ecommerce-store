@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
@@ -24,10 +24,12 @@ import Profile from "./pages/Dashboard/Profile";
 import Users from "./pages/Dashboard/Users";
 import UserDetail from "./pages/Dashboard/UserDetail";
 import AddUser from "./components/common/AddUser";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
  
   return (
+  <>
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
@@ -55,6 +57,11 @@ const App = () => {
       <Route path="/cancel" element={<CancelOrder />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+   <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick pauseOnHover />
+
+
+  
+    </>
   );
 };
 
