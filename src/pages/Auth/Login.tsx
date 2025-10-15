@@ -27,7 +27,7 @@ const Login = () => {
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
         <Form
-          onBtnClick={}
+          onBtnClick={""}
           title="Welcome 👋 "
           description="Please login here"
           btnText="Login"
@@ -40,8 +40,8 @@ const Login = () => {
               type="text"
               className="py-6 border-black"
               placeholder="Enter Your Email Address"
-              value={formData.emailAddress}
-              onChange={}
+              value={""}
+              onChange={""}
             />
           </div>
           <div>
@@ -52,7 +52,7 @@ const Login = () => {
               type="password"
               className="py-6 border-black"
               placeholder="Enter Your Password"
-              onChange={}
+              onChange={""}
             />
           </div>
 
