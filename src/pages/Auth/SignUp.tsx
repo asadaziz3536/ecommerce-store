@@ -7,60 +7,90 @@ import { useState } from "react";
 import { auth } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
+import { Check } from "lucide-react";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [termCondition, setTermCondition] = useState(false);
 
-  const [errors, setErrors]=useState({
-    email:'',
-    password:'',
-    conditions:''
-  })
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    conditions: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked } = e.target;
+
+    console.log(`name:${name}, value:${value}`);
 
     if (name === "email") {
       setEmail(value);
-      if(email.trim()===""){
-        setErrors({...errors, email:"Email is required"})
-      }
-      else if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)){
-setErrors({...errors, email:"Email is Invalid"})
-      }
-      else{
-        setErrors({...errors, email:"Email is required"})
+
+      if (value.trim() === "") {
+        setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) {
+        setErrors((prev) => ({ ...prev, email: "Email is Invalid" }));
+      } else {
+        setErrors((prev) => ({ ...prev, email: "" }));
       }
     }
     if (name === "password") {
       setPassword(value);
+
+      if (value.trim() === "") {
+        setErrors((prev) => ({ ...prev, password: "Password is required" }));
+      } else if (
+        !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm.test(value)
+      ) {
+        setErrors((prev) => ({ ...prev, password: "Password must contain at least 8 characters, one uppercase, one lowercase, and one number" }));
+      }
+      else{
+        setErrors((prev)=>({...prev, password:""}))
+      }
     }
+
+  
+      
+   
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!email){
-      setErrors({...errors, email:"Email is required"})
+    let valid=true;
+    if (!termCondition) {
+      setErrors((prev)=>({ ...prev, conditions: "You must accept Terms & Conditions" }));
+      valid=false;
     }
-   
+    if (!email) {
+      setErrors((prev)=>({ ...prev, email: "Email is required" }));
+       valid=false;
+    }
+    if (!password) {
+      setErrors((prev) => ({ ...prev, password: "Passowrd is required" }));
+       valid=false;
+    }
+    if(!valid) return;
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
-          auth,
+        auth,
         email,
-        password,
+        password
       );
       const user = userCredential.user;
 
-    console.log("user created", user)
+      console.log("user created", user);
 
-    if(user){
-      toast.success("user created successfully!");
-      setEmail("");
-      setPassword("");
-    }
+      if (user) {
+        toast.success("user created successfully!");
+        setEmail("");
+        setPassword("");
+      }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   };
   return (
@@ -103,16 +133,29 @@ setErrors({...errors, email:"Email is Invalid"})
               value={password}
               onChange={handleChange}
             />
+            <p className="text-red-500">{errors.password}</p>
           </div>
 
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <Checkbox  />
+          <div className="flex flex-col justify-between">
+            <div className="flex flex-row gap-2 items-center">
+              <Checkbox checked={termCondition} onCheckedChange={(checked)=> {
+                
+                setTermCondition(checked)
+
+                if(checked){
+
+                  setErrors((prev)=>({...prev, conditions:"" }))
+                }
+
+               } } />
               <label htmlFor="">
                 I agree to the <b>Terms & conditions</b>
               </label>
+            
             </div>
+             <p className="text-red-500">{errors.conditions}</p>
           </div>
+          
         </Form>
       </div>
     </div>
