@@ -4,9 +4,33 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/firebase";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+
+  const [email, setEmail]=useState();
+
+  const handleChange=(e)=>{
+
+   const {name, value}= e.target;
+
+
+  setEmail(value)
+
+  }
+
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+
+
+   const response=await sendPasswordResetEmail(auth, email)
+
+
+  }
   return (
     <div className="grid grid-cols-12 h-screen ">
       <div
@@ -22,7 +46,7 @@ const ForgotPassword = () => {
         >
           <FaChevronLeft /> Back
         </Button>
-        <Form
+        <Form onBtnClick={handleSubmit}
           title="Forgot Password"
           description="Enter your registered email address. we’ll send you a code to reset your password."
           btnText="Sent OTP"
@@ -35,6 +59,8 @@ const ForgotPassword = () => {
               type="email"
               className="py-6 border-black"
               placeholder="Enter Your Email"
+
+              onChange={handleChange}
             />
           </div>
         </Form>
