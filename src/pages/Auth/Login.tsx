@@ -13,26 +13,80 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    rememberMe: "",
   });
 
-  const [errors, setErrors]=useState();
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    rememberMe: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked } = e.target;
     if (name === "email") {
       setFormData((prev) => ({ ...prev, email: value }));
+
+      if (value.trim() === "") {
+        setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          email:
+            "Oops! That doesn’t look like a valid email. Try something like name@example.com",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, email: "" }));
+      }
     }
     if (name === "password") {
       setFormData((prev) => ({ ...prev, password: value }));
+
+      if (value.trim() === "") {
+        setErrors((prev) => ({ ...prev, password: "Password is required" }));
+      } else if (
+        !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm.test(value)
+      ) {
+        setErrors((prev) => ({
+          ...prev,
+          password:
+            "Password must be at least 8 characters long and include uppercase, lowercase, and a number",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, password: "" }));
+      }
+    }
+    if (name === "remember") {
+      if (checked) {
+        setErrors((prev) => ({ ...prev, rememberMe: "" }));
+      }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let isValid = false;
+
+    if (!formData.email) {
+      setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      isValid = true;
+    }
+    if (!formData.password) {
+      setErrors((prev) => ({ ...prev, password: "Password is required" }));
+      isValid = true;
+    }
+    if (!formData.rememberMe) {
+      setErrors((prev) => ({ ...prev, rememberMe: "This check is required" }));
+      isValid = true;
+    }
+
+    if(!isValid){
+      return
+    }
     try {
       const resposne = await signInWithEmailAndPassword(
-        auth,
+        auth, 
         formData.email,
         formData.password
       );
@@ -63,7 +117,7 @@ const Login = () => {
         >
           <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
-              Email Address
+              Email Address <span className="text-red-500">*</span>
             </label>
             <Input
               type="text"
@@ -72,10 +126,11 @@ const Login = () => {
               placeholder="Enter Your Email Address"
               onChange={handleChange}
             />
+            <p className="text-red-500">{errors.email}</p>
           </div>
           <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
-              Password
+              Password <span className="text-red-500">*</span>
             </label>
             <Input
               type="password"
@@ -84,14 +139,22 @@ const Login = () => {
               placeholder="Enter Your Password"
               onChange={handleChange}
             />
+            <p className="text-red-500">{errors.password}</p>
           </div>
 
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <Checkbox />
-              <label htmlFor="">Remember me</label>
+          <div className="flex flex-col justify-between">
+            <div
+              className="flex justify-between gap-2 items-center"
+              onChange={handleChange}
+            >
+              <div className="flex gap-2">
+                <input type="checkbox" name="remember" id="" />
+                <label htmlFor="">Remember me</label>
+              </div>
+
+              <Link to="/forgot-password">Forgot Password?</Link>
             </div>
-            <Link to="/forgot-password">Forgot Password?</Link>
+            <p className="text-red-500">{errors.rememberMe}</p>
           </div>
         </Form>
       </div>
