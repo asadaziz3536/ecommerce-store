@@ -1,4 +1,3 @@
-import LoginForm from "@/components/common/Form";
 import bgImage from "@/assets/images/hero.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
@@ -7,7 +6,6 @@ import { useState } from "react";
 import { auth } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
-import { Check } from "lucide-react";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +28,7 @@ const SignUp = () => {
 
       if (value.trim() === "") {
         setErrors((prev) => ({ ...prev, email: "Email is required" }));
-      } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) {
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
         setErrors((prev) => ({ ...prev, email: "Email is Invalid" }));
       } else {
         setErrors((prev) => ({ ...prev, email: "" }));
@@ -69,7 +67,7 @@ const SignUp = () => {
        valid=false;
     }
     if (!password) {
-      setErrors((prev) => ({ ...prev, password: "Passowrd is required" }));
+      setErrors((prev) => ({ ...prev, password: "Password is required" }));
        valid=false;
     }
     if(!valid) return;
@@ -88,6 +86,7 @@ const SignUp = () => {
         toast.success("user created successfully!");
         setEmail("");
         setPassword("");
+        setTermCondition(false)
       }
     } catch (error) {
       console.log(error.message);

@@ -1,19 +1,26 @@
-import LoginForm from "@/components/common/Form";
 import bgImage from "@/assets/images/hero.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "@/firebase";
+import { Button } from "@/components/ui/button";
+
+import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: "",
+    rememberMe: false,
   });
 
   const [errors, setErrors] = useState({
@@ -57,6 +64,7 @@ const Login = () => {
       }
     }
     if (name === "remember") {
+      setFormData((prev) => ({ ...prev, rememberMe: checked }));
       if (checked) {
         setErrors((prev) => ({ ...prev, rememberMe: "" }));
       }
@@ -66,37 +74,60 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let isValid = false;
+    let isValid = true;
 
     if (!formData.email) {
       setErrors((prev) => ({ ...prev, email: "Email is required" }));
-      isValid = true;
+      isValid = false;
     }
     if (!formData.password) {
       setErrors((prev) => ({ ...prev, password: "Password is required" }));
-      isValid = true;
+      isValid = false;
     }
     if (!formData.rememberMe) {
       setErrors((prev) => ({ ...prev, rememberMe: "This check is required" }));
-      isValid = true;
+      isValid = false;
     }
 
-    if(!isValid){
-      return
+    if (!isValid) {
+      return;
     }
     try {
-      const resposne = await signInWithEmailAndPassword(
-        auth, 
+      const response = await signInWithEmailAndPassword(
+        auth,
         formData.email,
         formData.password
       );
 
-      let token = resposne.user.accessToken;
+      let token = response.user.accessToken;
+      console.log("token", token);
 
       if (token) {
         navigate("/dashboard");
+        toast.success("LogIn Successfully!")
       }
     } catch {}
+  };
+
+  const handleSignIn = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+
+      const user = result.user;
+      if (user) {
+        toast.success("Logged In Successfully!");
+      }
+    } catch {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+    }
   };
 
   useEffect(() => {
@@ -148,7 +179,12 @@ const Login = () => {
               onChange={handleChange}
             >
               <div className="flex gap-2">
-                <input type="checkbox" name="remember" id="" />
+                <input
+                  type="checkbox"
+                  name="remember"
+                  id=""
+                  onChange={handleChange}
+                />
                 <label htmlFor="">Remember me</label>
               </div>
 
@@ -157,6 +193,19 @@ const Login = () => {
             <p className="text-red-500">{errors.rememberMe}</p>
           </div>
         </Form>
+
+        <div className="py-3 bg-white flex justify-center relative before:content-[''] before:absolute before:w-[calc(50%_-_30px)] before:bg-gray-300 before:h-[1px] before:left-0 before:top-[50%] after:absolute after:w-[calc(50%_-_30px)] after:bg-gray-300 after:h-[1px] after:right-0 after:top-[50%]">
+          OR
+        </div>
+
+        <Button
+          className="cursor-pointer"
+          variant={"outline"}
+          onClick={handleSignIn}
+        >
+          <FcGoogle />
+          Login with google{" "}
+        </Button>
       </div>
     </div>
   );

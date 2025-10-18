@@ -25,6 +25,7 @@ import Users from "./pages/Dashboard/Users";
 import UserDetail from "./pages/Dashboard/UserDetail";
 import AddUser from "./components/common/AddUser";
 import { ToastContainer } from "react-toastify";
+import PublicRoutes from "./components/common/PublicRoutes";
 
 const App = () => {
  
@@ -49,9 +50,11 @@ const App = () => {
           <Route path="users/add" element={<AddUser />} />
         </Route>
       </Route>
+      <Route element={<PublicRoutes />}>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      </Route>
       <Route path="/enter-otp" element={<EnterOtp />} />
       <Route path="/success" element={<Success />} />
       <Route path="/cancel" element={<CancelOrder />} />

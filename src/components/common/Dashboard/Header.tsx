@@ -10,15 +10,21 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "@/firebase";
+import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const Header = () => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+
 
   useNavigate();
   const handleClick = () => {
-    if (token) {
-      setToken(localStorage.removeItem("token"));
-    }
+
+   signOut(auth).then(()=>{
+
+    toast.success("Logout Successfully!")
+   }).catch((error)=>console.log(error))
+   
   };
 
   if(window.innerWidth<767){
