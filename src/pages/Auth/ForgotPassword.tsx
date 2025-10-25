@@ -7,30 +7,51 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail]=useState();
+  const [email, setEmail] = useState();
 
-  const handleChange=(e)=>{
+  const [errors, setErrors] = useState({
+    email: "",
+  });
 
-   const {name, value}= e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
+    if (name === "email") {
+      if (value.trim() === "") {
+        setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) {
+        setErrors({
+          ...errors,
+          email:
+            "Oops! That doesn’t look like a valid email. Try something like name@example.com",
+        });
+      } else {
+        setErrors((prev) => ({ ...prev, email: "" }));
+      }
+    }
+  };
 
-  setEmail(value)
-
-  }
-
-
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      setErrors({ ...errors, email: "Email is required!" });
+      return;
+    }
 
-   const response=await sendPasswordResetEmail(auth, email)
+    try {
+      const response = await sendPasswordResetEmail(auth, email);
 
-
-  }
+      console.log("error response", response);
+    } catch (error) {
+      toast.error(error.code.split("/")[1]?.toUpperCase());
+    }
+  };
   return (
     <div className="grid grid-cols-12 h-screen ">
       <div
@@ -46,10 +67,11 @@ const ForgotPassword = () => {
         >
           <FaChevronLeft /> Back
         </Button>
-        <Form onBtnClick={handleSubmit}
+        <Form
+          onBtnClick={handleSubmit}
           title="Forgot Password"
-          description="Enter your registered email address. we’ll send you a code to reset your password."
-          btnText="Sent OTP"
+          description="Enter your registered email address. we’ll send you a password reset link"
+          btnText="Submit"
         >
           <div>
             <label htmlFor="" className="block font-medium pb-1 text-sm">
@@ -57,11 +79,12 @@ const ForgotPassword = () => {
             </label>
             <Input
               type="email"
+              name="email"
               className="py-6 border-black"
               placeholder="Enter Your Email"
-
               onChange={handleChange}
             />
+            <p className="text-red-500">{errors.email}</p>
           </div>
         </Form>
       </div>
