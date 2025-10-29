@@ -4,6 +4,9 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { IoReturnUpBackSharp } from "react-icons/io5";
 import RevenueOrderChart from "@/components/common/Dashboard/RevenueOrderChart";
+import ChannelChart from "@/components/common/Dashboard/ChannelChart";
+import TopProducts from "@/components/common/Dashboard/TopProducts";
+import SalesChart from "@/components/common/Dashboard/SalesChart";
 
 const Home = () => {
   return (
@@ -15,7 +18,7 @@ const Home = () => {
         minus provident animi possimus totam at reiciendis voluptas quas!
       </p>
 
-      <div className="grid grid-cols-4 gap-5 py-10">
+      <div className="grid md:grid-cols-4 gap-5 py-10">
         <InfoCard
           title="Total Sales"
           totalAmount="$6650.050"
@@ -55,11 +58,17 @@ const Home = () => {
       </div>
 
       <div className="grid grid-cols-12 gap-5">
-        <div className="col-span-9">
+        <div className="col-span-12 md:col-span-9">
           <RevenueOrderChart />
         </div>
-        <div className="col-span-3">
-          <RevenueOrderChart />
+        <div className="col-span-12 md:col-span-3">
+          <ChannelChart />
+        </div>
+        <div className="col-span-12 md:col-span-9">
+          <TopProducts  />
+        </div>
+        <div className="col-span-12 md:col-span-3">
+          <SalesChart />
         </div>
       </div>
     </div>

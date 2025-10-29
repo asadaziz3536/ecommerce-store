@@ -5,9 +5,24 @@ import { Button } from '@/components/ui/button';
 
 
 import {FaArrowLeftLong} from "react-icons/fa6"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 const NotFound = () => {
  const navigate= useNavigate();
+const location=useLocation();
+
+const handleClick=()=>{
+let isDashboard= location.pathname.includes("dashboard");
+
+console.log("is dashboard", isDashboard)
+if(isDashboard){
+  navigate('/dashboard')
+}
+else{
+  navigate('/')
+}
+}
+
+
 
   return (
     <div className='container max-w-screen-xl m-auto'>
@@ -16,7 +31,7 @@ const NotFound = () => {
       autoplay    />
        <h2 className='text-2xl font-bold'>Page not found</h2>
       <p>Oops! The page you are looking for do not exist</p>
-      <Button onClick={()=>navigate('/')}><FaArrowLeftLong />Back to home</Button>
+      <Button onClick={handleClick}><FaArrowLeftLong />Back to home</Button>
       </div>
     </div>
   )
