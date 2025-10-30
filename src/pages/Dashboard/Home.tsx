@@ -71,6 +71,9 @@ const Home = () => {
           <SalesChart />
         </div>
       </div>
+
+
+   
     </div>
   );
 };
