@@ -104,9 +104,18 @@ const Login = () => {
 
       if (token) {
         navigate("/dashboard");
-        toast.success("LogIn Successfully!")
+        toast.success("LogIn Successfully!");
       }
-    } catch {}
+    } catch (error) {
+      if (error.message) {
+        console.log(
+          "error message",
+          error.message.includes("auth/invalid-credential)")
+        );
+
+        toast.error("Invalid Credentials");
+      }
+    }
   };
 
   const handleSignIn = async () => {

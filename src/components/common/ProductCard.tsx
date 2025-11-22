@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "@/store/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "../ui/skeleton";
+import { toast } from "react-toastify";
 
 interface Category {
   id: number;
@@ -48,6 +49,8 @@ const ProductCard = ({ product,loading }: Props) => {
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
+toast.success("Product added to cart successfully!")
+
   };
 
   return (
@@ -86,10 +89,10 @@ const ProductCard = ({ product,loading }: Props) => {
         </Button>
       </div>
       <div className="p-4">
-        <h3 className="font-medium overflow-ellipsis overflow-hidden">
+        <h3 className="font-medium overflow-ellipsis overflow-hidden line-clamp-1">
           {loading? <Skeleton className="w-full h-[20px] mb-2"/> : product?.title}
         </h3>
-        <p>{loading?<Skeleton className="w-full h-[20px] mb-2" /> : product?.category.name}</p>
+        <p>{loading?<Skeleton className="w-full h-[20px] mb-2 " /> : product?.category.name}</p>
         <span className="mr-2">{loading?<Skeleton className="w-full h-[20px] mb-2" />:`$${product?.price}`}</span>
        
       </div>

@@ -19,7 +19,7 @@ const salesData = [
   { state: "Washington", code: "WA", sales: 200, growth: 4 },
 ];
 
-export default function USSalesMap() {
+export default function  USSalesMap() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (

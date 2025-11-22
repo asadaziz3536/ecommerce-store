@@ -26,11 +26,13 @@ import UserDetail from "./pages/Dashboard/UserDetail";
 import AddUser from "./components/common/AddUser";
 import { ToastContainer } from "react-toastify";
 import PublicRoutes from "./components/common/PublicRoutes";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 const App = () => {
  
   return (
   <>
+  <ScrollToTop />
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />

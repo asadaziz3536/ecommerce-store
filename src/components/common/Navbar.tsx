@@ -60,7 +60,7 @@ const Navbar = () => {
       ref={headerRef}
       className={`flex justify-between items-center p-4 md:px-10 ${
         isScrolled ? "md:py-2" : "md:py-4"
-      } sticky top-0 bg-white z-50 ${
+      } sticky top-0 right-0 left-0 bg-white z-50 ${
         isScrolled ? "shadow-md" : ""
       } transition-all ease-in-out duration-300`}
     >
@@ -74,8 +74,6 @@ const Navbar = () => {
       </div>
       <div className="action-btns flex gap-4 items-center">
         <RxHamburgerMenu className="visible md:hidden" onClick={handleClick} />
-        <IoSearch className="cursor-pointer" />
-        <FaRegHeart className="cursor-pointer" />
         <div className="relative cursor-pointer" onClick={()=>navigate('/cart')} title="cart">
           <span className="absolute right-[-12px] top-[-12px] text-white flex items-center justify-center text-xs bg-red-500 w-[20px] h-[20px] rounded-full">
             {totalCount}

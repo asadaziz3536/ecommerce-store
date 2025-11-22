@@ -156,8 +156,8 @@ const Products = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink onClick={() => handleNavigation("/shop")}>
-                Shop
+              <BreadcrumbLink onClick={()=>handleNavigation("/")}>
+                Home
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -422,7 +422,7 @@ const Products = () => {
           {totalProducts > 0 && !loading && (
             <Pagination className="justify-end pt-10">
               <PaginationContent>
-                <PaginationItem>
+                <PaginationItem className="cursor-pointer">
                   <PaginationPrevious
                     onClick={() =>
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
@@ -467,7 +467,7 @@ const Products = () => {
                   return null;
                 })}
 
-                <PaginationItem>
+                <PaginationItem className="cursor-pointer">
                   <PaginationNext
                     onClick={() =>
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
