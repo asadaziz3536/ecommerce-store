@@ -15,12 +15,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 import emptyboxUrl from "@/assets/icons/Empty-box.lottie?url";
 import { useNavigate } from "react-router-dom";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+
 
 
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 const Cart = () => {
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +34,8 @@ const Cart = () => {
 
   const handleDelete = (Item: object) => {
     dispatch(deleteFromCart(Item));
+    toast.success("Product deleted successfully")
+
   };
 
   const grandTotal = () => {

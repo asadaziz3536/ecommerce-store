@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Navigate, Route, Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import MainLayout from "./layouts/MainLayout";
-import About from "./pages/About";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Orders from "./pages/Dashboard/Orders";
 import Products from "./pages/Products";
@@ -12,7 +11,6 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EnterOtp from "./pages/Auth/EnterOtp";
-import CheckOut from "./pages/Cart";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 import Categories from "./pages/Categories";
@@ -27,6 +25,7 @@ import AddUser from "./components/common/AddUser";
 import { ToastContainer } from "react-toastify";
 import PublicRoutes from "./components/common/PublicRoutes";
 import ScrollToTop from "./components/common/ScrollToTop";
+import ContactUs from "./pages/ContactUs";
 
 const App = () => {
  
@@ -36,11 +35,11 @@ const App = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
         <Route path="products" element={<Products />} />
         <Route path="ProductDetail/:id" element={<ProductDetail />} />
         <Route path="categories" element={<Categories />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="contact-us" element={<ContactUs  />} />
       </Route>
       <Route element={<PrivateRoutes />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
@@ -62,7 +61,14 @@ const App = () => {
       <Route path="/cancel" element={<CancelOrder />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-   <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={true} closeOnClick pauseOnHover />
+    <ToastContainer
+  position="top-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop={true}
+  closeOnClick
+  pauseOnHover
+/>
 
 
   

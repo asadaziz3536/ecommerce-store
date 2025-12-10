@@ -53,7 +53,7 @@ return;
 
 const days=Math.floor(difference/(24*60*60*1000));
 const hours=Math.floor((difference/(60*60*1000))%24);
-const minutes=Math.floor((difference/60*1000)%60)
+const minutes=Math.floor((difference/(60*1000))%60)
 const seconds=Math.floor((difference/1000)%60)
 
 setTimeLeft({days,hours,minutes,seconds})

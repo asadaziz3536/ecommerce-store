@@ -1,13 +1,20 @@
-import CardImg from "@/assets/images/hero.jpg";
 import { FaInstagram } from "react-icons/fa";
 import { Button } from "../ui/button";
 
-const InstaCard = () => {
+
+
+interface Props{
+  cardImg:string
+}
+const InstaCard = ({cardImg}:Props) => {
+
+
   return (
     <div className="relative group overflow-hidden">
+     
       <img
         className="w-full h-[300px] object-cover group-hover:scale-125 transition-all ease-in-out duration-300"
-        src={CardImg}
+        src={cardImg}
         alt=""
       />
       <div className="absolute inset-0 bg-[#00000061] flex items-center justify-center opacity-0 group-hover:opacity-100">

@@ -6,12 +6,13 @@ import { useState } from "react";
 import { auth } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [termCondition, setTermCondition] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -42,35 +43,37 @@ const SignUp = () => {
       } else if (
         !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm.test(value)
       ) {
-        setErrors((prev) => ({ ...prev, password: "Password must contain at least 8 characters, one uppercase, one lowercase, and one number" }));
-      }
-      else{
-        setErrors((prev)=>({...prev, password:""}))
+        setErrors((prev) => ({
+          ...prev,
+          password:
+            "Password must contain at least 8 characters, one uppercase, one lowercase, and one number",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, password: "" }));
       }
     }
-
-  
-      
-   
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let valid=true;
+    let valid = true;
     if (!termCondition) {
-      setErrors((prev)=>({ ...prev, conditions: "You must accept Terms & Conditions" }));
-      valid=false;
+      setErrors((prev) => ({
+        ...prev,
+        conditions: "You must accept Terms & Conditions",
+      }));
+      valid = false;
     }
     if (!email) {
-      setErrors((prev)=>({ ...prev, email: "Email is required" }));
-       valid=false;
+      setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      valid = false;
     }
     if (!password) {
       setErrors((prev) => ({ ...prev, password: "Password is required" }));
-       valid=false;
+      valid = false;
     }
-    if(!valid) return;
+    if (!valid) return;
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -86,11 +89,15 @@ const SignUp = () => {
         toast.success("user created successfully!");
         setEmail("");
         setPassword("");
-        setTermCondition(false)
+        setTermCondition(false);
       }
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
   return (
     <div className="grid md:grid-cols-12 h-screen ">
@@ -124,37 +131,45 @@ const SignUp = () => {
             <label htmlFor="" className="block font-medium pb-1 text-sm">
               Password
             </label>
-            <Input
-              type="password"
-              name="password"
-              className="py-6 border-black"
-              placeholder="Enter Your Password"
-              value={password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                className="py-6 border-black"
+                placeholder="Enter Your Password"
+                value={password}
+                onChange={handleChange}
+              />
+
+              <div className="absolute top-[18px] right-[20px]">
+                {showPassword ? (
+                  <FaEye onClick={handleShowPassword} />
+                ) : (
+                  <FaEyeSlash onClick={handleShowPassword} />
+                )}
+              </div>
+            </div>
             <p className="text-red-500">{errors.password}</p>
           </div>
 
           <div className="flex flex-col justify-between">
             <div className="flex flex-row gap-2 items-center">
-              <Checkbox checked={termCondition} onCheckedChange={(checked)=> {
-                
-                setTermCondition(checked)
+              <Checkbox
+                checked={termCondition}
+                onCheckedChange={(checked) => {
+                  setTermCondition(checked);
 
-                if(checked){
-
-                  setErrors((prev)=>({...prev, conditions:"" }))
-                }
-
-               } } />
+                  if (checked) {
+                    setErrors((prev) => ({ ...prev, conditions: "" }));
+                  }
+                }}
+              />
               <label htmlFor="">
                 I agree to the <b>Terms & conditions</b>
               </label>
-            
             </div>
-             <p className="text-red-500">{errors.conditions}</p>
+            <p className="text-red-500">{errors.conditions}</p>
           </div>
-          
         </Form>
       </div>
     </div>

@@ -9,7 +9,7 @@ import {
 import { IoCloseSharp } from "react-icons/io5";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import logo from "@/assets/images//logoipsum-389.svg"
 
@@ -76,7 +76,12 @@ export const MainMenu = ({ onClose }: Props) => {
               className="cursor-pointer"
               onClick={() => navigate("/")}
             >
+
+              <NavLink to="/" className={({isActive})=>`after:content-[''] after:absolute after:bottom-[-10px] after:w-full after:h-1 after:bg-orange-400 after:left-0 after:transition-all duration-300 after:origin-center ${isActive ? 'after:scale-x-100 after:opacity-100': 'after:scale-x-0 after:opacity-0'}`}>
+
               Home
+
+              </NavLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
@@ -97,14 +102,28 @@ export const MainMenu = ({ onClose }: Props) => {
               </NavigationMenuContent>
             </NavigationMenuItem>
 
-            <NavigationMenuItem className="cursor-pointer">
-              Our Story
+      
+            <NavigationMenuItem className="cursor-pointer"  >
+
+              <NavLink to="/products"  className={({isActive})=>`after:content-[''] after:absolute after:bottom-[-10px] after:w-full after:h-1 after:bg-orange-400 after:left-0 after:transition-all duration-300 after:origin-center ${isActive ? 'after:scale-x-100 after:opacity-100': 'after:scale-x-0 after:opacity-0'}`} >
+              Products
+
+              </NavLink>
             </NavigationMenuItem>
-            <NavigationMenuItem className="cursor-pointer">
-              Blog
+            <NavigationMenuItem className="cursor-pointer" onClick={()=>navigate('/categories')}>
+              
+              
+              <NavLink to="/categories" className={({isActive})=>`after:content-[''] after:absolute after:bottom-[-10px] after:w-full after:h-1 after:bg-orange-400 after:left-0 after:transition-all duration-300 after:origin-center ${isActive ? 'after:scale-x-100 after:opacity-100': 'after:scale-x-0 after:opacity-0'}`} >
+              Categories
+
+              </NavLink>
             </NavigationMenuItem>
-            <NavigationMenuItem className="cursor-pointer">
+            <NavigationMenuItem    >
+         
+              <NavLink to="/contact-us" className={({isActive})=>`after:content-[''] after:absolute after:bottom-[-10px] after:w-full after:h-1 after:bg-orange-400 after:left-0 after:transition-all duration-300 after:origin-center ${isActive ? 'after:scale-x-100 after:opacity-100': 'after:scale-x-0 after:opacity-0'}`} >
               Contact Us
+
+              </NavLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

@@ -9,13 +9,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -156,7 +149,7 @@ const Products = () => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink onClick={()=>handleNavigation("/")}>
+              <BreadcrumbLink onClick={() => handleNavigation("/")}>
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -220,8 +213,7 @@ const Products = () => {
           >
             <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Price
-
-             {!openItems["second"] ? <FaChevronUp/>:<ChevronUp/>}
+              {!openItems["second"] ? <FaChevronUp /> : <ChevronUp />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               <span>
@@ -234,116 +226,6 @@ const Products = () => {
                 onValueChange={handlePrice}
                 className="pt-5 w-full"
               />
-            </CollapsibleContent>
-          </Collapsible>
-
-          <Collapsible
-            open={!openItems["three"]}
-            onOpenChange={() => toggle("three")}
-            className="pt-8"
-            
-          >
-            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
-              Filter by Color
-              {!openItems["three"] ? <FaChevronUp/> :<FaChevronDown/>}
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-4 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-red-500 w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Red</div>
-                </div>
-                <span>(10)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-blue-500 w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Blue</div>
-                </div>
-                <span>(10)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-orange-500 w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Orange</div>
-                </div>
-                <span>(10)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-black w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Black</div>
-                </div>
-                <span>(10)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-green-500 w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Green</div>
-                </div>
-                <span>(10)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <div className="bg-yellow-500 w-6 h-6 rounded-sm"></div>
-                  <div className="ml-1">Yellow</div>
-                </div>
-                <span>(10)</span>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
-          <Collapsible
-            open={!openItems["four"]}
-            onOpenChange={() => toggle("four")}
-            className="pt-8"
-          >
-            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
-              Filter by Size
-             {!openItems["four"]?<FaChevronUp/>:<FaChevronDown />}
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">S</div>
-                </div>
-                <span>(6)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">M</div>
-                </div>
-                <span>(6)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">L</div>
-                </div>
-                <span>(6)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">XL</div>
-                </div>
-                <span>(6)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">XXL</div>
-                </div>
-                <span>(6)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Checkbox />
-                  <div className="ml-1">XXXL</div>
-                </div>
-                <span>(6)</span>
-              </div>
             </CollapsibleContent>
           </Collapsible>
         </div>
@@ -368,16 +250,6 @@ const Products = () => {
                   {totalProducts}
                 </span>
               </div>
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Sort by latest" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           )}
 

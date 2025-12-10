@@ -1,4 +1,3 @@
-import bgImage from "@/assets/images/hero.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,9 +10,11 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebase";
 import { Button } from "@/components/ui/button";
-
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
+import { FaEyeSlash, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa6";
+import LoginBg from "@/assets/images/login.svg"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ const Login = () => {
     password: "",
     rememberMe: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -138,15 +141,19 @@ const Login = () => {
       const credential = GoogleAuthProvider.credentialFromError(error);
     }
   };
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
+
   return (
     <div className="grid md:grid-cols-12 h-screen ">
       <div
         className="bg-cover bg-center col-span-12 md:col-span-7"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `url(${LoginBg})` }}
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
         <Form
@@ -172,13 +179,29 @@ const Login = () => {
             <label htmlFor="" className="block font-medium pb-1 text-sm">
               Password <span className="text-red-500">*</span>
             </label>
-            <Input
-              type="password"
-              name="password"
-              className="py-6 border-black"
-              placeholder="Enter Your Password"
-              onChange={handleChange}
-            />
+
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                className="py-6 border-black relative"
+                placeholder="Enter Your Password"
+                onChange={handleChange}
+              />
+
+              <div className="absolute top-[18px] right-[20px]">
+                {showPassword ? (
+                  <span onClick={handleShowPassword}>
+                    <FaEye />
+                  </span>
+                ) : (
+                  <span>
+                    <FaEyeSlash onClick={handleShowPassword} />{" "}
+                  </span>
+                )}
+              </div>
+            </div>
+
             <p className="text-red-500">{errors.password}</p>
           </div>
 
