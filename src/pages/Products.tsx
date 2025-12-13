@@ -213,7 +213,7 @@ const Products = () => {
           >
             <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Price
-              {!openItems["second"] ? <FaChevronUp /> : <ChevronUp />}
+              {!openItems["second"] ? <FaChevronUp /> : <FaChevronDown />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               <span>

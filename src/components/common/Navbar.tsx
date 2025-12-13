@@ -58,7 +58,7 @@ const Navbar = () => {
   return (
     <div
       ref={headerRef}
-      className={`flex justify-between items-center p-4 md:px-10 ${
+      className={`flex justify-between items-center p-4 md:px-10 border-b ${
         isScrolled ? "md:py-2" : "md:py-4"
       } sticky top-0 right-0 left-0 bg-white z-50 ${
         isScrolled ? "shadow-md" : ""

@@ -54,8 +54,13 @@ export const MainMenu = ({ onClose }: Props) => {
     },
   ];
 
+
+  const handleNavClick=()=>{
+   
+  }
+
   return (
-    <nav className="px-4 py-2 fixed left-0 top-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100">
+    <nav className="px-4 py-2 fixed left-0 top-0 bottom-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100 shadow-[4px_16px_32px_-20px_#000] md:shadow-none">
       {/* Logo */}
       <div className="logo md:hidden py-2 flex items-center justify-between">
         <img alt="Logo" src={logo} />
@@ -133,7 +138,10 @@ export const MainMenu = ({ onClose }: Props) => {
       <div className="md:hidden">
         <div className="flex flex-col pt-5">
           <ul>
-            <li className="flex items-center justify-between pb-3">Home</li>
+          <li className="flex items-center justify-between pb-3">
+              <Link to="/" onClick={handleNavClick}>
+              Home
+              </Link></li>
 
             <li className="flex items-center justify-between pb-3" onClick={()=>setShopMenuOpen(!shopMenuOpen)}>Shop 
 
@@ -154,9 +162,12 @@ export const MainMenu = ({ onClose }: Props) => {
                   </ul>
                 </div>
               ))}
-            <li className="flex items-center justify-between pb-3">our story</li>
-            <li className="flex items-center justify-between pb-3">blog</li>
-            <li className="flex items-center justify-between pb-3">contact us</li>
+            <li className="flex items-center justify-between pb-3">
+              <Link to="/products">
+              Products
+              </Link></li>
+            <li className="flex items-center justify-between pb-3">Categories</li>
+            <li className="flex items-center justify-between pb-3">Contact us</li>
           </ul>
         </div>
       </div>

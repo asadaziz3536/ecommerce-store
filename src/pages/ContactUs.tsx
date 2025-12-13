@@ -1,8 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import phoneImg from "@/assets/images/pexels-cottonbro-10600774.jpg"
+import { useRef } from "react";
+import emailjs from @emailjs/browser;
 
 const ContactUs = () => {
+ const form= useRef();
+ 
+ console.log("form", form);
+
+ const sendEmail=(e)=>{
+e.preventDefault();
+
+emailjs.sendfrom("service id", "template id", form.current , {
+ publickey: "public key", 
+}
+
+
+
   return (
     <div className="max-w-screen-xl m-auto">
 
@@ -16,14 +31,14 @@ const ContactUs = () => {
           <img src={phoneImg} alt="" />
         </div>
         <div className="col-span-6">
-          <form action="">
+          <form ref={form}>
             <div className="pb-3">
-              <label htmlFor="" className="block font-medium pb-1 text-sm">
+              <label htmlFor="" name="firstName" className="block font-medium pb-1 text-sm">
                 First Name <span className="text-red-500">*</span>
               </label>
               <Input
                 type="text"
-                name="firstName"
+                name="middlwn em"
                 className="py-6 border-black"
                 placeholder="Enter Your First Name"
               />
