@@ -27,25 +27,30 @@ interface CartState {
 }
 
 const initialState: CartState = {
-  cart:[],
+  cart: [],
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<CartItem>) => {
+    addToCart: (state, action: PayloadAction<Product | CartItem>) => {
+      const item = action.payload;
       // if item exists in the cart
-      const isItem = state.cart.find((item) => item.id === action.payload.id);
+      const existingItem = state.cart.find(
+        (cartItem) => cartItem.id === item.id
+      );
 
-      if (isItem) {
-        if (isItem.quantity === undefined) {
-          isItem.quantity = 1;
-        } else {
-          isItem.quantity += 1;
-        }
+      const incomingQuantity =
+        "quantity" in item && item.quantity ? item.quantity : 1;
+
+      if (existingItem) {
+        existingItem.quantity += incomingQuantity;
       } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
+        state.cart.push({
+          ...item,
+          quantity: incomingQuantity,
+        } as CartItem);
       }
     },
 
@@ -62,12 +67,10 @@ const cartSlice = createSlice({
         }
       }
     },
-    deleteFromCart:(state, action:PayloadAction<CartItem>)=>{
-
-      state.cart=state.cart.filter((CartItem,index)=>(
-        CartItem.id!==action.payload.id
-      ))
-
+    deleteFromCart: (state, action: PayloadAction<CartItem>) => {
+      state.cart = state.cart.filter(
+        (CartItem, index) => CartItem.id !== action.payload.id
+      );
     },
 
     clearCart: (state, action: PayloadAction<CartItem>) => {
@@ -76,11 +79,7 @@ const cartSlice = createSlice({
   },
 });
 
-
-export const {addToCart, removeFromCart, deleteFromCart, clearCart}=cartSlice.actions;
-
+export const { addToCart, removeFromCart, deleteFromCart, clearCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
-
-
-

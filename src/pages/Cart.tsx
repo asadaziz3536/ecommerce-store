@@ -163,7 +163,7 @@ const Cart = () => {
                           className="w-12 text-center border-x px-2"
                         />
                         <Button
-                          onClick={() => dispatch(addToCart(CartItem))}
+                          onClick={() => dispatch(addToCart({...CartItem, quantity:1}))}
                           className="bg-transparent border-l text-black hover:bg-transparent rounded-tl-[0px] rounded-bl-[0px]"
                         >
                           +

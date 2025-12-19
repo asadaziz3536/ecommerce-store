@@ -1,74 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import MonthlyDealImg from "@/assets/images/raamin-ka-uR51HXLO7G0-unsplash.jpg"
+import MonthlyDealImg from "@/assets/images/raamin-ka-uR51HXLO7G0-unsplash.jpg";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const MonthlyDeals = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
 
+ const navigate= useNavigate();
 
+  useEffect(() => {
+    const targetTime = new Date("2025-12-31T23:59:59").getTime();
+    const timer = setInterval(() => {
+    const currentTime = new Date().getTime();
+    const difference = targetTime - currentTime;
 
+      if (difference <= 0) {
+        clearInterval(timer);
+        return;
+      }
 
+    const days = Math.floor(difference / (24 * 60 * 60 * 1000));
+    const hours = Math.floor((difference / (60 * 60 * 1000)) % 24);
+    const minutes = Math.floor((difference / (60 * 1000)) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
 
+      setTimeLeft({ days, hours, minutes, seconds });
+    }, 1000);
 
-
-const [timeLeft,setTimeLeft]=useState({
-days:0,
-hours:0,
-minutes:0,
-seconds:0
-  
-})
-
-
-
-
-
-
-
-
-
-useEffect(()=>{
-  const targetTime=new Date("2025-12-31T23:59:59").getTime();
-
-  console.log("target time", targetTime)
-
-const timer=setInterval(()=>{
-
-
-
-  const currentTime=new Date().getTime();
-
-
-  const difference=targetTime-currentTime;
-
-  
-
-
-if(difference<=0){
-clearInterval(timer)
-return;
-}
-
-
-const days=Math.floor(difference/(24*60*60*1000));
-const hours=Math.floor((difference/(60*60*1000))%24);
-const minutes=Math.floor((difference/(60*1000))%60)
-const seconds=Math.floor((difference/1000)%60)
-
-setTimeLeft({days,hours,minutes,seconds})
-
-
-
-}, 1000)
-
-
-
-  return ()=> clearInterval(timer)
-
-},[])
-
-
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section>
@@ -84,35 +51,42 @@ setTimeLeft({days,hours,minutes,seconds})
             </p>
 
             <div className="flex gap-4 flex-wrap">
-{[{label:"Days", value:timeLeft.days}
-  ,{
-    label:"Hours", value:timeLeft.hours
-  },{
-    label:"minutes", value:timeLeft.minutes
-  },{
-    label:"seconds", value:timeLeft.seconds
-  }
-].map((item)=>(
-  <div className="border-1 border-gray-200 rounded-lg p-3 text-center w-[85px]">
-  <p className="font-bold text-2xl">{item.value}</p>
-  <span>{item.label}</span>
-</div>
-
-
-))
-
-}
-              
-              
-             
-            
+              {[
+                { label: "Days", value: timeLeft.days },
+                {
+                  label: "Hours",
+                  value: timeLeft.hours,
+                },
+                {
+                  label: "minutes",
+                  value: timeLeft.minutes,
+                },
+                {
+                  label: "seconds",
+                  value: timeLeft.seconds,
+                },
+              ].map((item) => (
+                <div className="border-1 border-gray-200 rounded-lg p-3 text-center w-[85px]">
+                  <p className="font-bold text-2xl">{item.value}</p>
+                  <span>{item.label}</span>
+                </div>
+              ))}
             </div>
-            <Button onClick={()=>navigate("/products")} className="flex self-start w-auto" size={"lg"}>View all Products <FaArrowRightLong color="white" /></Button>
+            <Button
+              onClick={() => navigate("/products")}
+              className="flex self-start w-auto"
+              size={"lg"}
+            >
+              View all Products <FaArrowRightLong color="white" />
+            </Button>
           </div>
 
-
           <div className="h-[300px] md:h-[500px] order-1 md:order-2">
-            <img className="w-full h-full object-cover" src={MonthlyDealImg} alt="Monthly Deal Image" />
+            <img
+              className="w-full h-full object-cover"
+              src={MonthlyDealImg}
+              alt="Monthly Deal Image"
+            />
           </div>
         </div>
       </div>

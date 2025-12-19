@@ -21,21 +21,49 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
+import { addToCart, removeFromCart } from "@/store/cart";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState(null);
-  const [category, setCategory]=useState("")
+  const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { id } = useParams();
 
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
+
+  const addProduct = () => {
+    if (!product) return;
+    dispatch(
+      addToCart({
+        ...product,
+        quantity,
+      })
+    );
+
+    toast.success("Product addded to cart successfully!");
+  };
+
+  const removeProduct = () => {
+    if (!product) return;
+    dispatch(removeFromCart(product));
+  };
+
+  const handleIncrement = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrement = () => {};
 
   useEffect(() => {
     axios
@@ -45,9 +73,10 @@ const ProductDetail = () => {
         setProducts(res.data); // for related products
         const found = res.data.find((p) => p.id === Number(id)) || null;
 
-        
         setProduct(found); // main product
-        setCategory(found.category.name)
+
+        console.log("product", product);
+        setCategory(found.category.name);
       })
       .catch((err) => {
         console.error(err);
@@ -230,23 +259,34 @@ const ProductDetail = () => {
 
           <div className="flex gap-3 pt-9">
             <div className="flex border-1 border-gray-400 rounded-sm">
-              <Button className="bg-transparent  rounded-sm cursor-pointer border-r text-black hover:bg-transparent">
+              <Button
+                onClick={handleDecrement}
+                className="bg-transparent  rounded-sm cursor-pointer border-r text-black hover:bg-transparent"
+              >
                 -
               </Button>
-              <input type="text" name="" id="" className="w-10" />
-              <Button className="bg-transparent  rounded-sm cursor-pointer border-l text-black hover:bg-transparent">
+              <input
+                type="number"
+                name=""
+                id=""
+                className="w-10"
+                min="1"
+                value={quantity}
+              />
+              <Button
+                onClick={handleIncrement}
+                className="bg-transparent  rounded-sm cursor-pointer border-l text-black hover:bg-transparent"
+              >
                 +
               </Button>
             </div>
 
             <div className="grow-1">
-              <Button className="bg-black rounded-sm cursor-pointer w-full">
+              <Button
+                onClick={addProduct}
+                className="bg-black rounded-sm cursor-pointer w-full"
+              >
                 Add to Cart
-              </Button>
-            </div>
-            <div>
-              <Button className="bg-transparent border-1 rounded-sm cursor-pointer text-black">
-                <FaRegHeart />
               </Button>
             </div>
           </div>
@@ -409,12 +449,12 @@ const ProductDetail = () => {
                 />
               </div>
 
-              <Button className="max-w-max px-10 py-7">Submit</Button>
+              <Button className="max-w-max">Submit</Button>
             </form>
           </TabsContent>
         </Tabs>
       </div>
-      <RelatedProducts products={products} categoryName={category}/>
+      <RelatedProducts products={products} categoryName={category} />
       <StoreFeatures />
     </div>
   );
