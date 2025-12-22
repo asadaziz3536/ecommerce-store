@@ -160,7 +160,7 @@ const Cart = () => {
                           type="number"
                           min="1"
                           value={CartItem.quantity}
-                          className="w-12 text-center border-x px-2"
+                          className="field-sizing-content text-center border-x px-2"
                         />
                         <Button
                           onClick={() => dispatch(addToCart({...CartItem, quantity:1}))}

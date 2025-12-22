@@ -1,14 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Confetti from "@/assets/icons/Confetti.lottie?url";
 import { FaCheckCircle, FaHome } from "react-icons/fa";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
-import ProductImg from "@/assets/images/hero.jpg"
+import ProductImg from "@/assets/images/hero.jpg";
+
+import { clearCart } from "@/store/cart";
 
 const Success = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
+ const dispatch= useDispatch();
+
   const navigate= useNavigate();
   const grandTotal = () => {
     return cart
@@ -19,8 +23,10 @@ const Success = () => {
   };
 
 
+
   const handleClick=()=>{
     navigate('/')
+    dispatch(clearCart())
   }
 
 
@@ -89,12 +95,12 @@ const Success = () => {
                   </div>
 
                   {/* Quantity */}
-                  <div className="flex border border-gray-400 rounded-sm col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_135px]">
+                  <div className="flex justify-center col-span-6 md:col-span-2 mt-2 md:mt-0 flex-[0_0_135px]">
                     <input
                       type="number"
                       min="1"
                       value={CartItem.quantity}
-                      className="w-full text-center px-2"
+                      className="text-center px-2 field-sizing-content border border-gray-400 rounded-sm"
                     />
                   </div>
 
