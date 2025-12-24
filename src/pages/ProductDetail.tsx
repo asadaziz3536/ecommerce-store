@@ -25,6 +25,7 @@ import { addToCart, removeFromCart } from "@/store/cart";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import api from "@/api";
 
 const ProductDetail = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -63,11 +64,15 @@ const ProductDetail = () => {
     setQuantity((prev) => prev + 1);
   };
 
-  const handleDecrement = () => {};
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get("https://api.escuelajs.co/api/v1/products")
+    api
+      .get("products")
       .then((res) => {
         console.log("products", res.data);
         setProducts(res.data); // for related products

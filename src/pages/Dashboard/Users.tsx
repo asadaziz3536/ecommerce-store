@@ -16,7 +16,7 @@ const Users = () => {
   const getUsers = async () => {
     setLoading(true);
     try {
-      const resp = await fetch("https://api.escuelajs.co/api/v1/users");
+      const resp = await fetch("users");
       const data = await resp.json();
       setUsers(data);
       setLoading(false);

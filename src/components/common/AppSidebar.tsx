@@ -28,8 +28,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { useState } from "react";
 
 export const AppSidebar = () => {
+  const location = useLocation();
+
   const items = [
     {
       title: "Home",
@@ -66,6 +69,15 @@ export const AppSidebar = () => {
       isSubMenu: false,
     },
   ];
+
+  const isChildActive = items.some((item) =>
+    item.subMenu?.some(
+      (subItem) =>
+        location.pathname === subItem.url ||
+        location.pathname.startsWith(subItem.url + "/")
+    )
+  );
+
   return (
     <Sidebar>
       <SidebarHeader />
@@ -78,14 +90,18 @@ export const AppSidebar = () => {
               {items.map((item) =>
                 item.subMenu ? (
                   <Collapsible className="group/collapsible">
-                    <SidebarGroup>
+                    <SidebarGroup className="p-0">
                       <SidebarGroupLabel asChild>
-                        <CollapsibleTrigger>
+                        <CollapsibleTrigger
+                          className={`rounded-md px-2 py-6 ${
+                            isChildActive ? "bg-black text-white" : ""
+                          }`}
+                        >
                           Users
                           <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                         </CollapsibleTrigger>
                       </SidebarGroupLabel>
-                      <CollapsibleContent>
+                      <CollapsibleContent className="p-2">
                         {item.subMenu.map((Item) => (
                           <SidebarMenuItem key={Item.title}>
                             <NavLink to={Item.url} end>
@@ -94,7 +110,7 @@ export const AppSidebar = () => {
                                   className={cn(
                                     "flex items-center gap-2 rounded-md px-2 py-3 transition-colors",
                                     isActive
-                                      ? "bg-black text-white"
+                                      ? "bg-black text-white hover:bg-black-200 hover:text-white"
                                       : "hover:bg-gray-200"
                                   )}
                                 >

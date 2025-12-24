@@ -31,6 +31,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ProductCard from "@/components/common/ProductCard";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { ChevronUp } from "lucide-react";
+import api from "@/api";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
@@ -59,8 +60,8 @@ const Products = () => {
   // Fetch categories
   useEffect(() => {
     setLoading(true);
-    axios
-      .get("https://api.escuelajs.co/api/v1/categories")
+    api
+      .get("categories")
       .then((res) => setCategories(res.data))
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -77,22 +78,19 @@ const Products = () => {
 
         // If no categories selected, fetch all products within price range
         if (selectedCategories.length === 0) {
-          const res = await axios.get(
-            "https://api.escuelajs.co/api/v1/products",
-            {
-              params: {
-                price_min: price[0],
-                price_max: price[1],
-              },
-            }
-          );
+          const res = await api.get("products", {
+            params: {
+              price_min: price[0],
+              price_max: price[1],
+            },
+          });
           results = res.data;
         } else {
           // Fetch products for each selected category
           const promises = selectedCategories.map((catSlug) => {
             const category = categories.find((c: any) => c.slug === catSlug);
             if (!category) return Promise.resolve({ data: [] });
-            return axios.get("https://api.escuelajs.co/api/v1/products", {
+            return api.get("products", {
               params: {
                 price_min: price[0],
                 price_max: price[1],

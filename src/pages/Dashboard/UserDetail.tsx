@@ -1,3 +1,4 @@
+import api from "@/api";
 import ProfileDetail from "@/components/common/ProfileDetail";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,8 +9,8 @@ const UserDetail = () => {
   const { id } = useParams();
 
   const getUser = () => {
-    axios
-      .get(`https://api.escuelajs.co/api/v1/users/${id}`, {})
+    api
+      .get(`users/${id}`, {})
       .then((response) => {
         console.log("profile", response.data);
         setProfile(response.data);

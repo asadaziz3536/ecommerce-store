@@ -7,47 +7,53 @@ import StoreFeatures from "@/components/common/StoreFeatures";
 import Testimonials from "@/components/common/Testimonials";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "@/api";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading]=useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getProducts = () => {
-      axios.get("https://api.escuelajs.co/api/v1/products").then((response) => {
-        const data = response.data;
+      api
+        .get("products")
+        .then((response) => {
+          const data = response.data;
 
-        setProducts(data);
-      
-      }).finally(()=>{
-        setLoading(false)
-      })
-    }
+          setProducts(data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
 
     getProducts();
   }, []);
 
   useEffect(() => {
     const getCategories = () => {
-      axios
-        .get("https://api.escuelajs.co/api/v1/categories")
+      api
+        .get("categories")
         .then((response) => {
           const data = response.data;
-
-          console.log("categories", data);
-
           setCategories(data);
-        });
+        })
+        .catch((error) => {});
     };
 
     getCategories();
   }, []);
+
+  useEffect(() => {
+    console.log("categories", categories);
+  }, [categories]);
   return (
     <div>
       <Hero />
       <Categories categories={categories} />
-      <BestSeller products={products} loading={loading}/>
+      <BestSeller products={products} loading={loading} />
       <MonthlyDeals />
       <Testimonials />
       <InstaStoreis />

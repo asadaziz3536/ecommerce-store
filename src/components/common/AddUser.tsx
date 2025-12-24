@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast, ToastContainer } from "react-toastify";
+import api from "@/api";
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -18,12 +19,6 @@ const AddUser = () => {
       console.log("updated formData", updated);
       return updated;
     });
-
-   
-
-    console.log(files);
-
-    console.log(typeof files);
 
     if (name === "avatar" && files) {
       console.log("upload file button is clicked ");
@@ -42,30 +37,24 @@ const AddUser = () => {
       });
     }
 
-    console.log("form Data", formData)
+    console.log("form Data", formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch("https://api.escuelajs.co/api/v1/users/", {
+    api
+      .post("users", formData, {
         headers: {
           "content-type": "application/json",
         },
-        method: "POST",
-        body: JSON.stringify(formData),
+      })
+      .then((resp) => {
+        console.log("response", resp);
+      })
+      .catch((error) => {
+        console.log(`error: ${error}`);
+        toast.error(`failed to create user: ${error.message}`);
       });
-
-      if(!response.ok){
-       const errorText= await response.text();
-       throw new Error(`HTTP ${response.status}: ${errorText}`)
-      }
-      console.log(`response,${response}`);
-    } catch (error) {
-      console.log(`error: ${error}`);
-      toast.error(`failed to create user: ${error.message}`)
-    }
   };
 
   return (
@@ -139,7 +128,7 @@ const AddUser = () => {
           <Button>Submit</Button>
         </form>
       </div>
-        <ToastContainer />
+      <ToastContainer />
     </>
   );
 };

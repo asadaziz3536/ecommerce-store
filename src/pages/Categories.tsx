@@ -2,6 +2,7 @@ import CategoryCard from "@/components/common/CategoryCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "@/api";
 
 const Categories = () => {
   const [loading, setLoading] = useState(false);
@@ -10,9 +11,7 @@ const Categories = () => {
     const getCategories = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/categories"
-        );
+        const response = await api.get("categories");
 
         const data = await response.data;
         setCategories(data);

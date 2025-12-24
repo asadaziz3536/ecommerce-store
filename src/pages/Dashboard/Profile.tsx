@@ -1,3 +1,4 @@
+import api from "@/api";
 import ProfileDetail from "@/components/common/ProfileDetail";
 import { useEffect, useState } from "react";
 
@@ -10,16 +11,12 @@ const Profile = () => {
     }
 
     try {
-      const response = await fetch(
-        "https://api.escuelajs.co/api/v1/auth/profile",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await api.get("auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -27,7 +24,7 @@ const Profile = () => {
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
       const data = await response.json();
-      setProfile(data)
+      setProfile(data);
     } catch (err) {
       console.error(err.message);
     }
