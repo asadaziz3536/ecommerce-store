@@ -4,7 +4,7 @@ import axios from "axios";
 
 const api= axios.create({
         baseURL:"https://api.escuelajs.co/api/v1",
-          timeout: 1000,
+          timeout: 5000,
         headers:{
             "Content-type":"application/json",
         }

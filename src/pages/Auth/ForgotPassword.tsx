@@ -1,4 +1,4 @@
-import bgImage from "@/assets/images/hero.jpg";
+import bgImage from "@/assets/images/login.svg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,7 @@ import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState();
-
+  const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({
     email: "",
   });
@@ -22,6 +20,7 @@ const ForgotPassword = () => {
     const { name, value } = e.target;
 
     if (name === "email") {
+      setEmail(value);
       if (value.trim() === "") {
         setErrors((prev) => ({ ...prev, email: "Email is required" }));
       } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)) {
@@ -42,12 +41,14 @@ const ForgotPassword = () => {
     if (!email) {
       setErrors({ ...errors, email: "Email is required!" });
       return;
+    } else if (errors.email) {
+      return;
     }
 
     try {
       const response = await sendPasswordResetEmail(auth, email);
 
-      console.log("error response", response);
+      toast.success("Password reset link sent");
     } catch (error) {
       toast.error(error.code.split("/")[1]?.toUpperCase());
     }

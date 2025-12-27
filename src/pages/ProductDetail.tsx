@@ -14,7 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaRegHeart, FaRegStar, FaStar } from "react-icons/fa6";
 import StoreFeatures from "@/components/common/StoreFeatures";
-import RelatedProducts from "@/components/common/RelatedProducts";
+import RelatedProducts from "@/components/common/products/RelatedProducts";
 
 import ReviewerImage from "@/assets/images/hero.jpg";
 import { useEffect, useState } from "react";

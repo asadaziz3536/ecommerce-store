@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-
-import CardImage from "@/assets/images/hero.jpg";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import { addToCart } from "@/store/cart";
-import { useDispatch, useSelector } from "react-redux";
-import { Skeleton } from "../ui/skeleton";
+import { useDispatch } from "react-redux";
+import { Skeleton } from "../../ui/skeleton";
 import { toast } from "react-toastify";
 
 interface Category {
@@ -36,10 +34,10 @@ interface Product {
 
 interface Props {
   product: Product;
-  loading?:boolean
+  loading?: boolean;
 }
 
-const ProductCard = ({ product,loading }: Props) => {
+const ProductCard = ({ product, loading }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -49,20 +47,22 @@ const ProductCard = ({ product,loading }: Props) => {
 
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
-toast.success("Product added to cart successfully!")
-
+    toast.success("Product added to cart successfully!");
   };
 
   return (
     <div className="flex flex-col group cursor-pointer border-1 rounded-xl">
       <div className="relative">
+        {loading ? (
+          <Skeleton className="w-full h-[360px]" />
+        ) : (
+          <img
+            className="w-full h-[360px] object-cover rounded-tr-md rounded-tl-md rounded-br-0 rounded-bl-0"
+            src={product?.images[0]}
+            alt=""
+          />
+        )}
 
-        {loading? <Skeleton className="w-full h-[360px]" /> :<img
-          className="w-full h-[360px] object-cover rounded-tr-md rounded-tl-md rounded-br-0 rounded-bl-0"
-          src={product?.images[0]}
-          alt=""
-        /> }
-        
         <div className="action-btns absolute top-6 right-6">
           <ul className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 translate-y-3.5 group-hover:translate-y-0 transition-all ease-in-out duration-300">
             <li className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white">
@@ -90,11 +90,26 @@ toast.success("Product added to cart successfully!")
       </div>
       <div className="p-4">
         <h3 className="font-medium overflow-ellipsis overflow-hidden line-clamp-1">
-          {loading? <Skeleton className="w-full h-[20px] mb-2"/> : product?.title}
+          {loading ? (
+            <Skeleton className="w-full h-[20px] mb-2" />
+          ) : (
+            product?.title
+          )}
         </h3>
-        <p>{loading?<Skeleton className="w-full h-[20px] mb-2 " /> : product?.category.name}</p>
-        <span className="mr-2">{loading?<Skeleton className="w-full h-[20px] mb-2" />:`$${product?.price}`}</span>
-       
+        <p>
+          {loading ? (
+            <Skeleton className="w-full h-[20px] mb-2 " />
+          ) : (
+            product?.category.name
+          )}
+        </p>
+        <span className="mr-2">
+          {loading ? (
+            <Skeleton className="w-full h-[20px] mb-2" />
+          ) : (
+            `$${product?.price}`
+          )}
+        </span>
       </div>
     </div>
   );

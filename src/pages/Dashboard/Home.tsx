@@ -65,15 +65,12 @@ const Home = () => {
           <ChannelChart />
         </div>
         <div className="col-span-12 md:col-span-9">
-          <TopProducts  />
+          <TopProducts />
         </div>
         <div className="col-span-12 md:col-span-3">
           <SalesChart />
         </div>
       </div>
-
-
-   
     </div>
   );
 };

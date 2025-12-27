@@ -8,30 +8,31 @@ The application provides a complete shopping experience including authentication
 ## 🚀 Tech Stack
 
 **Frontend**
+
 - React + TypeScript (Vite)
 - Tailwind CSS
 - ShadCN UI
 - Redux Toolkit
 - Context API (Auth)
-- React Icons
 - Lottie Files
 - React Icons
 - Swiper.js
 - Recharts / React Simple Maps
 
 **Backend (Stripe)**
+
 - Node.js
 - Express.js
 - Stripe API
 
 **Authentication**
-- Firebase Auth (Email/Password + Google Sign In)
 
----
+- Firebase Auth (Email/Password + Google Sign In)
 
 ## ✨ Features
 
 ### 🏠 Homepage
+
 - Hero section
 - Categories section
 - Latest products
@@ -40,6 +41,7 @@ The application provides a complete shopping experience including authentication
 - Features section
 
 ### 🛍️ Products System
+
 - All products page with pagination
 - Filter by category & price range
 - Single product page:
@@ -47,33 +49,36 @@ The application provides a complete shopping experience including authentication
   - Related products
 
 ### 📁 Categories
+
 - Categories page
 - Single category page
 
 ### 🔐 Authentication
+
 - Signup / Login
 - Forgot Password
 - Google Sign-In
 - Protected routes
 
 ### 🛒 Cart System (Redux Toolkit)
+
 - Add to cart
 - Increase / decrease quantity
 - Remove items
 - Cart total calculation
 
 ### 💳 Stripe Checkout
+
 - Secure checkout using Node.js backend
 - Frontend → Backend → Stripe payment integration
 
 ### 📊 User Dashboard
+
 - Info cards (Revenue / Orders / Customers)
 - Revenue vs Orders chart
 - Channels Pie Chart
 - Sales table
 - Sales map using **React Simple Maps**
-
----
 
 ## 📂 Project Structure
 
@@ -82,67 +87,130 @@ src/
 ├── assets/
 │ ├── images/
 │ └── icons/
+| └── styles/
 │
 ├── components/
 │ │
 │ ├── common/
-│ │ ├── Navbar.tsx
-│ │ ├── Footer.tsx
-│ │ ├── ProductCard.tsx
-│ │ ├── CategoryCard.tsx
-│ │ ├── CountdownTimer.tsx
-│ │ └── Pagination.tsx
-│ │
+| | ├── Dashboard/
+| | | |── ChannelChart.tsx
+| | | |── Header.tsx
+| | | |── InfoCard.tsx
+| | | |── RevenueOrderChart.tsx
+| | | |── SalesChart.tsx
+| | | |── TopProducts.tsx
+| | |
+| | ├── layout/
+│ | | ├── AppSidebar.tsx
+│ | | ├── Footer.tsx
+│ | | ├── Navbar.tsx
+│ | |
+| | ├── products/
+│ | | ├── ProductCard.tsx
+| | | ├── RelatedProducts.tsx
+│ | |
+│ | ├── AddUser.tsx
+│ | ├── BestSeller.tsx
+│ | ├── Categories.tsx
+│ | ├── CategoryCard.tsx
+| | ├── Form.tsx
+│ | ├── Hero.tsx
+│ | ├── IconCard.tsx
+│ | ├── InstaCard.tsx
+│ | ├── InstaStories.tsx
+│ | ├── MainMenu.tsx
+│ | ├── MonthlyDeals.tsx
+│ | ├── PrivateRoutes.tsx
+│ | ├── ProfileDetail.tsx
+│ | ├── PublicRoutes.tsx
+| | ├── ScrollToTop.tsx
+| | ├── StoreFeatures.tsx
+| | ├── TestimonialCard.tsx
+| | ├── Testimonials.tsx
+| | ├── UserCard.tsx
+| |
 │ └── ui/
-│ ├── Button.tsx
-│ ├── Input.tsx
-│ ├── Card.tsx
-│ └── Modal.tsx
-│
-├── pages/
-│ ├── Home.tsx
-│ ├── Products.tsx
-│ ├── SingleProduct.tsx
-│ ├── Categories.tsx
-│ ├── SingleCategory.tsx
-│ ├── Login.tsx
-│ ├── Signup.tsx
-│ ├── ForgotPassword.tsx
-│ └── Cart.tsx
-│
-├── dashboard/
-│ ├── DashboardLayout.tsx
-│ ├── DashboardHome.tsx
-│ ├── RevenueChart.tsx
-│ ├── SalesPieChart.tsx
-│ ├── SalesMap.tsx
-│ └── OrdersTable.tsx
-│
-├── features/
-│ └── cartSlice.ts
-│
+| | ├── avatar.tsx
+| | ├── breadcrumb.tsx
+| | ├── button.tsx
+| | ├── checkbox.tsx
+| | ├── collapsible.tsx
+| | ├── dialog.tsx
+| | ├── dropdown-menu.tsx
+| | ├── input.tsx
+| | ├── navigation-menu.tsx
+| | ├── OtpInput.tsx
+| | ├── pagination.tsx
+| | ├── select.tsx
+| | ├── sheet.tsx
+| | ├── sidebar.tsx
+| | ├── skeleton.tsx
+| | ├── slider.tsx
+| | ├── table.tsx
+| | ├── tabs.tsx
+| | ├── textarea.tsx
+| | └── tooltip.tsx
+|
 ├── context/
 │ └── AuthContext.tsx
+|
+├── layouts/
+│ └── DashboardLayout.tsx
+│ └── MainLayout.tsx
+|
+├── lib/
+│ └── Utils.ts
+|
+├── pages/
+│ ├── Auth/
+│ | ├── EnterOtp.tsx
+│ | ├── ForgotPassword.tsx
+│ | ├── Login.tsx
+│ | ├── Signup.tsx
+│ |
+│ ├── Dashboard/
+│ | ├── Home.tsx
+│ | ├── Orders.tsx
+│ | ├── Profile.tsx
+│ | ├── UserDetail.tsx
+│ | ├── Users.tsx
+│ |
+│ ├── Home.tsx
+│ ├── CancelOrder.tsx
+│ ├── Cart.tsx
+│ ├── Categories.tsx
+│ ├── ContactUs.tsx
+│ ├── NotFound.tsx
+│ ├── ProductDetail.tsx
+│ ├── Products.tsx
+│ └── Success.tsx
+│
+├── store/
+│ ├── cart/
+│ │ ├── cartSlice.ts
+│ │ ├── index.ts
+│ │
+│ ├── index.ts
+│
 │
 ├── routes/
 │ └── AppRoutes.tsx
 │
-├── utils/
-│ └── formatPrice.ts
 │
 ├── App.tsx
+├── App.css
 ├── main.tsx
 ├── index.css
+├── firebase.ts
 └── vite-env.d.ts
 
-server/
+server.js
 │
-├── index.js
+├── env.example
+├── index.html
 ├── package.json
-└── .env
-
-
-
+├── tailwind.config.ts
+└── vite.config.ts
 
 ---
 
@@ -199,3 +267,4 @@ Front-End Developer
 GitHub: https://github.com/asadaziz3536
 
 LinkedIn: https://linkedin.com/in/asad-aziz-22ba71192
+```

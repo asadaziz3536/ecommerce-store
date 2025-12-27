@@ -10,9 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-} from "../ui/sidebar";
+} from "../../ui/sidebar";
 
 import {
   Calendar,

@@ -28,9 +28,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { IoGridOutline } from "react-icons/io5";
 import { FaListUl } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import ProductCard from "@/components/common/ProductCard";
+import ProductCard from "@/components/common/products/ProductCard";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import { ChevronUp } from "lucide-react";
 import api from "@/api";
 
 const Products = () => {
@@ -165,12 +164,12 @@ const Products = () => {
         {/* Sidebar Filters */}
         <div className="col-span-12 md:col-span-3">
           <Collapsible
-            open={!openItems["first"]}
+            open={openItems["first"]}
             onOpenChange={() => toggle("first")}
           >
             <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Product Categories
-              {!openItems["first"] ? <FaChevronUp /> : <FaChevronDown />}
+              {openItems["first"] ? <FaChevronUp /> : <FaChevronDown />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               {loading
@@ -205,13 +204,13 @@ const Products = () => {
 
           {/* Price Filter */}
           <Collapsible
-            open={!openItems["second"]}
+            open={openItems["second"]}
             onOpenChange={() => toggle("second")}
             className="pt-8"
           >
             <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
               Filter by Price
-              {!openItems["second"] ? <FaChevronUp /> : <FaChevronDown />}
+              {openItems["second"] ? <FaChevronUp /> : <FaChevronDown />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-4">
               <span>
