@@ -7,11 +7,29 @@ import RevenueOrderChart from "@/components/common/Dashboard/RevenueOrderChart";
 import ChannelChart from "@/components/common/Dashboard/ChannelChart";
 import TopProducts from "@/components/common/Dashboard/TopProducts";
 import SalesChart from "@/components/common/Dashboard/SalesChart";
+import { useAuth } from "@/context/AuthContext";
 
 const Home = () => {
+  const auth = useAuth();
+  let userName = auth.user.displayName;
+
+  const capitalizeName = (string) => {
+    if (!string) return;
+
+    let words = string.split(" ");
+
+    let capitalizedWords = words
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+
+    return capitalizedWords;
+  };
+  let Name = capitalizeName(userName);
   return (
     <div>
-      <h1 className="font-bold text-3xl">Welcome Back</h1>
+      <h1 className="font-bold text-3xl">Welcome Back {Name}</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam amet
         voluptatem suscipit illum enim illo rem sequi eum, cupiditate esse quod,

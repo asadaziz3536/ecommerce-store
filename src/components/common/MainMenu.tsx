@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import logo from "@/assets/images//logoipsum-389.svg";
+import logo from "@/assets/images//site-logo.svg";
 
 interface Props {
   onClose: () => void;

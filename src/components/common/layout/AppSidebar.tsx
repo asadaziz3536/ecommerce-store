@@ -26,8 +26,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
-import { useState } from "react";
-
+import logo from "@/assets/images/site-logo.svg";
 export const AppSidebar = () => {
   const location = useLocation();
 
@@ -81,9 +80,11 @@ export const AppSidebar = () => {
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            <img src={logo} alt="" />
+          </SidebarGroupLabel>
 
-          <SidebarGroupContent>
+          <SidebarGroupContent className="pt-4">
             <SidebarMenu>
               {items.map((item) =>
                 item.subMenu ? (

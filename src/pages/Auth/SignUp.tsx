@@ -93,6 +93,7 @@ const SignUp = () => {
       }
     } catch (error) {
       console.log(error.message);
+      toast.error(error.message);
     }
   };
 

@@ -1,4 +1,4 @@
-import Logo from "@/assets/images/logoipsum-389.svg";
+import Logo from "@/assets/images/site-logo.svg";
 import { Link } from "react-router-dom";
 import { MdEmail, MdOutlinePhoneInTalk } from "react-icons/md";
 import { CiMail } from "react-icons/ci";

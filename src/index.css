@@ -118,14 +118,12 @@
     @apply bg-background text-foreground;
   }
 
- 
   h1 {
     @apply font-bold text-6xl;
   }
 }
 
-
-@layer components{
+@layer components {
   section.Toastify {
     @apply !py-0;
   }

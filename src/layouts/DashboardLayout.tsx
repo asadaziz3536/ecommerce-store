@@ -6,14 +6,14 @@ import Header from "@/components/common/Dashboard/Header";
 const DashboardLayout = () => {
   return (
     <>
-      <Header />
       <SidebarProvider className="grid">
+        <Header />
         <div className="flex md:gap-5">
           <div className="w-max-[256px]">
             <AppSidebar />
           </div>
-          <main className="flex-1 pt-[60px] px-4">
-            <SidebarTrigger />
+          <main className="flex-1 pt-[80px] md:pt-[60px] px-4">
+            <SidebarTrigger className="hidden md:block" />
 
             <Outlet />
           </main>

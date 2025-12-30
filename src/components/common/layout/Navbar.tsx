@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import logo from "@/assets/images/logoipsum-389.svg";
+import logo from "@/assets/images/site-logo.svg";
 import { MainMenu } from "../../common/MainMenu";
 import { Button } from "../../ui/button";
 import { FiShoppingCart } from "react-icons/fi";

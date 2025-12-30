@@ -14,7 +14,7 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { FaEyeSlash, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
-import LoginBg from "@/assets/images/login.svg"
+import LoginBg from "@/assets/images/login.svg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -238,6 +238,13 @@ const Login = () => {
           <FcGoogle />
           Login with google{" "}
         </Button>
+
+        <p className="flex justify-center pt-4">
+          Don't have an account? &nbsp;{" "}
+          <Link className="text-blue-600" to={"/signup"}>
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
