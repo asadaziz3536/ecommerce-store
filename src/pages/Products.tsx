@@ -33,7 +33,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import api from "@/api";
 
 const Products = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [openItems, setOpenItems] = useState({});
   const [price, setPrice] = useState<[number, number]>([0, 2000]);
@@ -44,6 +44,7 @@ const Products = () => {
   const itemsPerPage = 9;
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [hasFetched, setHasFetched] = useState(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -117,6 +118,7 @@ const Products = () => {
         console.error(err);
       } finally {
         setLoading(false);
+        setHasFetched(true);
       }
     };
 
@@ -250,7 +252,7 @@ const Products = () => {
             </div>
           )}
 
-          {totalProducts === 0 && !loading && (
+          {totalProducts === 0 && !loading && hasFetched && (
             <div className="flex justify-center items-center">
               <p className="font-bold">No product found</p>
             </div>

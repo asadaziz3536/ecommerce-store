@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
@@ -24,12 +23,10 @@ const Header = () => {
       .then(() => {
         toast.success("Logout Successfully!");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error("Unable to log out. Please try again."));
   };
   const checkMobile = () => {
     if (window.innerWidth < 767) {
-      console.log("Mobile view is active");
-
       toggleSidebar();
     }
   };

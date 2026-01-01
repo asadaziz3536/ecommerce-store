@@ -15,9 +15,10 @@ import logo from "@/assets/images//site-logo.svg";
 
 interface Props {
   onClose: () => void;
+  isOpen: boolean;
 }
 
-export const MainMenu = ({ onClose }: Props) => {
+export const MainMenu = ({ onClose, isOpen }: Props) => {
   const navigate = useNavigate();
   const [shopMenuOpen, setShopMenuOpen] = useState(false);
 
@@ -57,7 +58,11 @@ export const MainMenu = ({ onClose }: Props) => {
   const handleNavClick = () => {};
 
   return (
-    <nav className="px-4 py-2 fixed left-0 top-0 bottom-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100 shadow-[4px_16px_32px_-20px_#000] md:shadow-none">
+    <nav
+      className={`px-4 py-2 fixed left-0 bg-black/50 md:bg-white ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } md:left-0 transition-all duration-300 ease-in-out top-0 bottom-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100 shadow-[4px_16px_32px_-20px_#000] md:shadow-none`}
+    >
       {/* Logo */}
       <div className="logo md:hidden py-2 flex items-center justify-between">
         <img alt="Logo" src={logo} />
@@ -190,19 +195,13 @@ export const MainMenu = ({ onClose }: Props) => {
                 </div>
               ))}
             <li className="flex items-center justify-between pb-3">
-              <Link to="/products" onClick={onClose}>
-                Products
-              </Link>
+              <Link to="/products">Products</Link>
             </li>
             <li className="flex items-center justify-between pb-3">
-              <Link to="/categories" onClick={onClose}>
-                Categories
-              </Link>
+              <Link to="/categories">Categories</Link>
             </li>
             <li className="flex items-center justify-between pb-3">
-              <Link to="/contact-us" onClick={onClose}>
-                Contact us
-              </Link>
+              <Link to="/contact-us">Contact us</Link>
             </li>
           </ul>
         </div>

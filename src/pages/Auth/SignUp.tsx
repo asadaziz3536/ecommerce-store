@@ -22,8 +22,6 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
 
-    console.log(`name:${name}, value:${value}`);
-
     if (name === "email") {
       setEmail(value);
 
@@ -82,9 +80,6 @@ const SignUp = () => {
         password
       );
       const user = userCredential.user;
-
-      console.log("user created", user);
-
       if (user) {
         toast.success("user created successfully!");
         setEmail("");
@@ -92,7 +87,6 @@ const SignUp = () => {
         setTermCondition(false);
       }
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };

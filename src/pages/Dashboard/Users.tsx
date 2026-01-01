@@ -26,7 +26,6 @@ const Users = () => {
   };
 
   const getRole = (value) => {
-    console.log("value", value);
     let filteredUsers = users.filter(
       (User) => User.role.toLowerCase() === value.toLowerCase()
     );

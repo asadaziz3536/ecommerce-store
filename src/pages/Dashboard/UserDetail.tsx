@@ -11,12 +11,9 @@ const UserDetail = () => {
     api
       .get(`users/${id}`, {})
       .then((response) => {
-        console.log("profile", response.data);
         setProfile(response.data);
       })
-      .catch((err) => {
-        console.log("error message", err);
-      });
+      .catch((err) => {});
   };
 
   useEffect(() => {

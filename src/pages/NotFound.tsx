@@ -1,40 +1,42 @@
-import React from 'react'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import ErrorAnimation from "@/assets/icons/404-blue.lottie?url"
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import ErrorAnimation from "@/assets/icons/404-blue.lottie?url";
+import { Button } from "@/components/ui/button";
 
-
-import {FaArrowLeftLong} from "react-icons/fa6"
-import { useLocation, useNavigate } from 'react-router-dom';
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { useLocation, useNavigate } from "react-router-dom";
 const NotFound = () => {
- const navigate= useNavigate();
-const location=useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const handleClick=()=>{
-let isDashboard= location.pathname.includes("dashboard");
+  const handleClick = () => {
+    let isDashboard = location.pathname.includes("dashboard");
 
-console.log("is dashboard", isDashboard)
-if(isDashboard){
-  navigate('/dashboard')
-}
-else{
-  navigate('/')
-}
-}
-
-
+    if (isDashboard) {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
-    <div className='container max-w-screen-xl m-auto'>
+    <div className="container max-w-screen-xl m-auto">
       <div className="flex flex-col gap-3 justify-center items-center h-screen">
-     <DotLottieReact className='w-[300px] h-[300px]' src={ErrorAnimation}  loop
-      autoplay    />
-       <h2 className='text-2xl font-bold'>Page not found</h2>
-      <p>Oops! The page you are looking for do not exist</p>
-      <Button onClick={handleClick}><FaArrowLeftLong />Back to home</Button>
+        <DotLottieReact
+          className="w-[300px] h-[300px]"
+          src={ErrorAnimation}
+          loop
+          autoplay
+        />
+        <h2 className="text-2xl font-bold">Page not found</h2>
+        <p>Oops! The page you are looking for do not exist</p>
+        <Button onClick={handleClick}>
+          <FaArrowLeftLong />
+          Back to home
+        </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

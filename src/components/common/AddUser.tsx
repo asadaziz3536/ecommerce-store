@@ -16,28 +16,18 @@ const AddUser = () => {
     const { name, value, files } = e.target;
     setFormData((prev) => {
       const updated = { ...prev, [name]: value };
-      console.log("updated formData", updated);
       return updated;
     });
 
     if (name === "avatar" && files) {
-      console.log("upload file button is clicked ");
-      console.log("files", files);
       const file = files[0];
-      console.log("file", file);
-
       const imageUrl = URL.createObjectURL(file);
-
-      console.log("image url", imageUrl);
 
       setFormData((prev) => {
         const updated = { ...prev, [name]: imageUrl };
-        console.log("updated", updated);
         return updated;
       });
     }
-
-    console.log("form Data", formData);
   };
 
   const handleSubmit = async (e) => {
@@ -48,11 +38,8 @@ const AddUser = () => {
           "content-type": "application/json",
         },
       })
-      .then((resp) => {
-        console.log("response", resp);
-      })
+      .then((resp) => {})
       .catch((error) => {
-        console.log(`error: ${error}`);
         toast.error(`failed to create user: ${error.message}`);
       });
   };

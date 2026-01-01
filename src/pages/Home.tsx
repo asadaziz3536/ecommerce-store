@@ -46,9 +46,6 @@ const Home = () => {
     getCategories();
   }, []);
 
-  useEffect(() => {
-    console.log("categories", categories);
-  }, [categories]);
   return (
     <div>
       <Hero />

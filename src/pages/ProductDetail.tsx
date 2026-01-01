@@ -3,7 +3,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
@@ -12,17 +11,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaRegHeart, FaRegStar, FaStar } from "react-icons/fa6";
+import { FaRegStar, FaStar } from "react-icons/fa6";
 import StoreFeatures from "@/components/common/StoreFeatures";
 import RelatedProducts from "@/components/common/products/RelatedProducts";
-
 import ReviewerImage from "@/assets/images/hero.jpg";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { addToCart, removeFromCart } from "@/store/cart";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import api from "@/api";
@@ -38,11 +35,9 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
-
   const handleNavigation = (nav: any) => {
     navigate(nav);
   };
-
   const addProduct = () => {
     if (!product) return;
     dispatch(
@@ -51,13 +46,7 @@ const ProductDetail = () => {
         quantity,
       })
     );
-
     toast.success("Product addded to cart successfully!");
-  };
-
-  const removeProduct = () => {
-    if (!product) return;
-    dispatch(removeFromCart(product));
   };
 
   const handleIncrement = () => {
@@ -74,13 +63,9 @@ const ProductDetail = () => {
     api
       .get("products")
       .then((res) => {
-        console.log("products", res.data);
         setProducts(res.data); // for related products
         const found = res.data.find((p) => p.id === Number(id)) || null;
-
         setProduct(found); // main product
-
-        console.log("product", product);
         setCategory(found.category.name);
       })
       .catch((err) => {

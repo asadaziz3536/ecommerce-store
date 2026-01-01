@@ -18,24 +18,16 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-
-
-
-
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 const Cart = () => {
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-  console.log(cart);
 
   const handleDelete = (Item: object) => {
     dispatch(deleteFromCart(Item));
-    toast.success("Product deleted successfully")
-
+    toast.success("Product deleted successfully");
   };
 
   const grandTotal = () => {
@@ -163,7 +155,9 @@ const Cart = () => {
                           className="field-sizing-content text-center border-x px-2"
                         />
                         <Button
-                          onClick={() => dispatch(addToCart({...CartItem, quantity:1}))}
+                          onClick={() =>
+                            dispatch(addToCart({ ...CartItem, quantity: 1 }))
+                          }
                           className="bg-transparent border-l text-black hover:bg-transparent rounded-tl-[0px] rounded-bl-[0px]"
                         >
                           +
@@ -217,7 +211,7 @@ const Cart = () => {
                   </li>
                 </ul>
 
-                <form  onSubmit={() => handleSubmit(event)}>
+                <form onSubmit={() => handleSubmit(event)}>
                   <Button className="w-full mt-8">Checkout</Button>
                 </form>
               </div>

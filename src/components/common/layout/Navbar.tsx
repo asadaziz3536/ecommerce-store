@@ -61,16 +61,28 @@ const Navbar = () => {
         isScrolled ? "shadow-md" : ""
       } transition-all ease-in-out duration-300`}
     >
+      <div
+        className={`md:hidden bg-black/50 fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
+          openNav
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setOpenNav(false)}
+      ></div>
+
       <div className="logo">
         <Link to={"/"}>
           <img src={logo} alt="" />
         </Link>
       </div>
-      <div className="menu">
-        {openNav && <MainMenu onClose={() => setOpenNav(!openNav)} />}
+      <div className="menu bg-black">
+        {<MainMenu onClose={() => setOpenNav(!openNav)} isOpen={openNav} />}
       </div>
       <div className="action-btns flex gap-4 items-center">
-        <RxHamburgerMenu className="visible md:hidden" onClick={handleClick} />
+        <RxHamburgerMenu
+          className="visible md:hidden z-50"
+          onClick={handleClick}
+        />
         <div
           className="relative cursor-pointer"
           onClick={() => navigate("/cart")}

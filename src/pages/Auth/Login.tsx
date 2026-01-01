@@ -101,21 +101,13 @@ const Login = () => {
         formData.email,
         formData.password
       );
-
       let token = response.user.accessToken;
-      console.log("token", token);
-
       if (token) {
         navigate("/dashboard");
         toast.success("LogIn Successfully!");
       }
     } catch (error) {
       if (error.message) {
-        console.log(
-          "error message",
-          error.message.includes("auth/invalid-credential)")
-        );
-
         toast.error("Invalid Credentials");
       }
     }
@@ -135,19 +127,13 @@ const Login = () => {
     } catch {
       const errorCode = error.code;
       const errorMessage = error.message;
-      // The email of the user's account used.
       const email = error.customData.email;
-      // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
     }
   };
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <div className="grid md:grid-cols-12 h-screen ">
