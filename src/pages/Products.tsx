@@ -76,7 +76,7 @@ const Products = () => {
       try {
         let results: any[] = [];
 
-        // If no categories selected, fetch all products within price range
+        // If no categories selected, fetch all  products within price range
         if (selectedCategories.length === 0) {
           const res = await api.get("products", {
             params: {
