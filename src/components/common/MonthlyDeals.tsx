@@ -12,24 +12,23 @@ const MonthlyDeals = () => {
     seconds: 0,
   });
 
-
- const navigate= useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const targetTime = new Date("2025-12-31T23:59:59").getTime();
+    const targetTime = new Date("2026-12-31T23:59:59").getTime();
     const timer = setInterval(() => {
-    const currentTime = new Date().getTime();
-    const difference = targetTime - currentTime;
+      const currentTime = new Date().getTime();
+      const difference = targetTime - currentTime;
 
       if (difference <= 0) {
         clearInterval(timer);
         return;
       }
 
-    const days = Math.floor(difference / (24 * 60 * 60 * 1000));
-    const hours = Math.floor((difference / (60 * 60 * 1000)) % 24);
-    const minutes = Math.floor((difference / (60 * 1000)) % 60);
-    const seconds = Math.floor((difference / 1000) % 60);
+      const days = Math.floor(difference / (24 * 60 * 60 * 1000));
+      const hours = Math.floor((difference / (60 * 60 * 1000)) % 24);
+      const minutes = Math.floor((difference / (60 * 1000)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
 
       setTimeLeft({ days, hours, minutes, seconds });
     }, 1000);
