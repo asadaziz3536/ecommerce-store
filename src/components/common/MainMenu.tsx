@@ -61,7 +61,7 @@ export const MainMenu = ({ onClose, isOpen }: Props) => {
     <nav
       className={`px-4 py-2 fixed left-0 bg-black/50 md:bg-white ${
         isOpen ? "translate-x-0" : "-translate-x-full"
-      } md:left-0 transition-all duration-300 ease-in-out top-0 bottom-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100 shadow-[4px_16px_32px_-20px_#000] md:shadow-none`}
+      } md:left-0 transition-all duration-300 ease-in-out top-0 bottom-0 bg-white w-[300px] h-full md:bg-transparent md:w-auto md:h-auto md:relative overflow-auto md:overflow-visible z-100  md:shadow-none`}
     >
       {/* Logo */}
       <div className="logo md:hidden py-2 flex items-center justify-between">

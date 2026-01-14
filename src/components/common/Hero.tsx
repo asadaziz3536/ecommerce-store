@@ -16,6 +16,7 @@ const Hero = () => {
   return (
     <section className="bg-no-repeat bg-cover !p-0">
       <Swiper
+        className="h-[calc(100vh-85px)]"
         // install Swiper modules
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
@@ -27,7 +28,7 @@ const Hero = () => {
         pagination={{ clickable: true }}
       >
         <SwiperSlide>
-          <div className="hero bg-white md:bg-[url('@/assets/images/hero-1.png')] bg-no-repeat bg-cover  min-h-[100vh] flex items-center ">
+          <div className="hero bg-white md:bg-[url('@/assets/images/hero-1.png')] bg-no-repeat bg-cover h-full  flex items-center ">
             <div className="container max-w-screen-xl m-auto p-[15px] relative">
               <div className="flex flex-col gap-5">
                 <p className="text-3xl font-semibold">Featured Collection</p>
