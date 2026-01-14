@@ -1,50 +1,28 @@
+import { useAuth } from "@/context/AuthContext";
 
-interface Item {
-  id: number;
-  email: string;
-  password: string;
-  name: string;
-  role: string;
-  avatar: string;
-  creationAt: string;
-  updatedAt: string;
-}
+const ProfileDetail = () => {
+  const { user } = useAuth();
 
-interface Props {
-  profile: Item;
-}
+  const avatarSrc: string | undefined = user?.photoURL ?? undefined;
 
-const ProfileDetail = ({ profile }: Props) => {
   return (
-    <div className="flex flex-col md:flex-row gap-6 border rounded-xl ">
-      <div className="flex-1/2">
-        <div className="h-[400px] rounded-xl">
+    <div className="flex flex-col gap-6 max-w-[400px]">
+      <div className="w-[250px] h-[250px]">
+        <div className="h-[250px] rounded-xl">
           <img
-            className="object-cover w-full h-full  rounded md:rounded-tl-xl md:rounded-bl-xl"
-            src={profile.avatar}
+            className="object-cover w-full h-full  rounded"
+            src={avatarSrc}
             alt=""
           />
         </div>
       </div>
-      <div className="flex-1/2">
-        <div className="font-bold flex justify-between w-full  py-4 md:px-6">
-          id:<span className="font-normal">{profile.id}</span>
+      <div>
+        <div className="font-bold flex justify-between w-full  pb-2">
+          Name:<span className="font-normal">{user?.displayName}</span>
         </div>
         <br />
-        <div className="font-bold flex justify-between w-full  py-4 md:px-6">
-          name:<span className="font-normal">{profile.name}</span>
-        </div>
-        <br />
-        <div className="font-bold flex justify-between w-full  py-4 md:px-6">
-          email:<span className="font-normal">{profile.email}</span>
-        </div>
-        <br />
-        <div className="font-bold flex justify-between w-full  py-4 md:px-6">
-          password:<span className="font-normal">{profile.password}</span>
-        </div>
-        <br />
-        <div className="font-bold flex justify-between w-full  py-4 md:px-6">
-          role:<span className="font-normal">{profile.role}</span>
+        <div className="font-bold flex justify-between w-full  pb-2">
+          Email:<span className="font-normal">{user?.email}</span>
         </div>
         <br />
       </div>

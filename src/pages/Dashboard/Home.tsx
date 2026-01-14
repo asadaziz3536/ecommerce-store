@@ -11,12 +11,12 @@ import { useAuth } from "@/context/AuthContext";
 
 const Home = () => {
   const auth = useAuth();
-  let userName = auth.user.displayName;
+  let userName = auth.user?.displayName ?? "User";
 
-  const capitalizeName = (string) => {
-    if (!string) return;
+  const capitalizeName = (name: string) => {
+    if (!name) return;
 
-    let words = string.split(" ");
+    let words = name.split(" ");
 
     let capitalizedWords = words
       .map((word) => {

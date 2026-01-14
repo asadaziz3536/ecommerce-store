@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import CategoryCard from "./CategoryCard";
+import { useRef } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { Button } from "../ui/button";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
@@ -12,7 +12,7 @@ import "swiper/css/scrollbar";
 import TestimonialCard from "./TestimonialCard";
 
 const Testimonials = () => {
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperType | null>(null);
   return (
     <section className="bg-[#fafafb]">
       <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px]">
@@ -34,24 +34,24 @@ const Testimonials = () => {
         <Swiper
           // install Swiper modules
           modules={[Navigation, Pagination, Scrollbar, A11y]}
-        breakpoints={{
-           320: {
-          slidesPerView: 1,
-          spaceBetween: 10,
-        },
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-      }}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 40,
+            },
+          }}
           //   navigation
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
@@ -61,13 +61,13 @@ const Testimonials = () => {
           <SwiperSlide>
             <TestimonialCard />
           </SwiperSlide>
-           <SwiperSlide>
+          <SwiperSlide>
             <TestimonialCard />
           </SwiperSlide>
-           <SwiperSlide>
+          <SwiperSlide>
             <TestimonialCard />
           </SwiperSlide>
-           <SwiperSlide>
+          <SwiperSlide>
             <TestimonialCard />
           </SwiperSlide>
         </Swiper>

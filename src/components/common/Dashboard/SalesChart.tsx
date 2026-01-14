@@ -19,7 +19,7 @@ const salesData = [
   { state: "Washington", code: "WA", sales: 200, growth: 4 },
 ];
 
-export default function  USSalesMap() {
+export default function USSalesMap() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
@@ -27,9 +27,10 @@ export default function  USSalesMap() {
       {/* Left: Map */}
       <div className="flex gap-3">
         <div>
-        <h2 className="text-lg font-semibold text-gray-900">Sales</h2>
-        <p className="text-sm text-gray-500 mb-3">Sales Performance by State</p>
-
+          <h2 className="text-lg font-semibold text-gray-900">Sales</h2>
+          <p className="text-sm text-gray-500 mb-3">
+            Sales Performance by State
+          </p>
         </div>
         <Select>
           <SelectTrigger className="">
@@ -37,7 +38,6 @@ export default function  USSalesMap() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="USA">USA</SelectItem>
-          
           </SelectContent>
         </Select>
       </div>
@@ -50,8 +50,8 @@ export default function  USSalesMap() {
           height={250}
         >
           <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
+            {({ geographies }: { geographies: any[] }) =>
+              geographies.map((geo: any) => {
                 const stateCode = geo.properties.iso_3166_2?.replace("US-", "");
                 const current = salesData.find((d) => d.code === stateCode);
                 const color = current

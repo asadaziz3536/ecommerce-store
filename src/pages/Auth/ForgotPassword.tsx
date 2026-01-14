@@ -8,6 +8,7 @@ import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
 import { toast } from "react-toastify";
+import { FirebaseError } from "firebase/app";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
     email: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     if (name === "email") {
@@ -35,7 +36,7 @@ const ForgotPassword = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!email) {
@@ -49,7 +50,8 @@ const ForgotPassword = () => {
       const response = await sendPasswordResetEmail(auth, email);
 
       toast.success("Password reset link sent");
-    } catch (error) {
+    } catch (err) {
+      const error = err as FirebaseError;
       toast.error(error.code.split("/")[1]?.toUpperCase());
     }
   };
@@ -69,7 +71,7 @@ const ForgotPassword = () => {
           <FaChevronLeft /> Back
         </Button>
         <Form
-          onBtnClick={handleSubmit}
+          onSubmit={handleSubmit}
           title="Forgot Password"
           description="Enter your registered email address. we’ll send you a password reset link"
           btnText="Submit"

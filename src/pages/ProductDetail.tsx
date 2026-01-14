@@ -8,6 +8,7 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,15 +20,34 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { addToCart, removeFromCart } from "@/store/cart";
+import { addToCart } from "@/store/cart";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import api from "@/api";
 
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  description: string;
+  category: {
+    id: number;
+    name: string;
+    slug: string;
+    image: string;
+    creationAt: string;
+    updatedAt: string;
+  };
+  images: [string, string, string];
+  creationAt: string;
+  updatedAt: string;
+}
+
 const ProductDetail = () => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -60,19 +80,24 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    api
-      .get("products")
-      .then((res) => {
-        setProducts(res.data); // for related products
-        const found = res.data.find((p) => p.id === Number(id)) || null;
-        setProduct(found); // main product
-        setCategory(found.category.name);
-      })
-      .catch((err) => {
-        console.error(err);
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get<Product[]>("products");
+        setProducts(response.data);
+
+        const found = response.data.find((p) => p.id === Number(id)) || null;
+        if (found) {
+          setProduct(found); // main product
+          setCategory(found.category.name);
+        }
+      } catch (error) {
         setProduct(null);
-      })
-      .finally(() => setLoading(false));
+        setCategory("");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
   }, [id]);
 
   if ((!loading && products.length === 0) || (!loading && product === null)) {
@@ -119,10 +144,12 @@ const ProductDetail = () => {
       <div className="grid grid-cols-12 md:grid-cols-2 gap-4 pt-10">
         <div className="col-span-12 md:col-span-1">
           <Swiper
-            style={{
-              "--swiper-navigation-color": "#fff",
-              "--swiper-pagination-color": "#fff",
-            }}
+            style={
+              {
+                "--swiper-navigation-color": "#fff",
+                "--swiper-pagination-color": "#fff",
+              } as React.CSSProperties
+            }
             loop={true}
             spaceBetween={10}
             navigation={true}

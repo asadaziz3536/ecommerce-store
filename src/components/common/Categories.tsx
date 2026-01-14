@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import CategoryCard from "./CategoryCard";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { Button } from "../ui/button";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const Categories = ({ categories }: Props) => {
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   return (
     <div className="container max-w-screen-xl m-auto py-[40px] md:py-[100px] px-[15px]">

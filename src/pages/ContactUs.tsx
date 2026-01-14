@@ -7,19 +7,17 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 
 const ContactUs = () => {
-  const form = useRef();
-  const sendEmail = (e) => {
+  const form = useRef<HTMLFormElement | null>(null);
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!form.current) return;
     emailjs
       .sendForm("service_w72e7py", "template_h3hxsyc", form.current, {
         publicKey: "LTcHItL_HRwfBI4l0",
       })
       .then(() => {
         toast.success("Form submitted successfully!");
-        e.target[1].value = "";
-        e.target[2].value = "";
-        e.target[3].value = "";
-        e.target[4].value = "";
+        form.current?.reset();
       })
       .catch((error) => toast.error(error.text));
   };

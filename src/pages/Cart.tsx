@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import emptyboxUrl from "@/assets/icons/Empty-box.lottie?url";
 import { useNavigate } from "react-router-dom";
-import { FormEvent, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -25,8 +25,8 @@ const Cart = () => {
 
   const cart = useSelector((state: RootState) => state.cart.cart);
 
-  const handleDelete = (Item: object) => {
-    dispatch(deleteFromCart(Item));
+  const handleDelete = (id: number) => {
+    dispatch(deleteFromCart(id));
     toast.success("Product deleted successfully");
   };
 
@@ -38,7 +38,7 @@ const Cart = () => {
       .reduce((prev, curr) => prev + curr, 0);
   };
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const response = await fetch(
@@ -172,7 +172,7 @@ const Cart = () => {
                       {/* Action */}
                       <div className="w-full col-span-9 md:col-span-2 mt-2 md:mt-0">
                         <MdDelete
-                          onClick={() => handleDelete(CartItem)}
+                          onClick={() => handleDelete(CartItem.id)}
                           className="text-red-400 cursor-pointer"
                           size={30}
                         />
@@ -211,7 +211,7 @@ const Cart = () => {
                   </li>
                 </ul>
 
-                <form onSubmit={() => handleSubmit(event)}>
+                <form onSubmit={handleSubmit}>
                   <Button className="w-full mt-8">Checkout</Button>
                 </form>
               </div>

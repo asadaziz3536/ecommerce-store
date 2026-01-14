@@ -126,42 +126,42 @@ export default function CustomActiveShapePieChart({
     <div className="bg-whtie rounded-2xl p-4 shadow border h-full">
       <h2 className="font-medium text-2xl pb-4">Channels</h2>
 
-
-<div className="relative w-full h-full">
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie
-            // @ts-expect-error the parameter type doesn't match
-            activeShape={renderActiveShape}
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius="60%"
-            outerRadius="80%"
-            // fill="#8884d8"
-            dataKey="value"
-            isAnimationActive={isAnimationActive}
-          >
-            {data.map((_, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
- <Label position="center" fill="#666" className="font-bold text-2xl text-black">
-          820,100
-        </Label>
-       
-            
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-<div className="flex items-center absolute top-[calc(50%+30px)] left-[calc(50%-6px)] translate-y-[-50%] translate-x[-50%] text-green-500 font-medium">
-<span>8%</span><GoArrowUpRight/>
-
-</div>
-</div>
+      <div className="relative w-full h-full">
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              activeShape={renderActiveShape}
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius="60%"
+              outerRadius="80%"
+              // fill="#8884d8"
+              dataKey="value"
+              isAnimationActive={isAnimationActive}
+            >
+              {data.map((_, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+              <Label
+                position="center"
+                fill="#666"
+                className="font-bold text-2xl text-black"
+              >
+                820,100
+              </Label>
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="flex items-center absolute top-[calc(50%+30px)] left-[calc(50%-6px)] translate-y-[-50%] translate-x[-50%] text-green-500 font-medium">
+          <span>8%</span>
+          <GoArrowUpRight />
+        </div>
+      </div>
     </div>
   );
 }

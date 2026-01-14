@@ -15,9 +15,14 @@ import logo from "@/assets/images/site-logo.svg";
 
 import { useSidebar } from "@/components/ui/sidebar";
 import { useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { toggleSidebar } = useSidebar();
+  const { user } = useAuth();
+
+  const navigate = useNavigate();
   const handleClick = () => {
     signOut(auth)
       .then(() => {
@@ -28,8 +33,11 @@ const Header = () => {
   const checkMobile = () => {
     if (window.innerWidth < 767) {
       toggleSidebar();
+    } else {
+      navigate("/");
     }
   };
+  const avatarSrc: string | undefined = user?.photoURL ?? undefined;
   useEffect(() => {
     window.addEventListener("resize", checkMobile);
 
@@ -38,20 +46,22 @@ const Header = () => {
 
   return (
     <header className="flex justify-between w-full bg-white fixed top-0  py-3 px-4 border-b z-50">
-      <div className="logo" onClick={checkMobile}>
+      <div className="logo cursor-pointer" onClick={checkMobile}>
         <img src={logo} alt="" />
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={avatarSrc ?? "https://github.com/shadcn.png"} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="profile">Profile</Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleClick}>Logout</DropdownMenuItem>
         </DropdownMenuContent>

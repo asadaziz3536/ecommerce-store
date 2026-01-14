@@ -1,23 +1,18 @@
 import express from "express";
 import cors from "cors";
 import Stripe from "stripe";
-import dotenv from "dotenv"
-
-
+import dotenv from "dotenv";
 
 dotenv.config();
 const app = express();
 
-const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
-
+const stripe = Stripe(process.env.VITE_STRIPE_PRIVATE_KEY);
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
-   
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: req.body.items.map((item) => ({
@@ -42,14 +37,8 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-const PORT=5000;
+const PORT = 5000;
 
-app.listen(PORT, ()=>{
-
-    console.log(`Server running at http://localhost:${PORT}`)
-
-})
-
-
-
-
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

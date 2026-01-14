@@ -1,8 +1,7 @@
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -32,7 +31,7 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
     if (name === "email") {
       setFormData((prev) => ({ ...prev, email: value }));
@@ -66,7 +65,7 @@ const Login = () => {
         setErrors((prev) => ({ ...prev, password: "" }));
       }
     }
-    if (name === "remember") {
+    if (name === "rememberMe") {
       setFormData((prev) => ({ ...prev, rememberMe: checked }));
       if (checked) {
         setErrors((prev) => ({ ...prev, rememberMe: "" }));
@@ -74,11 +73,9 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     let isValid = true;
-
     if (!formData.email) {
       setErrors((prev) => ({ ...prev, email: "Email is required" }));
       isValid = false;
@@ -101,15 +98,15 @@ const Login = () => {
         formData.email,
         formData.password
       );
-      let token = response.user.accessToken;
+      let token = await response.user.getIdToken();
       if (token) {
-        navigate("/dashboard");
         toast.success("LogIn Successfully!");
       }
     } catch (error) {
-      if (error.message) {
-        toast.error("Invalid Credentials");
-      }
+      if (error instanceof Error)
+        if (error.message) {
+          toast.error(error.message);
+        }
     }
   };
 
@@ -118,13 +115,13 @@ const Login = () => {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      const token = credential?.accessToken;
 
       const user = result.user;
       if (user) {
         toast.success("Logged In Successfully!");
       }
-    } catch {
+    } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData.email;
@@ -143,7 +140,7 @@ const Login = () => {
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
         <Form
-          onBtnClick={handleSubmit}
+          onSubmit={handleSubmit}
           title="Welcome 👋 "
           description="Please login here"
           btnText="Login"
@@ -192,14 +189,11 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col justify-between">
-            <div
-              className="flex justify-between gap-2 items-center"
-              onChange={handleChange}
-            >
+            <div className="flex justify-between gap-2 items-center">
               <div className="flex gap-2">
                 <input
                   type="checkbox"
-                  name="remember"
+                  name="rememberMe"
                   id=""
                   onChange={handleChange}
                 />

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Category {
+export  interface Category {
   id: number;
   name: string;
   slug: string;
@@ -9,7 +9,8 @@ interface Category {
   updatedAt: string;
 }
 
-interface CartItem {
+
+export interface CartItem {
   id: number;
   title: string;
   slug: string;
@@ -26,6 +27,7 @@ interface CartState {
   cart: CartItem[];
 }
 
+export type Product=Omit<CartItem, "quantity">;
 const initialState: CartState = {
   cart: [],
 };
@@ -67,13 +69,13 @@ const cartSlice = createSlice({
         }
       }
     },
-    deleteFromCart: (state, action: PayloadAction<CartItem>) => {
+    deleteFromCart: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.filter(
-        (CartItem, index) => CartItem.id !== action.payload.id
+        (item, index) => item.id !== action.payload
       );
     },
 
-    clearCart: (state, action: PayloadAction<CartItem>) => {
+    clearCart: (state) => {
       state.cart = [];
     },
   },

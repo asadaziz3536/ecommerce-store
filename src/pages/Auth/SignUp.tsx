@@ -19,7 +19,7 @@ const SignUp = () => {
     conditions: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
 
     if (name === "email") {
@@ -52,7 +52,7 @@ const SignUp = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let valid = true;
@@ -87,7 +87,7 @@ const SignUp = () => {
         setTermCondition(false);
       }
     } catch (error) {
-      toast.error(error.message);
+      if (error instanceof Error) toast.error(error.message);
     }
   };
 
@@ -102,7 +102,7 @@ const SignUp = () => {
       ></div>
       <div className="p-6 md:p-20 flex flex-col justify-center col-span-5">
         <Form
-          onBtnClick={handleSubmit}
+          onSubmit={handleSubmit}
           title="Create New Account"
           description="Please enter details"
           btnText="Signup"
@@ -152,7 +152,7 @@ const SignUp = () => {
               <Checkbox
                 checked={termCondition}
                 onCheckedChange={(checked) => {
-                  setTermCondition(checked);
+                  setTermCondition(checked === true);
 
                   if (checked) {
                     setErrors((prev) => ({ ...prev, conditions: "" }));

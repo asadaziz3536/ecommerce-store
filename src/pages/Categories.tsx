@@ -1,21 +1,30 @@
 import CategoryCard from "@/components/common/CategoryCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "@/api";
+import { toast } from "react-toastify";
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+}
 
 const Categories = () => {
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   useEffect(() => {
     const getCategories = async () => {
       setLoading(true);
       try {
-        const response = await api.get("categories");
-
+        const response = await api.get<Category[]>("categories");
         const data = await response.data;
         setCategories(data);
-      } catch {
+      } catch (error: any) {
+        toast.error(error.message);
       } finally {
         setLoading(false);
       }

@@ -32,13 +32,40 @@ import ProductCard from "@/components/common/products/ProductCard";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import api from "@/api";
 
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  description: string;
+  category: {
+    id: number;
+    name: string;
+    slug: string;
+    image: string;
+    creationAt: string;
+    updatedAt: string;
+  };
+  images: [string, string, string];
+  creationAt: string;
+  updatedAt: string;
+}
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+}
+
 const Products = () => {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [openItems, setOpenItems] = useState({});
+  const [products, setProducts] = useState<Product[]>([]);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
   const [price, setPrice] = useState<[number, number]>([0, 2000]);
   const [display, setDisplay] = useState("grid");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
@@ -53,24 +80,14 @@ const Products = () => {
   const handleNavigation = (nav: any) => navigate(nav);
   const handlePrice = (value: number[]) => setPrice(value as [number, number]);
 
-  const toggle = (key) => {
+  const toggle = (key: string) => {
     setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
-  // Fetch categories
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get("categories")
-      .then((res) => setCategories(res.data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
 
   // Fetch products with API filtering
   useEffect(() => {
     const fetchProducts = async () => {
-      if (categories.length === 0) return;
+      // if (categories.length === 0) return;
 
       setLoading(true);
       try {
@@ -78,7 +95,7 @@ const Products = () => {
 
         // If no categories selected, fetch all  products within price range
         if (selectedCategories.length === 0) {
-          const res = await api.get("products", {
+          const res = await api.get<Product[]>("products", {
             params: {
               price_min: price[0],
               price_max: price[1],
@@ -125,6 +142,22 @@ const Products = () => {
     fetchProducts();
   }, [selectedCategories, price, currentPage, categories]);
 
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get<Category[]>("categories");
+        setCategories(response.data);
+      } catch (error: any) {
+        console.log(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   // Sync category from URL
   useEffect(() => {
     if (selectedCategoryFromURL) {
@@ -143,214 +176,225 @@ const Products = () => {
   }, [totalPages]);
 
   return (
-    <div className="container max-w-screen-xl m-auto py-16 px-5 xl:px-0">
-      <div>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink onClick={() => handleNavigation("/")}>
-                Home
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink onClick={() => handleNavigation("/products")}>
-                All Products
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+    <section>
+      <div className="container max-w-screen-xl m-auto xl:px-0">
+        <div>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink onClick={() => handleNavigation("/")}>
+                  Home
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink onClick={() => handleNavigation("/products")}>
+                  All Products
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
 
-      <div className="grid grid-cols-12 gap-4 pt-10">
-        {/* Sidebar Filters */}
-        <div className="col-span-12 md:col-span-3">
-          <Collapsible
-            open={openItems["first"]}
-            onOpenChange={() => toggle("first")}
-          >
-            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
-              Product Categories
-              {openItems["first"] ? <FaChevronUp /> : <FaChevronDown />}
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-4">
-              {loading
-                ? Array.from({ length: 7 }).map((_, i) => (
-                    <Skeleton
-                      key={i}
-                      className="flex items-center gap-1.5 w-full h-6 mb-1"
-                    />
-                  ))
-                : categories.map((category: any) => (
-                    <div
-                      key={category.id}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-1.5">
-                        <Checkbox
-                          checked={selectedCategories.includes(category.slug)}
-                          onCheckedChange={() =>
-                            setSelectedCategories((prev) =>
-                              prev.includes(category.slug)
-                                ? prev.filter((cat) => cat !== category.slug)
-                                : [...prev, category.slug]
-                            )
-                          }
-                        />
-                        <div className="ml-1">{category.name}</div>
+        <div className="grid grid-cols-12 gap-4 pt-10">
+          {/* Sidebar Filters */}
+          <div className="col-span-12 md:col-span-3">
+            <Collapsible
+              open={openItems["first"]}
+              onOpenChange={() => toggle("first")}
+            >
+              <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
+                Product Categories
+                {openItems["first"] ? <FaChevronUp /> : <FaChevronDown />}
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-4">
+                {loading
+                  ? Array.from({ length: 7 }).map((_, i) => (
+                      <Skeleton
+                        key={i}
+                        className="flex items-center gap-1.5 w-full h-6 mb-1"
+                      />
+                    ))
+                  : categories.map((category: any) => (
+                      <div
+                        key={category.id}
+                        className="flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <Checkbox
+                            checked={selectedCategories.includes(category.slug)}
+                            onCheckedChange={() =>
+                              setSelectedCategories((prev) =>
+                                prev.includes(category.slug)
+                                  ? prev.filter((cat) => cat !== category.slug)
+                                  : [...prev, category.slug]
+                              )
+                            }
+                          />
+                          <div className="ml-1">{category.name}</div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-            </CollapsibleContent>
-          </Collapsible>
+                    ))}
+              </CollapsibleContent>
+            </Collapsible>
 
-          {/* Price Filter */}
-          <Collapsible
-            open={openItems["second"]}
-            onOpenChange={() => toggle("second")}
-            className="pt-8"
-          >
-            <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
-              Filter by Price
-              {openItems["second"] ? <FaChevronUp /> : <FaChevronDown />}
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-4">
-              <span>
-                Price: ${price[0]} - ${price[1]}
-              </span>
-              <Slider
-                max={2000}
-                step={1}
-                value={price}
-                onValueChange={handlePrice}
-                className="pt-5 w-full"
-              />
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-
-        {/* Products List */}
-        <div className="col-span-12 md:col-span-9">
-          {totalProducts > 0 && !loading && (
-            <div className="flex flex-col gap-3 md:flex-row md:items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Button variant={"outline"} onClick={() => setDisplay("grid")}>
-                  <IoGridOutline />
-                </Button>
-                <Button variant={"outline"} onClick={() => setDisplay("list")}>
-                  <FaListUl />
-                </Button>
-                <span className="font-medium">
-                  Showing{" "}
-                  {totalProducts === 0
-                    ? 0
-                    : (currentPage - 1) * itemsPerPage + 1}
-                  -{Math.min(currentPage * itemsPerPage, totalProducts)} of{" "}
-                  {totalProducts}
+            {/* Price Filter */}
+            <Collapsible
+              open={openItems["second"]}
+              onOpenChange={() => toggle("second")}
+              className="pt-8"
+            >
+              <CollapsibleTrigger className="flex  items-center justify-between font-bold text-lg w-full">
+                Filter by Price
+                {openItems["second"] ? <FaChevronUp /> : <FaChevronDown />}
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-4">
+                <span>
+                  Price: ${price[0]} - ${price[1]}
                 </span>
+                <Slider
+                  max={2000}
+                  step={1}
+                  value={price}
+                  onValueChange={handlePrice}
+                  className="pt-5 w-full"
+                />
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+
+          {/* Products List */}
+          <div className="col-span-12 md:col-span-9">
+            {totalProducts > 0 && !loading && (
+              <div className="flex flex-col gap-3 md:flex-row md:items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <Button
+                    variant={"outline"}
+                    onClick={() => setDisplay("grid")}
+                  >
+                    <IoGridOutline />
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    onClick={() => setDisplay("list")}
+                  >
+                    <FaListUl />
+                  </Button>
+                  <span className="font-medium">
+                    Showing{" "}
+                    {totalProducts === 0
+                      ? 0
+                      : (currentPage - 1) * itemsPerPage + 1}
+                    -{Math.min(currentPage * itemsPerPage, totalProducts)} of{" "}
+                    {totalProducts}
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {totalProducts === 0 && !loading && hasFetched && (
-            <div className="flex justify-center items-center">
-              <p className="font-bold">No product found</p>
-            </div>
-          )}
+            {totalProducts === 0 && !loading && hasFetched && (
+              <div className="flex justify-center items-center">
+                <p className="font-bold">No product found</p>
+              </div>
+            )}
 
-          {display === "grid" && (
-            <div className="grid grid-cols-12 gap-8 pt-12">
-              {loading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="col-span-12 md:col-span-4">
-                      <ProductCard loading={loading} />
-                    </div>
-                  ))
-                : products.map((product: any) => (
-                    <div key={product.id} className="col-span-12 md:col-span-4">
-                      <ProductCard product={product} productId={product.id} />
-                    </div>
-                  ))}
-            </div>
-          )}
+            {display === "grid" && (
+              <div className="grid grid-cols-12 gap-8 pt-12">
+                {loading
+                  ? Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="col-span-12 md:col-span-4">
+                        <ProductCard loading={loading} />
+                      </div>
+                    ))
+                  : products.map((product: any) => (
+                      <div
+                        key={product.id}
+                        className="col-span-12 md:col-span-4"
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+              </div>
+            )}
 
-          {display === "list" && (
-            <div className="grid md:grid-cols-1 gap-8 pt-12">
-              {loading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="col-span-4">
-                      <ProductCard loading />
-                    </div>
-                  ))
-                : products.map((product: any) => (
-                    <div key={product.id} className="col-span-4">
-                      <ProductCard product={product} />
-                    </div>
-                  ))}
-            </div>
-          )}
+            {display === "list" && (
+              <div className="grid md:grid-cols-1 gap-8 pt-12">
+                {loading
+                  ? Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="col-span-4">
+                        <ProductCard loading />
+                      </div>
+                    ))
+                  : products.map((product: any) => (
+                      <div key={product.id} className="col-span-4">
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+              </div>
+            )}
 
-          {totalProducts > 0 && !loading && (
-            <Pagination className="justify-end pt-10">
-              <PaginationContent>
-                <PaginationItem className="cursor-pointer">
-                  <PaginationPrevious
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+            {totalProducts > 0 && !loading && (
+              <Pagination className="justify-end pt-10">
+                <PaginationContent>
+                  <PaginationItem className="cursor-pointer">
+                    <PaginationPrevious
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }).map((_, i) => {
+                    const page = i + 1;
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => setCurrentPage(page)}
+                            className={
+                              currentPage === page ? "bg-black text-white" : ""
+                            }
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
                     }
-                  />
-                </PaginationItem>
 
-                {Array.from({ length: totalPages }).map((_, i) => {
-                  const page = i + 1;
-                  if (
-                    page === 1 ||
-                    page === totalPages ||
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  ) {
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          onClick={() => setCurrentPage(page)}
-                          className={
-                            currentPage === page ? "bg-black text-white" : ""
-                          }
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  }
-
-                  // Ellipsis logic
-                  if (
-                    (page === currentPage - 2 && page > 1) ||
-                    (page === currentPage + 2 && page < totalPages)
-                  ) {
-                    return (
-                      <PaginationItem key={`ellipsis-${page}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
-
-                  // Hide other pages
-                  return null;
-                })}
-
-                <PaginationItem className="cursor-pointer">
-                  <PaginationNext
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    // Ellipsis logic
+                    if (
+                      (page === currentPage - 2 && page > 1) ||
+                      (page === currentPage + 2 && page < totalPages)
+                    ) {
+                      return (
+                        <PaginationItem key={`ellipsis-${page}`}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      );
                     }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          )}
+
+                    // Hide other pages
+                    return null;
+                  })}
+
+                  <PaginationItem className="cursor-pointer">
+                    <PaginationNext
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

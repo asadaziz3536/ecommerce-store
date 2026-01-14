@@ -17,7 +17,6 @@ import CancelOrder from "../pages/CancelOrder";
 import DashboardHome from "../pages/Dashboard/Home";
 import { PrivateRoutes } from "../components/common/PrivateRoutes";
 import Profile from "../pages/Dashboard/Profile";
-import Users from "../pages/Dashboard/Users";
 import UserDetail from "../pages/Dashboard/UserDetail";
 import AddUser from "../components/common/AddUser";
 import PublicRoutes from "../components/common/PublicRoutes";
@@ -39,7 +38,6 @@ const AppRoutes = () => {
           <Route index element={<DashboardHome />} />
           <Route path="profile" element={<Profile />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="users" element={<Users />} />
           <Route path="users/:id" element={<UserDetail />} />
           <Route path="users/add" element={<AddUser />} />
         </Route>

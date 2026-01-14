@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import { TiStarOutline } from "react-icons/ti";
 import { TbArrowsLeftRight } from "react-icons/tb";
@@ -9,31 +8,32 @@ import { addToCart } from "@/store/cart";
 import { useDispatch } from "react-redux";
 import { Skeleton } from "../../ui/skeleton";
 import { toast } from "react-toastify";
+import { apiProductToCartItem } from "@/store/cart/cart.utils";
 
 interface Category {
   id: number;
   name: string;
-  slug: string;
+  slug?: string;
   image: string;
-  creationAt: string;
-  updatedAt: string;
+  creationAt?: string;
+  updatedAt?: string;
 }
 
 interface Product {
   id: number;
   title: string;
-  slug: string;
+  slug?: string;
   price: number;
   description: string;
   category: Category;
   images: string[];
-  creationAt: string;
-  updatedAt: string;
+  creationAt?: string;
+  updatedAt?: string;
   quantity?: number;
 }
 
 interface Props {
-  product: Product;
+  product?: Product;
   loading?: boolean;
 }
 
@@ -41,12 +41,12 @@ const ProductCard = ({ product, loading }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleClick = (id) => {
+  const handleClick = (id: number) => {
     navigate(`/ProductDetail/${id}`);
   };
 
-  const handleAddToCart = (product: Product) => {
-    dispatch(addToCart(product));
+  const handleAddToCart = (product: any) => {
+    dispatch(addToCart(apiProductToCartItem(product)));
     toast.success("Product added to cart successfully!");
   };
 
@@ -73,7 +73,7 @@ const ProductCard = ({ product, loading }: Props) => {
             </li>
             <li
               className="bg-white  p-3 rounded-full hover:bg-gray-700 hover:text-white"
-              onClick={() => handleClick(product.id)}
+              onClick={() => product && handleClick(product.id)}
             >
               <FiEye />
             </li>
@@ -81,7 +81,7 @@ const ProductCard = ({ product, loading }: Props) => {
         </div>
 
         <Button
-          onClick={() => handleAddToCart(product)}
+          onClick={() => product && handleAddToCart(product)}
           className="bg-white text-black border-0 absolute bottom-6 z-50 w-auto left-3.5 right-3.5 opacity-0 group-hover:opacity-100 translate-y-5 group-hover:translate-y-0 transition-all duration-300 ease-in-out cursor-pointer hover:bg-gray-700 hover:text-white"
           size={"default"}
         >

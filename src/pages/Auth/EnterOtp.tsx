@@ -38,7 +38,7 @@ const EnterOtp = () => {
           description="We have share a code of your registered email address
 robertfox@example.com"
           btnText="Verify"
-          onBtnClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault(); // prevent form submission reload
             setDialogOpen(true);
           }}
@@ -53,7 +53,9 @@ robertfox@example.com"
                   Your password has been updated successfully
                 </DialogDescription>
               </DialogHeader>
-              <Button className="py-6" onClick={() => navigate("/login")}>Back to Login</Button>
+              <Button className="py-6" onClick={() => navigate("/login")}>
+                Back to Login
+              </Button>
             </DialogContent>
           </Dialog>
         </Form>

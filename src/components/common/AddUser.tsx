@@ -12,7 +12,7 @@ const AddUser = () => {
     avatar: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     setFormData((prev) => {
       const updated = { ...prev, [name]: value };
@@ -30,7 +30,7 @@ const AddUser = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api
       .post("users", formData, {
