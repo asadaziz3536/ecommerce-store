@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import InfoCard from "@/components/common/Dashboard/InfoCard";
 import { BiDollar } from "react-icons/bi";
 import { FiShoppingCart } from "react-icons/fi";
@@ -6,8 +7,11 @@ import { IoReturnUpBackSharp } from "react-icons/io5";
 import RevenueOrderChart from "@/components/common/Dashboard/RevenueOrderChart";
 import ChannelChart from "@/components/common/Dashboard/ChannelChart";
 import TopProducts from "@/components/common/Dashboard/TopProducts";
-import SalesChart from "@/components/common/Dashboard/SalesChart";
+const SalesChart = lazy(
+  () => import("@/components/common/Dashboard/SalesChart")
+);
 import { useAuth } from "@/context/AuthContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Home = () => {
   const auth = useAuth();
@@ -86,7 +90,17 @@ const Home = () => {
           <TopProducts />
         </div>
         <div className="col-span-12 md:col-span-3">
-          <SalesChart />
+          <Suspense
+            fallback={
+              <div className="space-y-3">
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <Skeleton key={i} className="h-10 w-full" />
+                ))}
+              </div>
+            }
+          >
+            <SalesChart />
+          </Suspense>
         </div>
       </div>
     </div>

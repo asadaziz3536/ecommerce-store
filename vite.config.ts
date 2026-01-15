@@ -12,6 +12,22 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+   build: {
+    chunkSizeWarningLimit:600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom"],
+          router: ["react-router-dom"],
+          charts: [
+            "recharts",
+          ],
+          icons: ["lucide-react", "react-icons"],
+          maps: ["react-simple-maps", "d3-geo"],
+        },
+      },
+    },
+  },
   server:{
     host:true,
     port:3000
