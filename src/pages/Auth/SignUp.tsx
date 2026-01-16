@@ -1,4 +1,4 @@
-import bgImage from "@/assets/images/hero.jpg";
+import bgImage from "@/assets/images/cart-image.jpg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -95,12 +95,12 @@ const SignUp = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="grid md:grid-cols-12 h-screen ">
+    <div className="grid md:grid-cols-12 min-h-screen grid-rows-12 md:grid-rows-1">
       <div
-        className="bg-cover bg-center col-span-7"
+        className="bg-cover bg-center col-span-7 row-span-5 md:h-auto"
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
-      <div className="p-6 md:p-20 flex flex-col justify-center col-span-5">
+      <div className="p-6 md:p-20 flex flex-col justify-center col-span-5 row-span-7">
         <Form
           onSubmit={handleSubmit}
           title="Create New Account"

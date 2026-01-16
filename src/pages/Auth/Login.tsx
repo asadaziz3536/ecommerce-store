@@ -133,12 +133,12 @@ const Login = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-12 h-screen ">
+    <div className="grid md:grid-cols-12 min-h-screen grid-rows-12 md:grid-rows-1">
       <div
-        className="bg-cover bg-center col-span-12 md:col-span-7"
+        className="bg-cover bg-center col-span-12 md:col-span-7 row-span-5"
         style={{ backgroundImage: `url(${LoginBg})` }}
       ></div>
-      <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
+      <div className="p-6 md:p-20 flex flex-col justify-center row-span-7 col-span-12 md:col-span-5">
         <Form
           onSubmit={handleSubmit}
           title="Welcome 👋 "

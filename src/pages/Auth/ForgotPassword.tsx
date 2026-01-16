@@ -1,4 +1,4 @@
-import bgImage from "@/assets/images/login.svg";
+import bgImage from "@/assets/images/girl-typing-password.svg";
 import Form from "@/components/common/Form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -56,13 +56,13 @@ const ForgotPassword = () => {
     }
   };
   return (
-    <div className="grid grid-cols-12 h-screen ">
+    <div className="grid grid-cols-12 min-h-screen grid-rows-12 md:grid-rows-1">
       <div
-        className="bg-cover bg-center col-span-12 md:col-span-7"
+        className="bg-cover bg-center col-span-12 md:col-span-7  md:h-auto row-span-5"
         style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
 
-      <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5">
+      <div className="p-6 md:p-20 flex flex-col justify-center col-span-12 md:col-span-5 row-span-7">
         <Button
           onClick={() => navigate("/login")}
           className="inline-flex justify-start max-w-max cursor-pointer !pl-0"

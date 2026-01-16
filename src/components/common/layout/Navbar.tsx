@@ -6,12 +6,15 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/store";
+import { RootState } from "@/store";
+
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(() => window.innerWidth >= 768);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isToken, setIsToken] = useState(localStorage.getItem("token"));
+  const { user } = useAuth();
 
   const headerRef = useRef(null);
   const navigate = useNavigate();
@@ -29,7 +32,6 @@ const Navbar = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -43,7 +45,6 @@ const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   });
 
@@ -52,6 +53,7 @@ const Navbar = () => {
     (prev, curr) => prev + (curr.quantity || 0),
     0
   );
+
   return (
     <div
       ref={headerRef}
@@ -93,13 +95,14 @@ const Navbar = () => {
           </span>
           <FiShoppingCart />
         </div>
+
         <Button
           onClick={
             isToken ? () => navigate("/dashboard") : () => navigate("/login")
           }
           className="bg-black text-white cursor-pointer px-7"
         >
-          Login
+          {user ? "Dashboard" : "Login"}
         </Button>
       </div>
     </div>
