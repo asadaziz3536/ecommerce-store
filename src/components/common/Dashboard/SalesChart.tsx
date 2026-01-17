@@ -1,13 +1,6 @@
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { useState } from "react";
-import { GoArrowUpRight } from "react-icons/go";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { feature } from "topojson-client";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
@@ -19,65 +12,82 @@ const salesData = [
   { state: "Washington", code: "WA", sales: 200, growth: 4 },
 ];
 
+function getColor(sales: number) {
+  return sales > 350
+    ? "#1D4ED8"
+    : sales > 300
+      ? "#3B82F6"
+      : sales > 250
+        ? "#60A5FA"
+        : "#A5B4FC";
+}
+
 export default function USSalesMap() {
+  const [geoData, setGeoData] = useState<any>(null);
   const [hovered, setHovered] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetch(geoUrl)
+      .then((res) => res.json())
+      .then((topo) => {
+        const geojson = feature(topo, topo.objects.states);
+        setGeoData(geojson);
+      });
+  }, []);
+
+  const onEachState = (feature: any, layer: any) => {
+    const stateCode = feature.properties.iso_3166_2?.replace("US-", "");
+    const current = salesData.find((d) => d.code === stateCode);
+
+    layer.setStyle({
+      fillColor: current ? getColor(current.sales) : "#E5E7EB",
+      color: "#fff",
+      weight: 1,
+      fillOpacity: 0.8,
+    });
+
+    layer.on({
+      mouseover: () => {
+        setHovered(current?.state || null);
+        layer.setStyle({
+          fillOpacity: 1,
+          weight: 2,
+        });
+        layer
+          .bindPopup(
+            `${current?.state || "Unknown"} <br/> Sales: $${current?.sales || 0}`,
+          )
+          .openPopup();
+      },
+      mouseout: () => {
+        setHovered(null);
+        layer.closePopup();
+        layer.setStyle({
+          fillOpacity: 0.8,
+          weight: 1,
+        });
+      },
+      click: () => {
+        alert(
+          `${current?.state || "Unknown"} \nSales: $${current?.sales || 0}`,
+        );
+      },
+    });
+  };
+
   return (
-    <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col  gap-6 w-full max-w-3xl">
-      {/* Left: Map */}
-      <div className="flex gap-3">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">Sales</h2>
-          <p className="text-sm text-gray-500 mb-3">
-            Sales Performance by State
-          </p>
-        </div>
-        <Select>
-          <SelectTrigger className="">
-            <SelectValue placeholder="Country" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="USA">USA</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
+    <div className="bg-white rounded-2xl shadow-md p-5 flex flex-col gap-6 w-full max-w-3xl">
       <div className="w-full flex flex-1">
-        <ComposableMap
-          projection="geoAlbersUsa"
-          projectionConfig={{ scale: 800 }}
-          width={400}
-          height={250}
+        <MapContainer
+          center={[37.8, -96]}
+          zoom={4}
+          style={{ width: "100%", height: "280px" }}
+          scrollWheelZoom={false}
         >
-          <Geographies geography={geoUrl}>
-            {({ geographies }: { geographies: any[] }) =>
-              geographies.map((geo: any) => {
-                const stateCode = geo.properties.iso_3166_2?.replace("US-", "");
-                const current = salesData.find((d) => d.code === stateCode);
-                const color = current
-                  ? "#4F46E5" // purple for active states
-                  : "#E0E7FF"; // light gray for others
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={color}
-                    stroke="#fff"
-                    strokeWidth={0.5}
-                    onMouseEnter={() => setHovered(current?.state || null)}
-                    onMouseLeave={() => setHovered(null)}
-                    style={{
-                      default: { outline: "none" },
-                      hover: { fill: "#4338CA", outline: "none" },
-                      pressed: { outline: "none" },
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ComposableMap>
+          {geoData && <GeoJSON data={geoData} onEachFeature={onEachState} />}
+        </MapContainer>
       </div>
 
       {hovered && (
@@ -85,25 +95,6 @@ export default function USSalesMap() {
           Hovering: <span className="font-medium">{hovered}</span>
         </div>
       )}
-      {/* Right: List */}
-      <div className="flex flex-col justify-center gap-3 flex-1">
-        {salesData.slice(0, 3).map((item) => (
-          <div
-            key={item.code}
-            className="flex justify-between items-center border-b pb-2"
-          >
-            <div className="text-gray-700">{item.state}</div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-900">
-                ${item.sales.toFixed(2)}
-              </span>
-              <span className="text-green-500 flex items-center gap-1 text-sm font-medium">
-                {item.growth}% <GoArrowUpRight />
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

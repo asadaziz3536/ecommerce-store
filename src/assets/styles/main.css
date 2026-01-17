@@ -1,46 +1,53 @@
-
-
-
-
 @font-face {
-    font-family: "Poppins";
-    src: url(/fonts/Poppins/Poppins-Bold.ttf) format("truetype");
-    font-weight: 700;
-   font-style: normal;
-   font-display: swap;
+  font-family: "Poppins";
+  src: url(/fonts/Poppins/Poppins-Bold.ttf) format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: "Poppins";
-    src: url(/fonts/Poppins/Poppins-SemiBold.ttf) format("truetype");
-    font-weight: 600;
-     font-style: normal;
-   font-display: swap;
+  font-family: "Poppins";
+  src: url(/fonts/Poppins/Poppins-SemiBold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: "Poppins";
-    src: url(/fonts/Poppins/Poppins-Medium.ttf) format("truetype");
-    font-weight: 500;
-     font-style: normal;
-   font-display: swap;
+  font-family: "Poppins";
+  src: url(/fonts/Poppins/Poppins-Medium.ttf) format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: "Poppins";
-    src: url(/fonts/Poppins/Poppins-Regular.ttf)  format("truetype");
-    font-weight: 400;
-     font-style: normal;
-   font-display: swap;
+  font-family: "Poppins";
+  src: url(/fonts/Poppins/Poppins-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-
-
-body{
-    font-family: "Poppins",  sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
 }
 
-section{
-    padding-block: 70px;
-    padding-inline: 15px;
+section {
+  padding-block: 70px;
+  padding-inline: 15px;
 }
 
+.leaflet-container {
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
 
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.leaflet-popup-content {
+  font-size: 13px;
+  font-weight: 600;
+}

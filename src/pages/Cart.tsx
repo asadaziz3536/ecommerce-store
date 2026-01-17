@@ -42,7 +42,9 @@ const Cart = () => {
     event.preventDefault();
 
     const response = await fetch(
-      "http://localhost:5000/create-checkout-session",
+      import.meta.env.DEV
+        ? `http://localhost:5000/create-checkout-session`
+        : "/api/checkout",
       {
         method: "POST",
         headers: {
@@ -55,7 +57,7 @@ const Cart = () => {
             quantity: item.quantity,
           })),
         }),
-      }
+      },
     );
 
     const { id } = await response.json();

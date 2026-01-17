@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,7 +10,7 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   DropdownMenu,
@@ -20,8 +20,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
+} from "@/components/ui/dropdown-menu";
 
 import {
   Table,
@@ -30,111 +29,121 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
-import { Checkbox } from "@radix-ui/react-checkbox"
-import { Button } from "@/components/ui/button"
-import { ArrowUpDown, ChevronDown, Ghost, MoreHorizontal } from "lucide-react"
+import { Checkbox } from "@radix-ui/react-checkbox";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown, ChevronDown, Ghost, MoreHorizontal } from "lucide-react";
 
+const data: Payment[] = [
+  {
+    id: "m5gr84i9",
+    email: "ken99@example.com",
+    amount: 316,
+    status: "pending",
+  },
+  {
+    id: "3u1reuv4",
+    email: "Abe45@example.com",
+    amount: 242,
+    status: "success",
+  },
+  {
+    id: "derv1ws0",
+    email: "Monserrat44@example.com",
+    amount: 837,
+    status: "processing",
+  },
+  {
+    id: "5kma53ae",
+    email: "Silas22@example.com",
+    amount: 874,
+    status: "success",
+  },
+  {
+    id: "bhqecj4p",
+    email: "carmella@example.com",
+    amount: 721,
+    status: "failed",
+  },
+];
 
-const data:Payment[]=[{
-  id: "m5gr84i9",
-  email: "ken99@example.com",
-  amount: 316,
-  status: "pending"
-},
-{
-  id: "3u1reuv4",
-  email: "Abe45@example.com",
-  amount: 242,
-  status: "success",
-},
-{
-  id: "derv1ws0",
-  email: "Monserrat44@example.com",
-  amount: 837,
-  status: "processing",
-},
-{
-  id: "5kma53ae",
-  email: "Silas22@example.com",
-  amount: 874,
-  status: "success",
-},
-{
-  id: "bhqecj4p",
-  email: "carmella@example.com",
-  amount: 721,
-  status: "failed",
-}]
+export type Payment = {
+  id: string;
+  email: string;
+  amount: number;
+  status: "pending" | "processing" | "success" | "failed";
+};
 
+export const columns: ColumnDef<Payment>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          table.getIsSomePageRowsSelected() ||
+          "indeterminate"
+        }
+        aria-label="select all"
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      />
+    ),
 
-export type Payment={
-  id: string,
-  email:string ,
-  amount: number,
-  status: "pending" | "processing" | "success" | "failed"
-}
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
 
+  {
+    header: "Status",
+    accessorKey: "status",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("status")}</div>
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => (
+      <Button
+        variant={"ghost"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        {" "}
+        Email <ArrowUpDown />
+      </Button>
+    ),
 
-export const columns:ColumnDef<Payment>[]=[{
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  },
+  {
+    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "amount",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+      // Format the amount as a dollar amount
 
-id:"select",
-header:({table})=> (
-  <Checkbox checked={table.getIsAllPageRowsSelected() || table.getIsSomePageRowsSelected() || "indeterminate"} 
-  aria-label="select all" onCheckedChange={(value)=>table.toggleAllPageRowsSelected(!!value)} />
-),
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
 
-cell:({row})=>(
-  <Checkbox checked={row.getIsSelected()} onCheckedChange={(value)=>row.toggleSelected(!!value)} aria-label="Select row"  />
-),
-enableSorting:false,
-enableHiding:false
-},
-
-{
-header:"Status",
-accessorKey:"status",
-cell:({row})=>(
-<div className="capitalize">{row.getValue("status")}</div>
-)
-},
-{
-
-  accessorKey:"email",
-  header:({column})=>(
-  <Button variant={"ghost"} onClick={()=>column.toggleSorting(column.getIsSorted()==="asc")}> Email  <ArrowUpDown /></Button>
-  ),
-
-  cell:({row})=>(
-    <div className="lowercase">{row.getValue("email")}</div>
-  ),
- 
-},
-{
-  header:()=><div className="text-right">Amount</div>,
-  accessorKey:"amount",
-  cell:({row})=>{
-
-   const amount= parseFloat(row.getValue("amount"));
-     // Format the amount as a dollar amount
-
-     const formatted=new Intl.NumberFormat("en-US", {
-      style:"currency",
-      currency:"USD"
-     }).format(amount)
-     return <div className="text-right font-medium">{formatted}</div>
-  }
-},
-{
-  id:"actions",
-  enableHiding:false,
-  cell:({row})=>{
-const payment=row.original
-
-
-return (
-<DropdownMenu>
+      return (
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open menu</span>
@@ -153,151 +162,115 @@ return (
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
-
-
-)
-  }
-}
-
-
-]
-
+      );
+    },
+  },
+];
 
 const TopProducts = () => {
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-      []
-    )
-    const [columnVisibility, setColumnVisibility] =
-      React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
-    const table = useReactTable({
-      data,
-      columns,
-      onSortingChange: setSorting,
-      onColumnFiltersChange: setColumnFilters,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      onColumnVisibilityChange: setColumnVisibility,
-      onRowSelectionChange: setRowSelection,
-      state: {
-        sorting,
-        columnFilters,
-        columnVisibility,
-        rowSelection,
-      },
-    })
-    return (
-      <div className="w-full">
-        <div className="flex items-center py-4">
-         
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns <ChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
+  return (
+    <div className="w-full">
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
                   return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
                 })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    )
-                  })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="text-muted-foreground flex-1 text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="text-muted-foreground flex-1 text-sm">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
       </div>
-    )
-  
-}
+    </div>
+  );
+};
 
-export default TopProducts
+export default TopProducts;

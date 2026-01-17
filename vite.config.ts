@@ -23,7 +23,6 @@ export default defineConfig({
             "recharts",
           ],
           icons: ["lucide-react", "react-icons"],
-          maps: ["react-simple-maps", "d3-geo"],
         },
       },
     },

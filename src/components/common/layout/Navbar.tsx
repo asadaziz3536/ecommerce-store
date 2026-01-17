@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import logo from "@/assets/images/site-logo.svg";
 import { MainMenu } from "../../common/MainMenu";
 import { Button } from "../../ui/button";
@@ -11,8 +11,10 @@ import { RootState } from "@/store";
 import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(() => window.innerWidth >= 768);
+  const [openNav, setOpenNav] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const [isReady, setIsReady] = useState(false);
   const [isToken, setIsToken] = useState(localStorage.getItem("token"));
   const { user } = useAuth();
 
@@ -24,12 +26,18 @@ const Navbar = () => {
     setOpenNav(!openNav);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth >= 768) {
+        setOpenNav(true);
+      } else {
         setOpenNav(false);
       }
+
+      setIsReady(true);
     };
+
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -46,12 +54,24 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  });
+  }, []);
+
+  useEffect(() => {
+    if (openNav && window.innerWidth < 768) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [openNav]);
 
   const cart = useSelector((state: RootState) => state.cart.cart);
   const totalCount = cart.reduce(
     (prev, curr) => prev + (curr.quantity || 0),
-    0
+    0,
   );
 
   return (
@@ -77,7 +97,7 @@ const Navbar = () => {
           <img src={logo} alt="" />
         </Link>
       </div>
-      <div className="menu bg-black">
+      <div className="menu bg-black md:bg-transparent">
         {<MainMenu onClose={() => setOpenNav(!openNav)} isOpen={openNav} />}
       </div>
       <div className="action-btns flex gap-4 items-center">

@@ -1,18 +1,13 @@
-import express from "express";
-import cors from "cors";
 import Stripe from "stripe";
-import dotenv from "dotenv";
-
-dotenv.config();
-const app = express();
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-app.use(cors());
-app.use(express.json());
-
-app.post("/create-checkout-session", async (req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
   try {
+    const { items } = req.body;
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: req.body.items.map((item) => ({
@@ -26,19 +21,13 @@ app.post("/create-checkout-session", async (req, res) => {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
+      success_url: `${req.headers.origin}/success`,
+      cancel_url: `${req.headers.origin}/cancel`,
     });
 
-    res.json({ id: session.id });
+    return res.status(200).json({ id: session.id });
   } catch (err) {
     console.error("Stripe error:", err.message);
     res.status(500).json({ error: err.message });
   }
-});
-
-const PORT = 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+}
