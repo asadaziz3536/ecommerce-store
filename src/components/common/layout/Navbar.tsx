@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
 import { useAuth } from "@/context/AuthContext";
+import InstallButton from "../InstallButton";
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -124,6 +125,7 @@ const Navbar = () => {
         >
           {user ? "Dashboard" : "Login"}
         </Button>
+        <InstallButton />
       </div>
     </div>
   );
